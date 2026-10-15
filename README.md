@@ -47,7 +47,7 @@ releases default to CUDA 13 wheels, which need a newer driver than Markov's CUDA
 sacctmgr -n show assoc user=$USER format=account          # must list csds447
 
 # 1. clone into course storage (team folder: see docs/MARKOV.md)
-cd /mnt/vstor/courses/csds447/$USER && git clone <repo-url> guardrail-depth && cd guardrail-depth
+cd /mnt/vstor/courses/csds447/$USER && git clone https://github.com/liwang0904/guardrail-depth.git guardrail-depth && cd guardrail-depth
 mkdir -p logs
 
 # 2. one-time environment (CPU node, ~10 min): Python 3.11 env in course storage + pinned packages
@@ -69,7 +69,7 @@ guide requires.
 ### 1.3 On a laptop or workstation
 
 ```bash
-git clone <repo-url> guardrail-depth && cd guardrail-depth
+git clone https://github.com/liwang0904/guardrail-depth.git guardrail-depth && cd guardrail-depth
 conda create -y -n guardrail-depth -c conda-forge --override-channels python=3.11 pip
 conda activate guardrail-depth
 # Linux + NVIDIA only: CUDA wheels first
