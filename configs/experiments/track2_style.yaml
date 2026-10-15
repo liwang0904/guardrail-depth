@@ -1,0 +1,22 @@
+# Track 2 on Markov: style mimicry for 25 artists (10 living, 5 deceased-in-copyright, 10 public domain)
+# x 10 prompts (4 structural templates) x defenses. Does a guardrail built for exact copies reduce style
+# attribution (p_artist), and is protection equal across artist groups?
+#   sbatch --array=0-3%2 slurm/generate.sbatch configs/experiments/track2_style.yaml sd14_style
+
+defaults:
+  seeds: [0, 1, 2]
+  probes: [noise, attention]
+
+jobs:
+  - name: sd14_style
+    model: sd14
+    dataset: style_prompts
+    attacks: [direct]
+    defenses: [none, task_instruction, neg_inprompt, cot, negbuf_name, rand_tokens, llm_rewrite]
+    rewrites: []    # Qwen3-8B rewrites of the style prompts (slurm/llm.sbatch rewrite)
+
+  - name: sdxl_style
+    model: sdxl
+    dataset: style_prompts
+    attacks: [direct]
+    defenses: [none, task_instruction, cot, negbuf_name]

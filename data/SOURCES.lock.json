@@ -1,0 +1,82 @@
+{
+ "copycat/prompts/targets.csv": {
+  "sha256": "b4271cd27938b7fa97a0e788fcc26569006a0573da0b5b924549e6e0e490ce87",
+  "bytes": 1169,
+  "url": "https://raw.githubusercontent.com/princeton-nlp/CopyCat/49df50942434c6eb326d6d8cc65c47447d67a95f/prompts/targets.csv"
+ },
+ "copycat/prompts/targets_60words.csv": {
+  "sha256": "895044e0851caa17a61b5ec951fa6162e197ab71113e6660137620890325bdb5",
+  "bytes": 18244,
+  "url": "https://raw.githubusercontent.com/princeton-nlp/CopyCat/49df50942434c6eb326d6d8cc65c47447d67a95f/prompts/targets_60words.csv"
+ },
+ "copycat/prompts/targets_dalle_prompt.csv": {
+  "sha256": "dc1251eb7130d0a4e6229df5d2aad9c3e8fef7a8b8742475d1447f1bbe541ecd",
+  "bytes": 25387,
+  "url": "https://raw.githubusercontent.com/princeton-nlp/CopyCat/49df50942434c6eb326d6d8cc65c47447d67a95f/prompts/targets_dalle_prompt.csv"
+ },
+ "copycat/prompts/targets_60words_dallerewrite.csv": {
+  "sha256": "149ac85da4f6f89bab06a8c88d33877fe76a0b77c13aba059e87d797fd95652c",
+  "bytes": 38725,
+  "url": "https://raw.githubusercontent.com/princeton-nlp/CopyCat/49df50942434c6eb326d6d8cc65c47447d67a95f/prompts/targets_60words_dallerewrite.csv"
+ },
+ "copycat/prompts/keywords_lm/n=5_related_greedy.csv": {
+  "sha256": "8107493a83769c2c3df6d39688d5ca30dccc08613ffa60e6ac69ec5a5c12b64e",
+  "bytes": 3258,
+  "url": "https://raw.githubusercontent.com/princeton-nlp/CopyCat/49df50942434c6eb326d6d8cc65c47447d67a95f/prompts/keywords_lm/n=5_related_greedy.csv"
+ },
+ "copycat/prompts/keywords_embedding/n=5.csv": {
+  "sha256": "995ed50a9b062064a75c3d0aeff27b98212ca739122289da565910a7579cdf74",
+  "bytes": 3709,
+  "url": "https://raw.githubusercontent.com/princeton-nlp/CopyCat/49df50942434c6eb326d6d8cc65c47447d67a95f/prompts/keywords_embedding/n=5.csv"
+ },
+ "copycat/prompts/keywords_co-occurrence/50keywords_laion2b_top5.csv": {
+  "sha256": "4912010bddc6b175e9225495882807c2268a1758e87a8da2bf90bb7739d8bdf7",
+  "bytes": 3395,
+  "url": "https://raw.githubusercontent.com/princeton-nlp/CopyCat/49df50942434c6eb326d6d8cc65c47447d67a95f/prompts/keywords_co-occurrence/50keywords_laion2b_top5.csv"
+ },
+ "copycat/prompts/consistency/key_entitie_n1.csv": {
+  "sha256": "8e6495acf3cc10dd6522056861db8eceb79f8cc84af52938b7985bc81e3325a7",
+  "bytes": 1036,
+  "url": "https://raw.githubusercontent.com/princeton-nlp/CopyCat/49df50942434c6eb326d6d8cc65c47447d67a95f/prompts/consistency/key_entitie_n1.csv"
+ },
+ "wen/examples/sdv1_500_memorized.jsonl": {
+  "sha256": "8eb16c6ff1c7195cddf26b3207bdc7c6a905a20162c6070d79fe60336a525c60",
+  "bytes": 116357,
+  "url": "https://raw.githubusercontent.com/YuxinWenRick/diffusion_memorization/c8fe471d80b62213bdc8a384543ff44b44c62020/examples/sdv1_500_memorized.jsonl"
+ },
+ "nemo/prompts/memorized_laion_prompts.csv": {
+  "sha256": "0b527a5965dc463e7a3e0d234ff7fd5489b1a76869c456dbb209dc753cb4af25",
+  "bytes": 121332,
+  "url": "https://raw.githubusercontent.com/ml-research/localizing_memorization_in_diffusion_models/f952eded64fca0bcf42e0bb3be9a01d64653cfdb/prompts/memorized_laion_prompts.csv"
+ },
+ "nemo/prompts/unmemorized_laion_prompts.csv": {
+  "sha256": "f453b418cc157864baacbf68d97447273feac41e8066b2ead6b307bf795988e1",
+  "bytes": 99023,
+  "url": "https://raw.githubusercontent.com/ml-research/localizing_memorization_in_diffusion_models/f952eded64fca0bcf42e0bb3be9a01d64653cfdb/prompts/unmemorized_laion_prompts.csv"
+ },
+ "nemo/statistics/statistics_additional_laion_prompts_v1_4.pt": {
+  "sha256": "42072d31334d50ce0d981f58865ab2ab378303c51e779c39f8505b681b0d1d9b",
+  "bytes": 51160,
+  "url": "https://raw.githubusercontent.com/ml-research/localizing_memorization_in_diffusion_models/f952eded64fca0bcf42e0bb3be9a01d64653cfdb/statistics/statistics_additional_laion_prompts_v1_4.pt"
+ },
+ "webster/groundtruth_parquets/sdv1_bb_edge_groundtruth.parquet": {
+  "sha256": "6a4d6ae6bc051b1593aefa72ba05773613317d1cfdb02e88507e696321a47f23",
+  "bytes": 79093,
+  "url": "https://huggingface.co/datasets/fraisdufour/templates-verbs/resolve/213a14dbc85b56d3a0e3c34d084214586caf1741/groundtruth_parquets/sdv1_bb_edge_groundtruth.parquet"
+ },
+ "webster/groundtruth_parquets/sdv2_bb_edge_groundtruth.parquet": {
+  "sha256": "7d488f4543df5a5762a8563e3932ea0706d440801e1d29ad9fa45af8881ff3fe",
+  "bytes": 88287,
+  "url": "https://huggingface.co/datasets/fraisdufour/templates-verbs/resolve/213a14dbc85b56d3a0e3c34d084214586caf1741/groundtruth_parquets/sdv2_bb_edge_groundtruth.parquet"
+ },
+ "apgp/Dataset/keywords_all.txt": {
+  "sha256": "4eeb2de4bfe29e389c7af5beb5ec21064f74285cf2c4f2c47d8f43e163e7f888",
+  "bytes": 31,
+  "url": "https://raw.githubusercontent.com/Kim-Minseon/APGP/3275eefaee0138fea03aa9c5a6b85a096e49f3fb/Dataset/keywords_all.txt"
+ },
+ "webster/groundtruth_parquets/sdv1_wb_groundtruth.parquet": {
+  "sha256": "df8ca69346d32ff5417006685bd378bb8a19db7e22416c87fd9d7ef375ee5c77",
+  "bytes": 142694,
+  "url": "https://huggingface.co/datasets/fraisdufour/templates-verbs/resolve/213a14dbc85b56d3a0e3c34d084214586caf1741/groundtruth_parquets/sdv1_wb_groundtruth.parquet"
+ }
+}

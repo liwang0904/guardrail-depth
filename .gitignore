@@ -1,0 +1,11 @@
+# large or third-party files are re-created by scripts/prepare_data.py and scripts/download_models.py
+data/raw/
+data/gt_images/
+data/cache/
+outputs/
+logs/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.DS_Store
+*.part

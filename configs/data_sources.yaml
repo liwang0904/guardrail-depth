@@ -1,0 +1,43 @@
+# Raw inputs, pinned to immutable commits so a fresh clone rebuilds identical manifests.
+# scripts/prepare_data.py downloads these into $GD_DATA_ROOT/raw/<source>/ and records SHA-256
+# hashes in data/SOURCES.lock.json (committed, so a fresh clone verifies every file).
+
+copycat:            # He et al., "Fantastic Copyrighted Beasts and How (Not) to Generate Them", ICLR'25
+  url: https://raw.githubusercontent.com/princeton-nlp/CopyCat/49df50942434c6eb326d6d8cc65c47447d67a95f/{path}
+  files:
+    - prompts/targets.csv                                   # 50 characters, name prompts
+    - prompts/targets_60words.csv                           # GPT-4 60-word descriptions (no name)
+    - prompts/targets_dalle_prompt.csv                      # GPT-4 DALL-E-style rewrite of the name prompt
+    - prompts/targets_60words_dallerewrite.csv              # ... and of the 60-word description
+    - prompts/keywords_lm/n=5_related_greedy.csv            # LM-ranked keywords
+    - prompts/keywords_embedding/n=5.csv                    # embedding-similarity keywords
+    - prompts/keywords_co-occurrence/50keywords_laion2b_top5.csv  # LAION-2B co-occurrence keywords
+    - prompts/consistency/key_entitie_n1.csv                # key entity for the CONS metric
+
+wen:                # Wen et al., "Detecting, Explaining, and Mitigating Memorization in Diffusion Models", ICLR'24
+  url: https://raw.githubusercontent.com/YuxinWenRick/diffusion_memorization/c8fe471d80b62213bdc8a384543ff44b44c62020/{path}
+  files:
+    - examples/sdv1_500_memorized.jsonl                     # 500 memorized SD v1.4 prompts (from Webster 2023)
+
+nemo:               # Hintersdorf et al., "Finding NeMo", NeurIPS'24 (same 500 prompts + VM/TM labels + controls)
+  url: https://raw.githubusercontent.com/ml-research/localizing_memorization_in_diffusion_models/f952eded64fca0bcf42e0bb3be9a01d64653cfdb/{path}
+  files:
+    - prompts/memorized_laion_prompts.csv                   # VM/TM labels, SSCD of SD1.4 generations to originals
+    - prompts/unmemorized_laion_prompts.csv                 # 500 non-memorized LAION prompts (control)
+    - statistics/statistics_additional_laion_prompts_v1_4.pt  # neuron activation stats (50k LAION prompts)
+
+webster:            # Webster, "A Reproducible Extraction of Training Images from Diffusion Models", arXiv 2023
+  url: https://huggingface.co/datasets/fraisdufour/templates-verbs/resolve/213a14dbc85b56d3a0e3c34d084214586caf1741/{path}
+  files:
+    - groundtruth_parquets/sdv1_bb_edge_groundtruth.parquet # SD v1 labels: MV / RV / TV / N, duplicate counts
+    - groundtruth_parquets/sdv1_wb_groundtruth.parquet      # SD v1 white-box set (covers 120 more of the 500)
+    - groundtruth_parquets/sdv2_bb_edge_groundtruth.parquet # SD v2: 219 memorized (4 MV + 215 TV)
+
+apgp:               # Kim et al., "Automatic Jailbreaking of the Text-to-Image Generative AI Systems", ICML'24 workshop
+  url: https://raw.githubusercontent.com/Kim-Minseon/APGP/3275eefaee0138fea03aa9c5a6b85a096e49f3fb/{path}
+  files:
+    - Dataset/keywords_all.txt                              # only an example row; the VioT set was not released
+
+# Hosted datasets that are streamed on demand instead of mirrored:
+#   huggan/wikiart @ d559852d2b232e0fcf195e775866964f0564f2b5  (81,444 images, 129 artists; non-commercial research use)
+#   Gustavosta/Stable-Diffusion-Prompts @ d816d4a05cb89bde39dd99284c459801e1e7e69a  (Lexica prompts; Wen et al. non-memorized set)

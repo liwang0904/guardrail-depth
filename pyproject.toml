@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "guardrail-depth"
+version = "0.1.0"
+description = "Evaluating the depth of prompt-based copyright guardrails in text-to-image diffusion models (CSDS 347 project)"
+requires-python = ">=3.10,<3.13"
+authors = [{ name = "Kent Manion" }, { name = "Lindsey Wang" }]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = ["network: downloads small test checkpoints from the Hugging Face Hub (deselect with -m 'not network')"]
+filterwarnings = ["ignore::FutureWarning", "ignore::DeprecationWarning", "ignore::UserWarning"]

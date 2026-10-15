@@ -1,0 +1,36 @@
+# Milestone pilot: small enough for a laptop GPU (Apple M2, ~55 s/image at 50 steps) and run on
+# dev-split items only. The full grids live in track1_*.yaml / track2_style.yaml for Markov.
+#   python scripts/run_generation.py --config configs/experiments/pilot_local.yaml
+
+defaults:
+  model: sd14
+  seeds: [0]
+  probes: [noise, attention]
+
+jobs:
+  # Track 1a - exact-copy memorization (Wen et al. / NeMo prompts). Items = the 3 highest-SSCD verbatim (VM)
+  # and 3 highest-SSCD template (TM) dev prompts whose ground-truth LAION image is still online.
+  - name: memorized
+    dataset: memorized_sd1
+    ids: [202, 485, 274, 112, 118, 154]
+    attacks: [direct]
+    defenses: [none, task_instruction, neg_inprompt, negbuf_rules, cot, rand_tokens]
+    seeds: [0, 1]
+    x0_steps: [0, 5, 10, 20, 49]
+
+  # Track 1b - character IP (He et al. CopyCat). Name prompt vs. description lure vs. LAION keywords;
+  # Reissinger templates vs. He et al.'s negative buffer and GPT-4 rewrite (+ negative buffer).
+  - name: copycat
+    dataset: copycat_characters
+    ids: [23, 16, 41, 28, 47]        # Mario, Iron Man, SpongeBob, Naruto, Winnie-the-Pooh (dev split)
+    attacks: [direct, lure_desc60, lure_kw_laion5]
+    defenses: [none, task_instruction, cot, negbuf_name_kw, llm_rewrite+negbuf_name_kw]
+    steps: 30
+
+  # Track 2 - style mimicry, two living and two public-domain artists, dev templates only.
+  - name: style
+    dataset: style_prompts
+    query: "split == 'dev' and artist in ['Kelly McKernan', 'Greg Rutkowski', 'Vincent van Gogh', 'Katsushika Hokusai']"
+    attacks: [direct]
+    defenses: [none, task_instruction, neg_inprompt, cot, negbuf_name]
+    steps: 30

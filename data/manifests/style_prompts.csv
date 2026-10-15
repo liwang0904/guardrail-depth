@@ -1,0 +1,251 @@
+id,artist,group,template_id,template_type,prompt,neutral_prompt,target,split
+Kelly McKernan|0,Kelly McKernan,living,0,simple,a painting of a fox in the style of Kelly McKernan,a painting of a fox,Kelly McKernan,test
+Kelly McKernan|1,Kelly McKernan,living,1,simple,a painting of a lighthouse in the style of Kelly McKernan,a painting of a lighthouse,Kelly McKernan,dev
+Kelly McKernan|2,Kelly McKernan,living,2,simple,a painting of a fantasy dragon in the style of Kelly McKernan,a painting of a fantasy dragon,Kelly McKernan,test
+Kelly McKernan|3,Kelly McKernan,living,3,two_entity,a painting of a cat and a teapot in the style of Kelly McKernan,a painting of a cat and a teapot,Kelly McKernan,test
+Kelly McKernan|4,Kelly McKernan,living,4,two_entity,a painting of a violinist and a bicycle in the style of Kelly McKernan,a painting of a violinist and a bicycle,Kelly McKernan,test
+Kelly McKernan|5,Kelly McKernan,living,5,entity_attribute,a painting of a sleeping old woman in the style of Kelly McKernan,a painting of a sleeping old woman,Kelly McKernan,test
+Kelly McKernan|6,Kelly McKernan,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Kelly McKernan,a painting of a glowing red sailboat,Kelly McKernan,test
+Kelly McKernan|7,Kelly McKernan,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Kelly McKernan,a painting of a mountain cabin in a misty forest,Kelly McKernan,dev
+Kelly McKernan|8,Kelly McKernan,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Kelly McKernan,a painting of a street vendor on a rainy city street,Kelly McKernan,test
+Kelly McKernan|9,Kelly McKernan,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Kelly McKernan,a painting of a girl in a sunflower field,Kelly McKernan,test
+Tyler Edlin|0,Tyler Edlin,living,0,simple,a painting of a fox in the style of Tyler Edlin,a painting of a fox,Tyler Edlin,test
+Tyler Edlin|1,Tyler Edlin,living,1,simple,a painting of a lighthouse in the style of Tyler Edlin,a painting of a lighthouse,Tyler Edlin,dev
+Tyler Edlin|2,Tyler Edlin,living,2,simple,a painting of a fantasy dragon in the style of Tyler Edlin,a painting of a fantasy dragon,Tyler Edlin,test
+Tyler Edlin|3,Tyler Edlin,living,3,two_entity,a painting of a cat and a teapot in the style of Tyler Edlin,a painting of a cat and a teapot,Tyler Edlin,test
+Tyler Edlin|4,Tyler Edlin,living,4,two_entity,a painting of a violinist and a bicycle in the style of Tyler Edlin,a painting of a violinist and a bicycle,Tyler Edlin,test
+Tyler Edlin|5,Tyler Edlin,living,5,entity_attribute,a painting of a sleeping old woman in the style of Tyler Edlin,a painting of a sleeping old woman,Tyler Edlin,test
+Tyler Edlin|6,Tyler Edlin,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Tyler Edlin,a painting of a glowing red sailboat,Tyler Edlin,test
+Tyler Edlin|7,Tyler Edlin,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Tyler Edlin,a painting of a mountain cabin in a misty forest,Tyler Edlin,dev
+Tyler Edlin|8,Tyler Edlin,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Tyler Edlin,a painting of a street vendor on a rainy city street,Tyler Edlin,test
+Tyler Edlin|9,Tyler Edlin,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Tyler Edlin,a painting of a girl in a sunflower field,Tyler Edlin,test
+Kilian Eng|0,Kilian Eng,living,0,simple,a painting of a fox in the style of Kilian Eng,a painting of a fox,Kilian Eng,test
+Kilian Eng|1,Kilian Eng,living,1,simple,a painting of a lighthouse in the style of Kilian Eng,a painting of a lighthouse,Kilian Eng,dev
+Kilian Eng|2,Kilian Eng,living,2,simple,a painting of a fantasy dragon in the style of Kilian Eng,a painting of a fantasy dragon,Kilian Eng,test
+Kilian Eng|3,Kilian Eng,living,3,two_entity,a painting of a cat and a teapot in the style of Kilian Eng,a painting of a cat and a teapot,Kilian Eng,test
+Kilian Eng|4,Kilian Eng,living,4,two_entity,a painting of a violinist and a bicycle in the style of Kilian Eng,a painting of a violinist and a bicycle,Kilian Eng,test
+Kilian Eng|5,Kilian Eng,living,5,entity_attribute,a painting of a sleeping old woman in the style of Kilian Eng,a painting of a sleeping old woman,Kilian Eng,test
+Kilian Eng|6,Kilian Eng,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Kilian Eng,a painting of a glowing red sailboat,Kilian Eng,test
+Kilian Eng|7,Kilian Eng,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Kilian Eng,a painting of a mountain cabin in a misty forest,Kilian Eng,dev
+Kilian Eng|8,Kilian Eng,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Kilian Eng,a painting of a street vendor on a rainy city street,Kilian Eng,test
+Kilian Eng|9,Kilian Eng,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Kilian Eng,a painting of a girl in a sunflower field,Kilian Eng,test
+Greg Rutkowski|0,Greg Rutkowski,living,0,simple,a painting of a fox in the style of Greg Rutkowski,a painting of a fox,Greg Rutkowski,test
+Greg Rutkowski|1,Greg Rutkowski,living,1,simple,a painting of a lighthouse in the style of Greg Rutkowski,a painting of a lighthouse,Greg Rutkowski,dev
+Greg Rutkowski|2,Greg Rutkowski,living,2,simple,a painting of a fantasy dragon in the style of Greg Rutkowski,a painting of a fantasy dragon,Greg Rutkowski,test
+Greg Rutkowski|3,Greg Rutkowski,living,3,two_entity,a painting of a cat and a teapot in the style of Greg Rutkowski,a painting of a cat and a teapot,Greg Rutkowski,test
+Greg Rutkowski|4,Greg Rutkowski,living,4,two_entity,a painting of a violinist and a bicycle in the style of Greg Rutkowski,a painting of a violinist and a bicycle,Greg Rutkowski,test
+Greg Rutkowski|5,Greg Rutkowski,living,5,entity_attribute,a painting of a sleeping old woman in the style of Greg Rutkowski,a painting of a sleeping old woman,Greg Rutkowski,test
+Greg Rutkowski|6,Greg Rutkowski,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Greg Rutkowski,a painting of a glowing red sailboat,Greg Rutkowski,test
+Greg Rutkowski|7,Greg Rutkowski,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Greg Rutkowski,a painting of a mountain cabin in a misty forest,Greg Rutkowski,dev
+Greg Rutkowski|8,Greg Rutkowski,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Greg Rutkowski,a painting of a street vendor on a rainy city street,Greg Rutkowski,test
+Greg Rutkowski|9,Greg Rutkowski,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Greg Rutkowski,a painting of a girl in a sunflower field,Greg Rutkowski,test
+Karla Ortiz|0,Karla Ortiz,living,0,simple,a painting of a fox in the style of Karla Ortiz,a painting of a fox,Karla Ortiz,test
+Karla Ortiz|1,Karla Ortiz,living,1,simple,a painting of a lighthouse in the style of Karla Ortiz,a painting of a lighthouse,Karla Ortiz,dev
+Karla Ortiz|2,Karla Ortiz,living,2,simple,a painting of a fantasy dragon in the style of Karla Ortiz,a painting of a fantasy dragon,Karla Ortiz,test
+Karla Ortiz|3,Karla Ortiz,living,3,two_entity,a painting of a cat and a teapot in the style of Karla Ortiz,a painting of a cat and a teapot,Karla Ortiz,test
+Karla Ortiz|4,Karla Ortiz,living,4,two_entity,a painting of a violinist and a bicycle in the style of Karla Ortiz,a painting of a violinist and a bicycle,Karla Ortiz,test
+Karla Ortiz|5,Karla Ortiz,living,5,entity_attribute,a painting of a sleeping old woman in the style of Karla Ortiz,a painting of a sleeping old woman,Karla Ortiz,test
+Karla Ortiz|6,Karla Ortiz,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Karla Ortiz,a painting of a glowing red sailboat,Karla Ortiz,test
+Karla Ortiz|7,Karla Ortiz,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Karla Ortiz,a painting of a mountain cabin in a misty forest,Karla Ortiz,dev
+Karla Ortiz|8,Karla Ortiz,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Karla Ortiz,a painting of a street vendor on a rainy city street,Karla Ortiz,test
+Karla Ortiz|9,Karla Ortiz,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Karla Ortiz,a painting of a girl in a sunflower field,Karla Ortiz,test
+Sarah Andersen|0,Sarah Andersen,living,0,simple,a painting of a fox in the style of Sarah Andersen,a painting of a fox,Sarah Andersen,test
+Sarah Andersen|1,Sarah Andersen,living,1,simple,a painting of a lighthouse in the style of Sarah Andersen,a painting of a lighthouse,Sarah Andersen,dev
+Sarah Andersen|2,Sarah Andersen,living,2,simple,a painting of a fantasy dragon in the style of Sarah Andersen,a painting of a fantasy dragon,Sarah Andersen,test
+Sarah Andersen|3,Sarah Andersen,living,3,two_entity,a painting of a cat and a teapot in the style of Sarah Andersen,a painting of a cat and a teapot,Sarah Andersen,test
+Sarah Andersen|4,Sarah Andersen,living,4,two_entity,a painting of a violinist and a bicycle in the style of Sarah Andersen,a painting of a violinist and a bicycle,Sarah Andersen,test
+Sarah Andersen|5,Sarah Andersen,living,5,entity_attribute,a painting of a sleeping old woman in the style of Sarah Andersen,a painting of a sleeping old woman,Sarah Andersen,test
+Sarah Andersen|6,Sarah Andersen,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Sarah Andersen,a painting of a glowing red sailboat,Sarah Andersen,test
+Sarah Andersen|7,Sarah Andersen,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Sarah Andersen,a painting of a mountain cabin in a misty forest,Sarah Andersen,dev
+Sarah Andersen|8,Sarah Andersen,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Sarah Andersen,a painting of a street vendor on a rainy city street,Sarah Andersen,test
+Sarah Andersen|9,Sarah Andersen,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Sarah Andersen,a painting of a girl in a sunflower field,Sarah Andersen,test
+Hollie Mengert|0,Hollie Mengert,living,0,simple,a painting of a fox in the style of Hollie Mengert,a painting of a fox,Hollie Mengert,test
+Hollie Mengert|1,Hollie Mengert,living,1,simple,a painting of a lighthouse in the style of Hollie Mengert,a painting of a lighthouse,Hollie Mengert,dev
+Hollie Mengert|2,Hollie Mengert,living,2,simple,a painting of a fantasy dragon in the style of Hollie Mengert,a painting of a fantasy dragon,Hollie Mengert,test
+Hollie Mengert|3,Hollie Mengert,living,3,two_entity,a painting of a cat and a teapot in the style of Hollie Mengert,a painting of a cat and a teapot,Hollie Mengert,test
+Hollie Mengert|4,Hollie Mengert,living,4,two_entity,a painting of a violinist and a bicycle in the style of Hollie Mengert,a painting of a violinist and a bicycle,Hollie Mengert,test
+Hollie Mengert|5,Hollie Mengert,living,5,entity_attribute,a painting of a sleeping old woman in the style of Hollie Mengert,a painting of a sleeping old woman,Hollie Mengert,test
+Hollie Mengert|6,Hollie Mengert,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Hollie Mengert,a painting of a glowing red sailboat,Hollie Mengert,test
+Hollie Mengert|7,Hollie Mengert,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Hollie Mengert,a painting of a mountain cabin in a misty forest,Hollie Mengert,dev
+Hollie Mengert|8,Hollie Mengert,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Hollie Mengert,a painting of a street vendor on a rainy city street,Hollie Mengert,test
+Hollie Mengert|9,Hollie Mengert,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Hollie Mengert,a painting of a girl in a sunflower field,Hollie Mengert,test
+Loish|0,Loish,living,0,simple,a painting of a fox in the style of Loish,a painting of a fox,Loish,test
+Loish|1,Loish,living,1,simple,a painting of a lighthouse in the style of Loish,a painting of a lighthouse,Loish,dev
+Loish|2,Loish,living,2,simple,a painting of a fantasy dragon in the style of Loish,a painting of a fantasy dragon,Loish,test
+Loish|3,Loish,living,3,two_entity,a painting of a cat and a teapot in the style of Loish,a painting of a cat and a teapot,Loish,test
+Loish|4,Loish,living,4,two_entity,a painting of a violinist and a bicycle in the style of Loish,a painting of a violinist and a bicycle,Loish,test
+Loish|5,Loish,living,5,entity_attribute,a painting of a sleeping old woman in the style of Loish,a painting of a sleeping old woman,Loish,test
+Loish|6,Loish,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Loish,a painting of a glowing red sailboat,Loish,test
+Loish|7,Loish,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Loish,a painting of a mountain cabin in a misty forest,Loish,dev
+Loish|8,Loish,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Loish,a painting of a street vendor on a rainy city street,Loish,test
+Loish|9,Loish,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Loish,a painting of a girl in a sunflower field,Loish,test
+Simon Stalenhag|0,Simon Stalenhag,living,0,simple,a painting of a fox in the style of Simon Stalenhag,a painting of a fox,Simon Stalenhag,test
+Simon Stalenhag|1,Simon Stalenhag,living,1,simple,a painting of a lighthouse in the style of Simon Stalenhag,a painting of a lighthouse,Simon Stalenhag,dev
+Simon Stalenhag|2,Simon Stalenhag,living,2,simple,a painting of a fantasy dragon in the style of Simon Stalenhag,a painting of a fantasy dragon,Simon Stalenhag,test
+Simon Stalenhag|3,Simon Stalenhag,living,3,two_entity,a painting of a cat and a teapot in the style of Simon Stalenhag,a painting of a cat and a teapot,Simon Stalenhag,test
+Simon Stalenhag|4,Simon Stalenhag,living,4,two_entity,a painting of a violinist and a bicycle in the style of Simon Stalenhag,a painting of a violinist and a bicycle,Simon Stalenhag,test
+Simon Stalenhag|5,Simon Stalenhag,living,5,entity_attribute,a painting of a sleeping old woman in the style of Simon Stalenhag,a painting of a sleeping old woman,Simon Stalenhag,test
+Simon Stalenhag|6,Simon Stalenhag,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Simon Stalenhag,a painting of a glowing red sailboat,Simon Stalenhag,test
+Simon Stalenhag|7,Simon Stalenhag,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Simon Stalenhag,a painting of a mountain cabin in a misty forest,Simon Stalenhag,dev
+Simon Stalenhag|8,Simon Stalenhag,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Simon Stalenhag,a painting of a street vendor on a rainy city street,Simon Stalenhag,test
+Simon Stalenhag|9,Simon Stalenhag,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Simon Stalenhag,a painting of a girl in a sunflower field,Simon Stalenhag,test
+Artgerm|0,Artgerm,living,0,simple,a painting of a fox in the style of Artgerm,a painting of a fox,Artgerm,test
+Artgerm|1,Artgerm,living,1,simple,a painting of a lighthouse in the style of Artgerm,a painting of a lighthouse,Artgerm,dev
+Artgerm|2,Artgerm,living,2,simple,a painting of a fantasy dragon in the style of Artgerm,a painting of a fantasy dragon,Artgerm,test
+Artgerm|3,Artgerm,living,3,two_entity,a painting of a cat and a teapot in the style of Artgerm,a painting of a cat and a teapot,Artgerm,test
+Artgerm|4,Artgerm,living,4,two_entity,a painting of a violinist and a bicycle in the style of Artgerm,a painting of a violinist and a bicycle,Artgerm,test
+Artgerm|5,Artgerm,living,5,entity_attribute,a painting of a sleeping old woman in the style of Artgerm,a painting of a sleeping old woman,Artgerm,test
+Artgerm|6,Artgerm,living,6,entity_attribute,a painting of a glowing red sailboat in the style of Artgerm,a painting of a glowing red sailboat,Artgerm,test
+Artgerm|7,Artgerm,living,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Artgerm,a painting of a mountain cabin in a misty forest,Artgerm,dev
+Artgerm|8,Artgerm,living,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Artgerm,a painting of a street vendor on a rainy city street,Artgerm,test
+Artgerm|9,Artgerm,living,9,entity_scene,a painting of a girl in a sunflower field in the style of Artgerm,a painting of a girl in a sunflower field,Artgerm,test
+Thomas Kinkade|0,Thomas Kinkade,deceased_copyright,0,simple,a painting of a fox in the style of Thomas Kinkade,a painting of a fox,Thomas Kinkade,test
+Thomas Kinkade|1,Thomas Kinkade,deceased_copyright,1,simple,a painting of a lighthouse in the style of Thomas Kinkade,a painting of a lighthouse,Thomas Kinkade,dev
+Thomas Kinkade|2,Thomas Kinkade,deceased_copyright,2,simple,a painting of a fantasy dragon in the style of Thomas Kinkade,a painting of a fantasy dragon,Thomas Kinkade,test
+Thomas Kinkade|3,Thomas Kinkade,deceased_copyright,3,two_entity,a painting of a cat and a teapot in the style of Thomas Kinkade,a painting of a cat and a teapot,Thomas Kinkade,test
+Thomas Kinkade|4,Thomas Kinkade,deceased_copyright,4,two_entity,a painting of a violinist and a bicycle in the style of Thomas Kinkade,a painting of a violinist and a bicycle,Thomas Kinkade,test
+Thomas Kinkade|5,Thomas Kinkade,deceased_copyright,5,entity_attribute,a painting of a sleeping old woman in the style of Thomas Kinkade,a painting of a sleeping old woman,Thomas Kinkade,test
+Thomas Kinkade|6,Thomas Kinkade,deceased_copyright,6,entity_attribute,a painting of a glowing red sailboat in the style of Thomas Kinkade,a painting of a glowing red sailboat,Thomas Kinkade,test
+Thomas Kinkade|7,Thomas Kinkade,deceased_copyright,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Thomas Kinkade,a painting of a mountain cabin in a misty forest,Thomas Kinkade,dev
+Thomas Kinkade|8,Thomas Kinkade,deceased_copyright,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Thomas Kinkade,a painting of a street vendor on a rainy city street,Thomas Kinkade,test
+Thomas Kinkade|9,Thomas Kinkade,deceased_copyright,9,entity_scene,a painting of a girl in a sunflower field in the style of Thomas Kinkade,a painting of a girl in a sunflower field,Thomas Kinkade,test
+Pablo Picasso|0,Pablo Picasso,deceased_copyright,0,simple,a painting of a fox in the style of Pablo Picasso,a painting of a fox,Pablo Picasso,test
+Pablo Picasso|1,Pablo Picasso,deceased_copyright,1,simple,a painting of a lighthouse in the style of Pablo Picasso,a painting of a lighthouse,Pablo Picasso,dev
+Pablo Picasso|2,Pablo Picasso,deceased_copyright,2,simple,a painting of a fantasy dragon in the style of Pablo Picasso,a painting of a fantasy dragon,Pablo Picasso,test
+Pablo Picasso|3,Pablo Picasso,deceased_copyright,3,two_entity,a painting of a cat and a teapot in the style of Pablo Picasso,a painting of a cat and a teapot,Pablo Picasso,test
+Pablo Picasso|4,Pablo Picasso,deceased_copyright,4,two_entity,a painting of a violinist and a bicycle in the style of Pablo Picasso,a painting of a violinist and a bicycle,Pablo Picasso,test
+Pablo Picasso|5,Pablo Picasso,deceased_copyright,5,entity_attribute,a painting of a sleeping old woman in the style of Pablo Picasso,a painting of a sleeping old woman,Pablo Picasso,test
+Pablo Picasso|6,Pablo Picasso,deceased_copyright,6,entity_attribute,a painting of a glowing red sailboat in the style of Pablo Picasso,a painting of a glowing red sailboat,Pablo Picasso,test
+Pablo Picasso|7,Pablo Picasso,deceased_copyright,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Pablo Picasso,a painting of a mountain cabin in a misty forest,Pablo Picasso,dev
+Pablo Picasso|8,Pablo Picasso,deceased_copyright,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Pablo Picasso,a painting of a street vendor on a rainy city street,Pablo Picasso,test
+Pablo Picasso|9,Pablo Picasso,deceased_copyright,9,entity_scene,a painting of a girl in a sunflower field in the style of Pablo Picasso,a painting of a girl in a sunflower field,Pablo Picasso,test
+Salvador Dali|0,Salvador Dali,deceased_copyright,0,simple,a painting of a fox in the style of Salvador Dali,a painting of a fox,Salvador Dali,test
+Salvador Dali|1,Salvador Dali,deceased_copyright,1,simple,a painting of a lighthouse in the style of Salvador Dali,a painting of a lighthouse,Salvador Dali,dev
+Salvador Dali|2,Salvador Dali,deceased_copyright,2,simple,a painting of a fantasy dragon in the style of Salvador Dali,a painting of a fantasy dragon,Salvador Dali,test
+Salvador Dali|3,Salvador Dali,deceased_copyright,3,two_entity,a painting of a cat and a teapot in the style of Salvador Dali,a painting of a cat and a teapot,Salvador Dali,test
+Salvador Dali|4,Salvador Dali,deceased_copyright,4,two_entity,a painting of a violinist and a bicycle in the style of Salvador Dali,a painting of a violinist and a bicycle,Salvador Dali,test
+Salvador Dali|5,Salvador Dali,deceased_copyright,5,entity_attribute,a painting of a sleeping old woman in the style of Salvador Dali,a painting of a sleeping old woman,Salvador Dali,test
+Salvador Dali|6,Salvador Dali,deceased_copyright,6,entity_attribute,a painting of a glowing red sailboat in the style of Salvador Dali,a painting of a glowing red sailboat,Salvador Dali,test
+Salvador Dali|7,Salvador Dali,deceased_copyright,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Salvador Dali,a painting of a mountain cabin in a misty forest,Salvador Dali,dev
+Salvador Dali|8,Salvador Dali,deceased_copyright,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Salvador Dali,a painting of a street vendor on a rainy city street,Salvador Dali,test
+Salvador Dali|9,Salvador Dali,deceased_copyright,9,entity_scene,a painting of a girl in a sunflower field in the style of Salvador Dali,a painting of a girl in a sunflower field,Salvador Dali,test
+Andy Warhol|0,Andy Warhol,deceased_copyright,0,simple,a painting of a fox in the style of Andy Warhol,a painting of a fox,Andy Warhol,test
+Andy Warhol|1,Andy Warhol,deceased_copyright,1,simple,a painting of a lighthouse in the style of Andy Warhol,a painting of a lighthouse,Andy Warhol,dev
+Andy Warhol|2,Andy Warhol,deceased_copyright,2,simple,a painting of a fantasy dragon in the style of Andy Warhol,a painting of a fantasy dragon,Andy Warhol,test
+Andy Warhol|3,Andy Warhol,deceased_copyright,3,two_entity,a painting of a cat and a teapot in the style of Andy Warhol,a painting of a cat and a teapot,Andy Warhol,test
+Andy Warhol|4,Andy Warhol,deceased_copyright,4,two_entity,a painting of a violinist and a bicycle in the style of Andy Warhol,a painting of a violinist and a bicycle,Andy Warhol,test
+Andy Warhol|5,Andy Warhol,deceased_copyright,5,entity_attribute,a painting of a sleeping old woman in the style of Andy Warhol,a painting of a sleeping old woman,Andy Warhol,test
+Andy Warhol|6,Andy Warhol,deceased_copyright,6,entity_attribute,a painting of a glowing red sailboat in the style of Andy Warhol,a painting of a glowing red sailboat,Andy Warhol,test
+Andy Warhol|7,Andy Warhol,deceased_copyright,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Andy Warhol,a painting of a mountain cabin in a misty forest,Andy Warhol,dev
+Andy Warhol|8,Andy Warhol,deceased_copyright,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Andy Warhol,a painting of a street vendor on a rainy city street,Andy Warhol,test
+Andy Warhol|9,Andy Warhol,deceased_copyright,9,entity_scene,a painting of a girl in a sunflower field in the style of Andy Warhol,a painting of a girl in a sunflower field,Andy Warhol,test
+M.C. Escher|0,M.C. Escher,deceased_copyright,0,simple,a painting of a fox in the style of M.C. Escher,a painting of a fox,M.C. Escher,test
+M.C. Escher|1,M.C. Escher,deceased_copyright,1,simple,a painting of a lighthouse in the style of M.C. Escher,a painting of a lighthouse,M.C. Escher,dev
+M.C. Escher|2,M.C. Escher,deceased_copyright,2,simple,a painting of a fantasy dragon in the style of M.C. Escher,a painting of a fantasy dragon,M.C. Escher,test
+M.C. Escher|3,M.C. Escher,deceased_copyright,3,two_entity,a painting of a cat and a teapot in the style of M.C. Escher,a painting of a cat and a teapot,M.C. Escher,test
+M.C. Escher|4,M.C. Escher,deceased_copyright,4,two_entity,a painting of a violinist and a bicycle in the style of M.C. Escher,a painting of a violinist and a bicycle,M.C. Escher,test
+M.C. Escher|5,M.C. Escher,deceased_copyright,5,entity_attribute,a painting of a sleeping old woman in the style of M.C. Escher,a painting of a sleeping old woman,M.C. Escher,test
+M.C. Escher|6,M.C. Escher,deceased_copyright,6,entity_attribute,a painting of a glowing red sailboat in the style of M.C. Escher,a painting of a glowing red sailboat,M.C. Escher,test
+M.C. Escher|7,M.C. Escher,deceased_copyright,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of M.C. Escher,a painting of a mountain cabin in a misty forest,M.C. Escher,dev
+M.C. Escher|8,M.C. Escher,deceased_copyright,8,entity_scene,a painting of a street vendor on a rainy city street in the style of M.C. Escher,a painting of a street vendor on a rainy city street,M.C. Escher,test
+M.C. Escher|9,M.C. Escher,deceased_copyright,9,entity_scene,a painting of a girl in a sunflower field in the style of M.C. Escher,a painting of a girl in a sunflower field,M.C. Escher,test
+Vincent van Gogh|0,Vincent van Gogh,public_domain,0,simple,a painting of a fox in the style of Vincent van Gogh,a painting of a fox,Vincent van Gogh,test
+Vincent van Gogh|1,Vincent van Gogh,public_domain,1,simple,a painting of a lighthouse in the style of Vincent van Gogh,a painting of a lighthouse,Vincent van Gogh,dev
+Vincent van Gogh|2,Vincent van Gogh,public_domain,2,simple,a painting of a fantasy dragon in the style of Vincent van Gogh,a painting of a fantasy dragon,Vincent van Gogh,test
+Vincent van Gogh|3,Vincent van Gogh,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Vincent van Gogh,a painting of a cat and a teapot,Vincent van Gogh,test
+Vincent van Gogh|4,Vincent van Gogh,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Vincent van Gogh,a painting of a violinist and a bicycle,Vincent van Gogh,test
+Vincent van Gogh|5,Vincent van Gogh,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Vincent van Gogh,a painting of a sleeping old woman,Vincent van Gogh,test
+Vincent van Gogh|6,Vincent van Gogh,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Vincent van Gogh,a painting of a glowing red sailboat,Vincent van Gogh,test
+Vincent van Gogh|7,Vincent van Gogh,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Vincent van Gogh,a painting of a mountain cabin in a misty forest,Vincent van Gogh,dev
+Vincent van Gogh|8,Vincent van Gogh,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Vincent van Gogh,a painting of a street vendor on a rainy city street,Vincent van Gogh,test
+Vincent van Gogh|9,Vincent van Gogh,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Vincent van Gogh,a painting of a girl in a sunflower field,Vincent van Gogh,test
+Claude Monet|0,Claude Monet,public_domain,0,simple,a painting of a fox in the style of Claude Monet,a painting of a fox,Claude Monet,test
+Claude Monet|1,Claude Monet,public_domain,1,simple,a painting of a lighthouse in the style of Claude Monet,a painting of a lighthouse,Claude Monet,dev
+Claude Monet|2,Claude Monet,public_domain,2,simple,a painting of a fantasy dragon in the style of Claude Monet,a painting of a fantasy dragon,Claude Monet,test
+Claude Monet|3,Claude Monet,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Claude Monet,a painting of a cat and a teapot,Claude Monet,test
+Claude Monet|4,Claude Monet,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Claude Monet,a painting of a violinist and a bicycle,Claude Monet,test
+Claude Monet|5,Claude Monet,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Claude Monet,a painting of a sleeping old woman,Claude Monet,test
+Claude Monet|6,Claude Monet,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Claude Monet,a painting of a glowing red sailboat,Claude Monet,test
+Claude Monet|7,Claude Monet,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Claude Monet,a painting of a mountain cabin in a misty forest,Claude Monet,dev
+Claude Monet|8,Claude Monet,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Claude Monet,a painting of a street vendor on a rainy city street,Claude Monet,test
+Claude Monet|9,Claude Monet,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Claude Monet,a painting of a girl in a sunflower field,Claude Monet,test
+Rembrandt|0,Rembrandt,public_domain,0,simple,a painting of a fox in the style of Rembrandt,a painting of a fox,Rembrandt,test
+Rembrandt|1,Rembrandt,public_domain,1,simple,a painting of a lighthouse in the style of Rembrandt,a painting of a lighthouse,Rembrandt,dev
+Rembrandt|2,Rembrandt,public_domain,2,simple,a painting of a fantasy dragon in the style of Rembrandt,a painting of a fantasy dragon,Rembrandt,test
+Rembrandt|3,Rembrandt,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Rembrandt,a painting of a cat and a teapot,Rembrandt,test
+Rembrandt|4,Rembrandt,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Rembrandt,a painting of a violinist and a bicycle,Rembrandt,test
+Rembrandt|5,Rembrandt,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Rembrandt,a painting of a sleeping old woman,Rembrandt,test
+Rembrandt|6,Rembrandt,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Rembrandt,a painting of a glowing red sailboat,Rembrandt,test
+Rembrandt|7,Rembrandt,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Rembrandt,a painting of a mountain cabin in a misty forest,Rembrandt,dev
+Rembrandt|8,Rembrandt,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Rembrandt,a painting of a street vendor on a rainy city street,Rembrandt,test
+Rembrandt|9,Rembrandt,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Rembrandt,a painting of a girl in a sunflower field,Rembrandt,test
+Katsushika Hokusai|0,Katsushika Hokusai,public_domain,0,simple,a painting of a fox in the style of Katsushika Hokusai,a painting of a fox,Katsushika Hokusai,test
+Katsushika Hokusai|1,Katsushika Hokusai,public_domain,1,simple,a painting of a lighthouse in the style of Katsushika Hokusai,a painting of a lighthouse,Katsushika Hokusai,dev
+Katsushika Hokusai|2,Katsushika Hokusai,public_domain,2,simple,a painting of a fantasy dragon in the style of Katsushika Hokusai,a painting of a fantasy dragon,Katsushika Hokusai,test
+Katsushika Hokusai|3,Katsushika Hokusai,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Katsushika Hokusai,a painting of a cat and a teapot,Katsushika Hokusai,test
+Katsushika Hokusai|4,Katsushika Hokusai,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Katsushika Hokusai,a painting of a violinist and a bicycle,Katsushika Hokusai,test
+Katsushika Hokusai|5,Katsushika Hokusai,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Katsushika Hokusai,a painting of a sleeping old woman,Katsushika Hokusai,test
+Katsushika Hokusai|6,Katsushika Hokusai,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Katsushika Hokusai,a painting of a glowing red sailboat,Katsushika Hokusai,test
+Katsushika Hokusai|7,Katsushika Hokusai,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Katsushika Hokusai,a painting of a mountain cabin in a misty forest,Katsushika Hokusai,dev
+Katsushika Hokusai|8,Katsushika Hokusai,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Katsushika Hokusai,a painting of a street vendor on a rainy city street,Katsushika Hokusai,test
+Katsushika Hokusai|9,Katsushika Hokusai,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Katsushika Hokusai,a painting of a girl in a sunflower field,Katsushika Hokusai,test
+Gustav Klimt|0,Gustav Klimt,public_domain,0,simple,a painting of a fox in the style of Gustav Klimt,a painting of a fox,Gustav Klimt,test
+Gustav Klimt|1,Gustav Klimt,public_domain,1,simple,a painting of a lighthouse in the style of Gustav Klimt,a painting of a lighthouse,Gustav Klimt,dev
+Gustav Klimt|2,Gustav Klimt,public_domain,2,simple,a painting of a fantasy dragon in the style of Gustav Klimt,a painting of a fantasy dragon,Gustav Klimt,test
+Gustav Klimt|3,Gustav Klimt,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Gustav Klimt,a painting of a cat and a teapot,Gustav Klimt,test
+Gustav Klimt|4,Gustav Klimt,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Gustav Klimt,a painting of a violinist and a bicycle,Gustav Klimt,test
+Gustav Klimt|5,Gustav Klimt,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Gustav Klimt,a painting of a sleeping old woman,Gustav Klimt,test
+Gustav Klimt|6,Gustav Klimt,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Gustav Klimt,a painting of a glowing red sailboat,Gustav Klimt,test
+Gustav Klimt|7,Gustav Klimt,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Gustav Klimt,a painting of a mountain cabin in a misty forest,Gustav Klimt,dev
+Gustav Klimt|8,Gustav Klimt,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Gustav Klimt,a painting of a street vendor on a rainy city street,Gustav Klimt,test
+Gustav Klimt|9,Gustav Klimt,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Gustav Klimt,a painting of a girl in a sunflower field,Gustav Klimt,test
+Paul Cezanne|0,Paul Cezanne,public_domain,0,simple,a painting of a fox in the style of Paul Cezanne,a painting of a fox,Paul Cezanne,test
+Paul Cezanne|1,Paul Cezanne,public_domain,1,simple,a painting of a lighthouse in the style of Paul Cezanne,a painting of a lighthouse,Paul Cezanne,dev
+Paul Cezanne|2,Paul Cezanne,public_domain,2,simple,a painting of a fantasy dragon in the style of Paul Cezanne,a painting of a fantasy dragon,Paul Cezanne,test
+Paul Cezanne|3,Paul Cezanne,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Paul Cezanne,a painting of a cat and a teapot,Paul Cezanne,test
+Paul Cezanne|4,Paul Cezanne,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Paul Cezanne,a painting of a violinist and a bicycle,Paul Cezanne,test
+Paul Cezanne|5,Paul Cezanne,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Paul Cezanne,a painting of a sleeping old woman,Paul Cezanne,test
+Paul Cezanne|6,Paul Cezanne,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Paul Cezanne,a painting of a glowing red sailboat,Paul Cezanne,test
+Paul Cezanne|7,Paul Cezanne,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Paul Cezanne,a painting of a mountain cabin in a misty forest,Paul Cezanne,dev
+Paul Cezanne|8,Paul Cezanne,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Paul Cezanne,a painting of a street vendor on a rainy city street,Paul Cezanne,test
+Paul Cezanne|9,Paul Cezanne,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Paul Cezanne,a painting of a girl in a sunflower field,Paul Cezanne,test
+Edvard Munch|0,Edvard Munch,public_domain,0,simple,a painting of a fox in the style of Edvard Munch,a painting of a fox,Edvard Munch,test
+Edvard Munch|1,Edvard Munch,public_domain,1,simple,a painting of a lighthouse in the style of Edvard Munch,a painting of a lighthouse,Edvard Munch,dev
+Edvard Munch|2,Edvard Munch,public_domain,2,simple,a painting of a fantasy dragon in the style of Edvard Munch,a painting of a fantasy dragon,Edvard Munch,test
+Edvard Munch|3,Edvard Munch,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Edvard Munch,a painting of a cat and a teapot,Edvard Munch,test
+Edvard Munch|4,Edvard Munch,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Edvard Munch,a painting of a violinist and a bicycle,Edvard Munch,test
+Edvard Munch|5,Edvard Munch,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Edvard Munch,a painting of a sleeping old woman,Edvard Munch,test
+Edvard Munch|6,Edvard Munch,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Edvard Munch,a painting of a glowing red sailboat,Edvard Munch,test
+Edvard Munch|7,Edvard Munch,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Edvard Munch,a painting of a mountain cabin in a misty forest,Edvard Munch,dev
+Edvard Munch|8,Edvard Munch,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Edvard Munch,a painting of a street vendor on a rainy city street,Edvard Munch,test
+Edvard Munch|9,Edvard Munch,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Edvard Munch,a painting of a girl in a sunflower field,Edvard Munch,test
+Francisco Goya|0,Francisco Goya,public_domain,0,simple,a painting of a fox in the style of Francisco Goya,a painting of a fox,Francisco Goya,test
+Francisco Goya|1,Francisco Goya,public_domain,1,simple,a painting of a lighthouse in the style of Francisco Goya,a painting of a lighthouse,Francisco Goya,dev
+Francisco Goya|2,Francisco Goya,public_domain,2,simple,a painting of a fantasy dragon in the style of Francisco Goya,a painting of a fantasy dragon,Francisco Goya,test
+Francisco Goya|3,Francisco Goya,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Francisco Goya,a painting of a cat and a teapot,Francisco Goya,test
+Francisco Goya|4,Francisco Goya,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Francisco Goya,a painting of a violinist and a bicycle,Francisco Goya,test
+Francisco Goya|5,Francisco Goya,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Francisco Goya,a painting of a sleeping old woman,Francisco Goya,test
+Francisco Goya|6,Francisco Goya,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Francisco Goya,a painting of a glowing red sailboat,Francisco Goya,test
+Francisco Goya|7,Francisco Goya,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Francisco Goya,a painting of a mountain cabin in a misty forest,Francisco Goya,dev
+Francisco Goya|8,Francisco Goya,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Francisco Goya,a painting of a street vendor on a rainy city street,Francisco Goya,test
+Francisco Goya|9,Francisco Goya,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Francisco Goya,a painting of a girl in a sunflower field,Francisco Goya,test
+Georges Seurat|0,Georges Seurat,public_domain,0,simple,a painting of a fox in the style of Georges Seurat,a painting of a fox,Georges Seurat,test
+Georges Seurat|1,Georges Seurat,public_domain,1,simple,a painting of a lighthouse in the style of Georges Seurat,a painting of a lighthouse,Georges Seurat,dev
+Georges Seurat|2,Georges Seurat,public_domain,2,simple,a painting of a fantasy dragon in the style of Georges Seurat,a painting of a fantasy dragon,Georges Seurat,test
+Georges Seurat|3,Georges Seurat,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Georges Seurat,a painting of a cat and a teapot,Georges Seurat,test
+Georges Seurat|4,Georges Seurat,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Georges Seurat,a painting of a violinist and a bicycle,Georges Seurat,test
+Georges Seurat|5,Georges Seurat,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Georges Seurat,a painting of a sleeping old woman,Georges Seurat,test
+Georges Seurat|6,Georges Seurat,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Georges Seurat,a painting of a glowing red sailboat,Georges Seurat,test
+Georges Seurat|7,Georges Seurat,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Georges Seurat,a painting of a mountain cabin in a misty forest,Georges Seurat,dev
+Georges Seurat|8,Georges Seurat,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Georges Seurat,a painting of a street vendor on a rainy city street,Georges Seurat,test
+Georges Seurat|9,Georges Seurat,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Georges Seurat,a painting of a girl in a sunflower field,Georges Seurat,test
+Albrecht Durer|0,Albrecht Durer,public_domain,0,simple,a painting of a fox in the style of Albrecht Durer,a painting of a fox,Albrecht Durer,test
+Albrecht Durer|1,Albrecht Durer,public_domain,1,simple,a painting of a lighthouse in the style of Albrecht Durer,a painting of a lighthouse,Albrecht Durer,dev
+Albrecht Durer|2,Albrecht Durer,public_domain,2,simple,a painting of a fantasy dragon in the style of Albrecht Durer,a painting of a fantasy dragon,Albrecht Durer,test
+Albrecht Durer|3,Albrecht Durer,public_domain,3,two_entity,a painting of a cat and a teapot in the style of Albrecht Durer,a painting of a cat and a teapot,Albrecht Durer,test
+Albrecht Durer|4,Albrecht Durer,public_domain,4,two_entity,a painting of a violinist and a bicycle in the style of Albrecht Durer,a painting of a violinist and a bicycle,Albrecht Durer,test
+Albrecht Durer|5,Albrecht Durer,public_domain,5,entity_attribute,a painting of a sleeping old woman in the style of Albrecht Durer,a painting of a sleeping old woman,Albrecht Durer,test
+Albrecht Durer|6,Albrecht Durer,public_domain,6,entity_attribute,a painting of a glowing red sailboat in the style of Albrecht Durer,a painting of a glowing red sailboat,Albrecht Durer,test
+Albrecht Durer|7,Albrecht Durer,public_domain,7,entity_scene,a painting of a mountain cabin in a misty forest in the style of Albrecht Durer,a painting of a mountain cabin in a misty forest,Albrecht Durer,dev
+Albrecht Durer|8,Albrecht Durer,public_domain,8,entity_scene,a painting of a street vendor on a rainy city street in the style of Albrecht Durer,a painting of a street vendor on a rainy city street,Albrecht Durer,test
+Albrecht Durer|9,Albrecht Durer,public_domain,9,entity_scene,a painting of a girl in a sunflower field in the style of Albrecht Durer,a painting of a girl in a sunflower field,Albrecht Durer,test

@@ -1,0 +1,123 @@
+# Model registry. Revisions are pinned commits; `settings` follow the closest prior work
+# that used each model so our baselines are comparable to published numbers.
+# min_gpu = smallest Markov GPU type (-C feature) that fits the job in fp16.
+
+text_to_image:
+  sd14:
+    hf_id: CompVis/stable-diffusion-v1-4
+    revision: 133a221b8aa7292a167afc5127cb63fb5005638b
+    family: sd1
+    variant: fp16
+    resolution: 512
+    settings: {scheduler: ddim, steps: 50, guidance: 7.5}      # Wen et al. ICLR'24; NeMo NeurIPS'24
+    used_by: [Wen et al. ICLR'24, Hintersdorf et al. NeurIPS'24, Pham et al. ICLR'24, Chen et al. ICLR'25]
+    download_gb: 2.7
+    min_gpu: gpu2080
+    note: the 500 memorized prompts were verified on this checkpoint
+  sd15:
+    hf_id: stable-diffusion-v1-5/stable-diffusion-v1-5   # official mirror after runwayml/ was removed
+    revision: 451f4fe16113bff5a5d2269ed5ad43b0592e9a14
+    family: sd1
+    variant: fp16
+    resolution: 512
+    settings: {scheduler: ddim, steps: 50, guidance: 7.5}
+    used_by: [proposal]
+    download_gb: 2.7
+    min_gpu: gpu2080
+  sd2base:
+    hf_id: sd2-community/stable-diffusion-2-base         # community mirror; stabilityai/* SD2 repos now return 401
+    revision: f5bc1bd97485577aa0b946fa8a9004e2ec147402
+    family: sd2
+    variant: fp16
+    resolution: 512
+    settings: {scheduler: ddim, steps: 50, guidance: 7.5}
+    used_by: [Webster 2023 (SDv2 memorized prompts), Chen et al. ICLR'25]
+    download_gb: 2.6
+    min_gpu: gpu2080
+  sd21:
+    hf_id: sd2-community/stable-diffusion-2-1            # community mirror (768px, v-prediction)
+    revision: bb2154823665391b4fb29b0b9cf82a198964ee05
+    family: sd2
+    variant: fp16
+    resolution: 768
+    settings: {scheduler: default, steps: 30, guidance: 7.5}   # Reissinger et al. 2025 (SD 2): 30 steps, 7.5
+    used_by: [Reissinger et al. 2025, proposal]
+    download_gb: 2.6
+    min_gpu: gpu4090
+  sdxl:
+    hf_id: stabilityai/stable-diffusion-xl-base-1.0
+    revision: 462165984030d82259a11f4367a4eed129e94a7b
+    family: sdxl
+    variant: fp16
+    resolution: 1024
+    settings: {scheduler: default, steps: 50, guidance: 3.0}   # He et al. ICLR'25
+    used_by: [He et al. ICLR'25, proposal]
+    download_gb: 7.1
+    min_gpu: gpu4090
+  playground25:
+    hf_id: playgroundai/playground-v2.5-1024px-aesthetic
+    revision: 1e032f13f2fe6db2dc49947dbdbd196e753de573
+    family: sdxl
+    variant: fp16
+    resolution: 1024
+    settings: {scheduler: default, steps: 50, guidance: 3.0}   # He et al. ICLR'25 (main model)
+    used_by: [He et al. ICLR'25]
+    download_gb: 6.9
+    min_gpu: gpu4090
+  pixart512:
+    hf_id: PixArt-alpha/PixArt-XL-2-512x512
+    revision: 50f702106901db6d0f8b67eb88e814c56ded2692
+    family: pixart
+    variant: null
+    resolution: 512
+    settings: {scheduler: default, steps: 50, guidance: 3.0}   # He et al. ICLR'25
+    used_by: [He et al. ICLR'25]
+    download_gb: 21.0
+    min_gpu: gpul40s
+    note: optional (T5-XXL encoder is large); probes are UNet-only and skip this model
+  tiny:
+    hf_id: hf-internal-testing/tiny-stable-diffusion-torch
+    revision: a88cdfbd91f96ec7f61eb7484b652ff0f4ee701d
+    family: sd1
+    variant: null
+    resolution: 64
+    settings: {scheduler: ddim, steps: 2, guidance: 7.5}
+    used_by: [unit tests only]
+    download_gb: 0.01
+    min_gpu: cpu
+
+auxiliary:
+  judge_vlm:               # replaces GPT-4V in He et al.'s DETECT metric and VQAScore in CONS
+    hf_id: Qwen/Qwen2.5-VL-7B-Instruct
+    revision: cc594898137f460bfe9f0759e9844b3ce807cfb5
+    download_gb: 16.6
+    min_gpu: gpu4090
+  judge_vlm_small:
+    hf_id: Qwen/Qwen2.5-VL-3B-Instruct
+    revision: 66285546d2b821cf421d4f5eb2576359d3770cd3
+    download_gb: 7.5
+    min_gpu: gpu2080
+  rewriter_llm:            # D4 prompt rewriting (He et al. used GPT-4 with the DALL-E policy prompt)
+    hf_id: Qwen/Qwen2.5-7B-Instruct
+    revision: a09a35458c702b33eeacc393d103063234e8bc28
+    download_gb: 15.2
+    min_gpu: gpu4090
+  rewriter_reasoning:      # same role, with visible reasoning traces for the reasoning-pattern analysis
+    hf_id: Qwen/Qwen3-8B
+    revision: b968826d9c46dd6066d109eabc6255188de91218
+    download_gb: 16.4
+    min_gpu: gpul40s
+  rewriter_reasoning_small:  # laptop-sized stand-in used in the local pilot
+    hf_id: Qwen/Qwen3-1.7B
+    revision: 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e
+    download_gb: 4.1
+    min_gpu: gpu2080
+  clip_eval:               # Wen et al. use OpenCLIP ViT-g/14 for prompt-image alignment
+    open_clip: {model: ViT-g-14, pretrained: laion2b_s12b_b42k}
+    download_gb: 5.5
+  clip_eval_small:
+    open_clip: {model: ViT-L-14, pretrained: openai}
+    download_gb: 0.9
+  sscd:                    # Pizzi et al. CVPR'22 copy-detection descriptor (Somepalli et al., Wen et al., NeMo)
+    url: https://dl.fbaipublicfiles.com/sscd-copy-detection/sscd_disc_mixup.torchscript.pt
+    bytes: 98791638
