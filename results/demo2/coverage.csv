@@ -1,0 +1,5 @@
+run,mem_type,items,with_training_image
+sd14_memorized,TM,40,34
+sd14_memorized,VM,90,34
+sd2_memorized,TM,97,90
+sd2_memorized,VM,3,1

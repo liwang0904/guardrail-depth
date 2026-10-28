@@ -1,0 +1,78 @@
+# Demo 2 grid: every baseline on every dataset and model, test split only.
+# Baselines: V0 blocklist (vanilla); D1/D2a/D3 (Reissinger et al. 2025); D2b negative prompts and
+# D4 LLM rewrite (He et al. ICLR'25); C1 random-word control (ours). D0 = no guardrail.
+# Item ids were sampled once with random.Random(347) from the test split (see docs/DEMO2.md).
+#
+#   bash slurm/demo2_submit.sh            # submits everything below in dependency order
+#
+# Budget (RTX 2080 Ti ~4 s/image at 50 steps; 4090 ~2x faster; SDXL needs a 4090/L40S):
+#   sd14_memorized 130 x 3 x 7 x 2 ~ 5.0k | sd14_controls 100 x 7 x 2 ~ 1.4k | sd2_memorized 100 x 7 x 2 ~ 1.4k
+#   sd14_copycat 39 x 4 x 8 x 2 ~ 2.4k   | sdxl_copycat 39 x 4 x 8 ~ 1.2k    | sd14_style 200 x 2 x 7 ~ 2.6k
+#   V0 rows cost nothing: refused, or the D0 image reused.  ~14k images, ~15 GPU-hours in total.
+
+defaults:
+  seeds: [0, 1]
+  probes: [noise]
+
+jobs:
+  # Track 1a: exact copies on SD 1.4. All 90 verbatim (VM) test prompts + 40 random template (TM) ones.
+  - name: sd14_memorized
+    model: sd14
+    dataset: memorized_sd1
+    ids: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 16, 18, 19, 21, 22, 23, 24, 25, 28, 30, 32, 33, 34, 36, 38, 39, 40, 41, 42, 45, 46, 47, 49, 50, 51, 54, 55, 56, 57, 58, 61, 68, 69, 70, 75, 79, 83, 84, 91, 92, 93, 95, 96, 101, 108, 116, 119, 123, 124, 137, 138, 139, 144, 146, 147, 159, 161, 162, 165, 175, 187, 190, 192, 193, 200, 203, 209, 210, 217, 222, 230, 234, 235, 245, 246, 248, 253, 259, 263, 272, 273, 284, 292, 297, 299, 308, 310, 321, 322, 324, 329, 334, 357, 360, 376, 377, 378, 379, 380, 391, 404, 406, 408, 420, 426, 435, 436, 439, 444, 450, 453, 456, 469, 478, 490, 493, 497, 498]
+    attacks: [direct, truncate_repeat, override]
+    defenses: [none, blocklist, task_instruction, neg_inprompt, negbuf_rules, cot, llm_rewrite, rand_tokens]
+    probes: [noise, attention]
+    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_memorized_sd1.csv"]
+
+  # Benign controls from the same caption source: utility cost and detector false alarms.
+  - name: sd14_controls
+    model: sd14
+    dataset: unmemorized_laion
+    ids: [0, 12, 13, 17, 22, 24, 31, 33, 38, 42, 47, 64, 70, 72, 85, 96, 101, 108, 109, 112, 120, 123, 127, 129, 139, 140, 141, 144, 146, 150, 151, 152, 155, 159, 176, 183, 188, 191, 192, 195, 197, 199, 203, 204, 208, 209, 215, 229, 230, 231, 236, 249, 253, 263, 266, 267, 271, 275, 279, 282, 284, 285, 286, 290, 292, 294, 305, 314, 320, 326, 332, 351, 354, 356, 361, 362, 370, 387, 396, 397, 401, 403, 406, 407, 409, 413, 421, 425, 431, 450, 456, 459, 462, 464, 466, 469, 472, 473, 478, 493]
+    attacks: [direct]
+    defenses: [none, blocklist, task_instruction, neg_inprompt, negbuf_rules, cot, llm_rewrite, rand_tokens]
+    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_unmemorized_laion.csv"]
+
+  # Track 1a on a second model: SD 2-base (Reissinger et al.'s model family). 3 MV + 97 random TV prompts.
+  - name: sd2_memorized
+    model: sd2base
+    dataset: memorized_sd2
+    ids: [0, 1, 3, 4, 6, 9, 10, 14, 16, 18, 20, 21, 22, 26, 29, 30, 31, 32, 34, 35, 38, 39, 41, 44, 46, 50, 51, 57, 59, 60, 61, 68, 70, 73, 74, 77, 79, 81, 82, 84, 85, 86, 90, 91, 92, 93, 95, 100, 101, 105, 107, 108, 110, 112, 113, 115, 116, 118, 122, 124, 125, 126, 128, 131, 134, 135, 139, 142, 144, 146, 147, 148, 154, 156, 157, 159, 164, 170, 172, 173, 174, 176, 178, 179, 187, 188, 189, 190, 191, 192, 196, 200, 201, 202, 205, 207, 209, 210, 211, 218]
+    attacks: [direct]
+    defenses: [none, blocklist, task_instruction, neg_inprompt, negbuf_rules, cot, llm_rewrite, rand_tokens]
+    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_memorized_sd2.csv"]
+
+  # Track 1b: all 39 test characters, four ways of asking. D4 uses He et al.'s released GPT-4 rewrites
+  # where they exist (name, 60-word lure) and our Qwen3 rewrites (with reasoning) for the other two.
+  - name: sd14_copycat
+    model: sd14
+    dataset: copycat_characters
+    split: test
+    attacks: [direct, lure_desc60, lure_kw_laion5, perturb_phonetic]
+    rewrite_attacks: [lure_kw_laion5, perturb_phonetic]
+    defenses: [none, blocklist, task_instruction, neg_inprompt, negbuf_name_kw, cot, llm_rewrite,
+               llm_rewrite+negbuf_name_kw, rand_tokens]
+    probes: [noise, attention]
+    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_copycat_characters.csv"]
+
+  # Track 1b on He et al.'s model family (SDXL, 50 steps, cfg 3 from configs/models.yaml). One seed.
+  - name: sdxl_copycat
+    model: sdxl
+    dataset: copycat_characters
+    split: test
+    seeds: [0]
+    attacks: [direct, lure_desc60, lure_kw_laion5, perturb_phonetic]
+    defenses: [none, blocklist, task_instruction, neg_inprompt, negbuf_name_kw, cot, llm_rewrite,
+               llm_rewrite+negbuf_name_kw, rand_tokens]
+    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_copycat_characters.csv"]
+
+  # Track 2: style of 25 artists (10 living, 5 deceased in copyright, 10 public domain), 8 test templates each.
+  - name: sd14_style
+    model: sd14
+    dataset: style_prompts
+    split: test
+    seeds: [0]
+    attacks: [direct, perturb_phonetic]
+    defenses: [none, blocklist, task_instruction, neg_inprompt, negbuf_name, cot, llm_rewrite, rand_tokens]
+    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_style_prompts.csv"]

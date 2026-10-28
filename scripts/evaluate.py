@@ -50,14 +50,45 @@ def load_records(run: Path) -> pd.DataFrame:
 
 
 def evaluate_run(run: Path, sscd: SSCD, clip: CLIPScorer) -> pd.DataFrame:
+    """Score generated images; requests the blocklist (V0) refused have no image and count as
+    protected (no copy, no detection, no attribution) with no adherence, plus `refused` = 1."""
     df = load_records(run)
+    refused = df["refused"].fillna(False).astype(bool) if "refused" in df else pd.Series(False, index=df.index)
+    gen = _score_images(run, df[~refused].reset_index(drop=True), sscd, clip) if (~refused).any() else df.iloc[:0]
+    ref = df[refused].copy()
+    if len(ref):
+        dataset = ref["dataset"].iloc[0]
+        if dataset in GT_DIRS:
+            has_gt = np.array([(gt_image_dir() / GT_DIRS[dataset] / f"{int(i):04d}.jpg").exists() for i in ref["item_id"]])
+            ref["copy"] = np.where(has_gt, 0.0, np.nan)
+        for col in ("clip_detect", "p_target", "p_artist"):
+            if col in gen:
+                ref[col] = 0.0
+    out = pd.concat([gen, ref], ignore_index=True)
+    out["refused"] = out["refused"].fillna(False).astype(float) if "refused" in out else 0.0
+    return _add_subgroups(out)
+
+
+def _add_subgroups(df: pd.DataFrame) -> pd.DataFrame:
+    """Attach the manifest attributes used in the subgroup analysis."""
+    dataset = df["dataset"].iloc[0]
+    meta = load_manifest(dataset).set_index("id")
+    cols = {"memorized_sd1": ["mem_type", "numdups"], "memorized_sd2": ["mem_type", "webster_type", "numdups"],
+            "copycat_characters": ["origin_region", "rights_holder"], "style_prompts": ["artist", "group", "template_type"],
+            "unmemorized_laion": []}.get(dataset, [])
+    key = df["item_id"] if dataset == "style_prompts" else df["item_id"].astype(int)
+    for c in cols:
+        if c in meta:
+            df[c] = key.map(meta[c])
+    return df
+
+
+def _score_images(run: Path, df: pd.DataFrame, sscd: SSCD, clip: CLIPScorer) -> pd.DataFrame:
     dataset = df["dataset"].iloc[0]
     images = [Image.open(run / p).convert("RGB") for p in df["image"]]
     f_sscd, f_clip = sscd.embed(images), clip.embed_images(images)
 
     if dataset in GT_DIRS:
-        meta = load_manifest(dataset).set_index("id")
-        df["mem_type"] = df["item_id"].map(meta["mem_type"])
         gt_paths = [gt_image_dir() / GT_DIRS[dataset] / f"{int(i):04d}.jpg" for i in df["item_id"]]
         has_gt = np.array([p.exists() for p in gt_paths])
         df["sscd_gt"], df["clipi_gt"] = np.nan, np.nan
@@ -88,7 +119,9 @@ def evaluate_run(run: Path, sscd: SSCD, clip: CLIPScorer) -> pd.DataFrame:
         df["p_target"] = [float(probs[r, names.index(t)]) for r, t in enumerate(df["target"])]
         entities = df["item_id"].map(meta["key_entity"]).tolist()
         df["clip_cons"] = paired_cosine(f_clip, clip.embed_texts([f"an image of a {e}" for e in entities]))
-        df["origin_region"] = df["item_id"].map(meta["origin_region"])
+
+    elif dataset == "unmemorized_laion":   # benign controls: adherence only (utility cost of a guardrail)
+        df["clip_t"] = paired_cosine(f_clip, clip.embed_texts(df["user_prompt"].tolist()))
 
     elif dataset == "style_prompts":
         artists = load_manifest("artists")["artist"].tolist()
@@ -96,7 +129,6 @@ def evaluate_run(run: Path, sscd: SSCD, clip: CLIPScorer) -> pd.DataFrame:
         df["p_artist"] = [float(probs[r, artists.index(t)]) for r, t in enumerate(df["target"])]
         df["artist_top1"] = [(artists + [NULL_ARTIST])[k] for k in probs.argmax(-1).numpy()]
         meta = load_manifest("style_prompts").set_index("id")
-        df["group"] = df["item_id"].map(meta["group"])
         df["clip_t"] = paired_cosine(f_clip, clip.embed_texts(df["item_id"].map(meta["neutral_prompt"]).tolist()))
 
     # diversity across seeds of the same condition
@@ -108,7 +140,7 @@ def evaluate_run(run: Path, sscd: SSCD, clip: CLIPScorer) -> pd.DataFrame:
 
 
 def summarize(df: pd.DataFrame) -> pd.DataFrame:
-    metric_cols = [c for c in ["sscd_gt", "copy", "clipi_gt", "clip_t", "clip_detect", "p_target", "clip_cons",
+    metric_cols = [c for c in ["refused", "sscd_gt", "copy", "clipi_gt", "clip_t", "clip_detect", "p_target", "clip_cons",
                                "p_artist", "diversity_sscd", "noise_first", "noise_mean", "attn_user_t0",
                                "attn_guardrail_t0", "attn_bos_t0", "attn_prompt_entropy_t0", "n_tokens",
                                "suffix_tokens_seen"] if c in df]

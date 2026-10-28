@@ -13,6 +13,8 @@ come from, so baseline numbers stay comparable:
   D3  cot                Reissinger et al. 2025, Table 1 "Chain of Thought Prompting" (static template)
   D4  llm_rewrite        He et al. ICLR'25: DALL-E-style LLM rewrite (system prompt in REWRITE_SYSTEM_PROMPT)
   C1  rand_tokens        control: random words, length-matched to D1 (Somepalli et al. 2023 / Wen et al. ICLR'24)
+  V0  blocklist          vanilla baseline: refuse requests that name a protected character or an artist
+                         the DALL-E policy declines (case-insensitive whole-word match, nothing else)
 
 D4 needs an LLM, so it is applied in two stages: scripts/run_rewriter.py writes
 the rewrites to a CSV (or the paper's own GPT-4 rewrites are used for CopyCat)
@@ -24,6 +26,7 @@ from __future__ import annotations
 import random
 import re
 from dataclasses import dataclass, field
+from functools import lru_cache
 
 # --- Reissinger, Li, Haensch, Sarna. "Safer Prompts" (arXiv:2505.03338), Table 1 -------------
 REISSINGER_BASELINE = "Generate an image of {caption}."
@@ -143,8 +146,35 @@ def random_token_wrap(prompt: str, seed: int) -> tuple[str, tuple[int, int]]:
     return text, (start, start + len(caption))
 
 
+@lru_cache(maxsize=1)
+def blocklist_terms() -> tuple[str, ...]:
+    """The vanilla baseline's list: every CopyCat character and every artist whose name the DALL-E
+    policy declines (living or in copyright), plus the spelling variants a practitioner would add
+    by hand ("Spider-Man" -> "Spider Man", "SpiderMan")."""
+    from .data import load_manifest
+
+    names = list(load_manifest("copycat_characters")["target"])
+    artists = load_manifest("artists")
+    names += list(artists.loc[~artists["dalle_policy_allows_name"].astype(bool), "artist"])
+    terms = set()
+    for n in names:
+        n = n.strip().lower()
+        terms |= {n, n.replace("-", " "), n.replace("-", "")}
+    return tuple(sorted(terms, key=len, reverse=True))
+
+
+def blocklist_hit(text: str, terms: tuple[str, ...] | None = None) -> str | None:
+    """First blocked term found in `text`, or None. Plain `re` with IGNORECASE, the way a quick
+    production filter is written: no Unicode normalization, no fuzzy matching."""
+    for t in terms if terms is not None else blocklist_terms():
+        if re.search(rf"(?<!\w){re.escape(t)}(?!\w)", text, flags=re.IGNORECASE):
+            return t
+    return None
+
+
 DEFENSES = (
     "none",
+    "blocklist",
     "reissinger_base",
     "task_instruction",
     "neg_inprompt",
@@ -161,6 +191,7 @@ DEFENSES = (
 # Short codes used in tables and figures.
 DEFENSE_CODES = {
     "none": "D0",
+    "blocklist": "V0",
     "reissinger_base": "D0r",
     "task_instruction": "D1",
     "neg_inprompt": "D2a",
@@ -185,6 +216,10 @@ def apply_defense(defense: str, prompt: str, meta: dict | None = None, seed: int
     meta = meta or {}
     if defense == "none":
         return Defended(defense, prompt, "", (0, len(prompt)))
+    if defense == "blocklist":
+        hit = blocklist_hit(prompt)
+        # passed requests reach the model unchanged, exactly like D0
+        return Defended(defense, prompt, "", (0, len(prompt)), {"refused": hit is not None, "blocked_term": hit or ""})
     if defense == "reissinger_base":
         text, span = _fill(REISSINGER_BASELINE, prompt)
         return Defended(defense, text, "", span)

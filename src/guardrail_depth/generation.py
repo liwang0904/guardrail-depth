@@ -15,6 +15,7 @@ import json
 import os
 import platform
 import re
+import shutil
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -47,6 +48,7 @@ class Job:
     guidance: float | None = None
     resolution: int | None = None
     rewrites: list[str] = field(default_factory=list)
+    rewrite_attacks: list[str] | None = None   # read by scripts/run_rewriter.py only
     out: str | None = None
 
 
@@ -69,7 +71,11 @@ def load_rewrites(paths: list[str]) -> dict:
     """(dataset, item_id, attack) -> {rewrite, rewriter, ...} from scripts/run_rewriter.py CSVs."""
     table = {}
     for p in paths:
-        df = pd.read_csv(os.path.expandvars(p), keep_default_na=False)
+        p = os.path.expandvars(p)
+        if not os.path.exists(p):   # rewriter job not finished yet: D4 rows are skipped and filled on a rerun
+            print(f"  rewrites file not found (D4 skipped for now): {p}")
+            continue
+        df = pd.read_csv(p, keep_default_na=False)
         for r in df.to_dict("records"):
             table[(r["dataset"], str(r["item_id"]), r["attack"])] = r
     return table
@@ -127,6 +133,15 @@ def run_job(pipe, spec, job: Job, out_dir: Path, shard: tuple[int, int] = (0, 1)
     skipped = set()
     n_done = 0
     t_start = time.time()
+    (out_dir / "refused").mkdir(exist_ok=True)
+    # D0 records by (item, attack, seed): a request the blocklist lets through reaches the model
+    # unchanged, so its image is the D0 image (copied instead of regenerated)
+    d0 = {}
+    if records_path.exists():
+        for line in open(records_path):
+            r = json.loads(line)
+            if r.get("defense") == "none":
+                d0[(str(r["item_id"]), r["attack"], r["seed"])] = r
     with open(records_path, "a") as rec_f:
         for item in items:
             for attack in job.attacks:
@@ -149,8 +164,31 @@ def run_job(pipe, spec, job: Job, out_dir: Path, shard: tuple[int, int] = (0, 1)
                         meta.update(rw)
                     d = apply_defense(defense, adv["prompt"], meta, seed=0)
                     cond = f"{_slug(job.dataset)}-{_slug(item['id'])}_{ATTACK_CODES[attack]}_{DEFENSE_CODES[defense]}"
-                    todo = [s for s in job.seeds if not (out_dir / "images" / f"{cond}_s{s}.png").exists()]
+                    todo = [s for s in job.seeds if not (out_dir / "images" / f"{cond}_s{s}.png").exists()
+                            and not (out_dir / "refused" / f"{cond}_s{s}.txt").exists()]
                     if not todo:
+                        continue
+                    base = {"dataset": job.dataset, "item_id": item["id"], "target": item.get("target", ""),
+                            "attack": attack, "attack_code": ATTACK_CODES[attack], "defense": defense,
+                            "defense_code": DEFENSE_CODES[defense], "model": spec.key,
+                            "user_prompt": item["prompt"], "adv_prompt": adv["prompt"]}
+                    if d.info.get("refused"):
+                        for seed in todo:
+                            rel = f"refused/{cond}_s{seed}.txt"
+                            (out_dir / rel).write_text(d.info["blocked_term"])
+                            rec_f.write(json.dumps({**base, "seed": seed, "image": rel, "refused": True,
+                                                    "blocked_term": d.info["blocked_term"], "model_prompt": "",
+                                                    "negative_prompt": ""}, default=_json_default) + "\n")
+                        rec_f.flush()
+                        continue
+                    if defense == "blocklist" and all((str(item["id"]), attack, s) in d0 for s in todo):
+                        for seed in todo:
+                            src = d0[(str(item["id"]), attack, seed)]
+                            rel = f"images/{cond}_s{seed}.png"
+                            shutil.copyfile(out_dir / src["image"], out_dir / rel)
+                            rec_f.write(json.dumps({**src, **base, "seed": seed, "image": rel, "refused": False,
+                                                    "reused_from": src["image"]}, default=_json_default) + "\n")
+                        rec_f.flush()
                         continue
                     window = clip_token_window(tokenizer, d.prompt, d.user_span) if tokenizer else {}
                     gens = [torch.Generator("cpu").manual_seed(s) for s in todo]
@@ -177,13 +215,12 @@ def run_job(pipe, spec, job: Job, out_dir: Path, shard: tuple[int, int] = (0, 1)
                             ims[b].resize((256, 256)).save(out_dir / p, quality=90)
                             x0_paths.append(p)
                         rec = {
-                            "dataset": job.dataset, "item_id": item["id"], "target": item.get("target", ""),
-                            "attack": attack, "attack_code": ATTACK_CODES[attack], "defense": defense,
-                            "defense_code": DEFENSE_CODES[defense], "seed": seed, "model": spec.key,
-                            "user_prompt": item["prompt"], "adv_prompt": adv["prompt"], "model_prompt": d.prompt,
+                            **base, "seed": seed, "model_prompt": d.prompt, "refused": False,
                             "negative_prompt": d.negative_prompt, "image": rel, "x0": x0_paths,
                             "sec_per_image": round(dt, 2), **window, **_summaries(probe_out, window, b),
                         }
+                        if defense == "none":
+                            d0[(str(item["id"]), attack, seed)] = rec
                         rec_f.write(json.dumps(rec, default=_json_default) + "\n")
                     rec_f.flush()
                     n_done += len(todo)
