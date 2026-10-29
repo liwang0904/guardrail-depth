@@ -118,6 +118,10 @@
 | D4+D2b LLM rewrite + neg. prompt | 5%              | 0%             | 0%             | 0%            |
 | C1 random words                  | 0%              | 8%             | 0%             | 0%            |
 
+## Style: measured above chance
+
+Style groups are compared on attribution *above chance*: how often CLIP names the requested artist, minus how often it gives that name to other artists' images. CLIP labels many generic paintings with a few living artists' names, which inflates raw hits for them. Per artist: [style_above_chance.csv](style_above_chance.csv); which artists CLIP can recognize at all: [style_clip_coverage.md](style_clip_coverage.md).
+
 ## Subgroups: how unequal is the protection?
 
 | run            | subgroup_by   | guardrail   | max_rate   | min_rate   | most_exposed        | least_exposed       | gap   |
@@ -156,14 +160,14 @@
 | sd14_memorized | mem_type      | D3          | 1%         | 0%         | VM                  | TM                  | 1%    |
 | sd14_memorized | mem_type      | D4          | 0%         | 0%         | TM                  | TM                  | 0%    |
 | sd14_memorized | mem_type      | V0          | 63%        | 3%         | VM                  | TM                  | 60%   |
-| sd14_style     | group         | C1          | 12%        | 10%        | deceased_copyright  | living              | 2%    |
-| sd14_style     | group         | D0          | 44%        | 22%        | public_domain       | deceased_copyright  | 21%   |
-| sd14_style     | group         | D1          | 42%        | 26%        | deceased_copyright  | living              | 16%   |
-| sd14_style     | group         | D2a         | 50%        | 26%        | deceased_copyright  | living              | 24%   |
-| sd14_style     | group         | D2b-name    | 12%        | 0%         | living              | deceased_copyright  | 12%   |
-| sd14_style     | group         | D3          | 42%        | 19%        | public_domain       | living              | 24%   |
-| sd14_style     | group         | D4          | 30%        | 14%        | public_domain       | living              | 16%   |
-| sd14_style     | group         | V0          | 29%        | 0%         | public_domain       | deceased_copyright  | 29%   |
+| sd14_style     | group         | C1          | 12%        | 2%         | public_domain       | living              | 10%   |
+| sd14_style     | group         | D0          | 44%        | 17%        | public_domain       | living              | 27%   |
+| sd14_style     | group         | D1          | 42%        | 21%        | deceased_copyright  | living              | 20%   |
+| sd14_style     | group         | D2a         | 49%        | 22%        | deceased_copyright  | living              | 28%   |
+| sd14_style     | group         | D2b-name    | 4%         | 0%         | living              | deceased_copyright  | 4%    |
+| sd14_style     | group         | D3          | 42%        | 14%        | public_domain       | living              | 28%   |
+| sd14_style     | group         | D4          | 30%        | 8%         | public_domain       | living              | 22%   |
+| sd14_style     | group         | V0          | 29%        | -3%        | public_domain       | living              | 32%   |
 | sd2_memorized  | duplicates    | C1          | 0%         | 0%         | low                 | low                 | 0%    |
 | sd2_memorized  | duplicates    | D0          | 12%        | 7%         | mid                 | high                | 6%    |
 | sd2_memorized  | duplicates    | D1          | 7%         | 0%         | mid                 | high                | 7%    |

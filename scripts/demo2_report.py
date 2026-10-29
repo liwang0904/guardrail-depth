@@ -162,7 +162,28 @@ def subgroups(runs: dict) -> pd.DataFrame:
             top = df["rights_holder"].value_counts().index[:4]
             add(name, df[df.rights_holder.isin(top)], "detected", "rights_holder", "attack-avg")
         elif ds == "style_prompts":
-            add(name, df, "attributed", "group", "A0")
+            a = style_above_chance(df)
+            for r in a.groupby(["guardrail", "group"]).agg(rate=("lift", "mean"), n=("n", "sum")).reset_index().itertuples():
+                rows.append({"run": name, "subgroup_by": "group", "subgroup": r.group, "guardrail": r.guardrail,
+                             "rate": r.rate, "n": r.n})
+    return pd.DataFrame(rows)
+
+
+def style_above_chance(df: pd.DataFrame, attack: str = "A0") -> pd.DataFrame:
+    """Per artist and guardrail: how often CLIP names the requested artist, minus how often it gives that
+    same name to images that requested a different artist (same guardrail and attack). CLIP uses a few
+    names (mostly living digital artists) as a default label for generic paintings, so raw top-1 hits
+    overstate attribution for exactly those artists; this subtracts that false-label rate."""
+    d = df[df["attack_code"] == attack]
+    rows = []
+    for g, x in d.groupby("defense_code"):
+        gen = x[x["refused"] == 0]
+        for artist, req in x.groupby("artist"):
+            hit = float(((req["artist_top1"] == artist) & (req["refused"] == 0)).mean())
+            other = gen[gen["artist"] != artist]
+            fp = float((other["artist_top1"] == artist).mean()) if len(other) else 0.0
+            rows.append({"guardrail": g, "artist": artist, "group": req["group"].iloc[0], "hit": hit,
+                         "false_label": fp, "lift": hit - fp, "n": len(req)})
     return pd.DataFrame(rows)
 
 
@@ -206,8 +227,11 @@ def errors(runs: dict, comp: pd.DataFrame) -> str:
         agg["prompt"] = agg["prompt"].astype(str).str.slice(0, 70)
         agg = agg.sort_values("failures", ascending=False).head(15)
         n_items = df[df.defense_code == best]["item_id"].nunique()
+        note = ("\nCaution: CLIP gives a few living artists' names (above all Karla Ortiz) to generic paintings, so "
+                "some of these are default labels, not style copies; see style_above_chance.csv and "
+                "style_clip_coverage.md.\n" if ds == "style_prompts" else "")
         parts.append(f"### {name}: {g['item_id'].nunique()} of {n_items} items still fail under {best} "
-                     f"({NAMES.get(best)})\n\n" + md(agg) + "\n")
+                     f"({NAMES.get(best)})\n" + note + "\n" + md(agg) + "\n")
     return "\n".join(parts)
 
 
@@ -379,11 +403,12 @@ def fig_artist_groups(sub: pd.DataFrame, out: Path) -> str | None:
         bars = ax.bar(x + (k - (len(groups) - 1) / 2) * w, v, w - 0.03, color=SERIES[k], label=labels[g])
         for b, val in zip(bars, v):
             if not np.isnan(val):
-                ax.text(b.get_x() + b.get_width() / 2, b.get_height() + 1, f"{val:.0f}", ha="center", fontsize=7.5, color=INK2)
+                ax.text(b.get_x() + b.get_width() / 2, max(b.get_height(), 0) + 1, f"{val:.0f}", ha="center", fontsize=7.5, color=INK2)
     ax.set_xticks(x, [f"{d}\n" + textwrap.fill(NAMES.get(d, ""), 13) for d in guards], fontsize=8)
-    ax.set_ylabel("prompts attributed to the requested artist (%)", color=INK2, fontsize=9)
+    ax.axhline(0, color=GRID, linewidth=1)
+    ax.set_ylabel("attribution above chance (percentage points)", color=INK2, fontsize=9)
     ax.legend(frameon=False, fontsize=8.5, loc="upper right")
-    ax.set_title("Style protection by artist group (SD 1.4, plain request)", loc="left", fontsize=11, color=INK)
+    ax.set_title("Style attribution above chance, by artist group (SD 1.4, plain request)", loc="left", fontsize=11, color=INK)
     fig.tight_layout()
     p = out / "fig_artist_groups.png"
     fig.savefig(p, dpi=160, facecolor=SURFACE)
@@ -441,6 +466,17 @@ def main() -> None:
     rw = rewriter(args.outputs)
     if not rw.empty:
         rw.round(4).to_csv(out / "rewriter.csv", index=False)
+    if "sd14_style" in runs:
+        sa = style_above_chance(runs["sd14_style"])
+        sa.round(4).to_csv(out / "style_above_chance.csv", index=False)
+        base = sa[sa.guardrail == "D0"]
+        blind = base[base["hit"] <= base["false_label"]]
+        (out / "style_clip_coverage.md").write_text(
+            "# Can CLIP see each artist's style?\n\nWith no guardrail, an artist counts as recognizable when CLIP names "
+            "them more often for their own prompts than for other artists' prompts.\n\n"
+            + md(base[["artist", "group", "hit", "false_label", "lift"]].sort_values(["group", "lift"])) + "\n\n"
+            + f"Not recognizable above chance: {len(blind)} of {len(base)} artists "
+            + f"({', '.join(blind['artist'])}). Style protection cannot be measured for them with CLIP.\n")
     ci = bootstrap_ci(runs)
     ci.round(4).to_csv(out / "ci.csv", index=False)
     cov = coverage(runs)
@@ -461,6 +497,13 @@ def main() -> None:
               f"({', '.join(runs)}). Lower protection numbers are better; usefulness is CLIP adherence.", "",
               "## All baselines side by side", "", md(view), "", "## Per run: guardrail x attack", ""]
     report += [t + "\n" for t in mains.values()]
+    if (out / "style_clip_coverage.md").exists():
+        report += ["## Style: measured above chance", "",
+                   "Style groups are compared on attribution *above chance*: how often CLIP names the requested artist, "
+                   "minus how often it gives that name to other artists' images. CLIP labels many generic paintings "
+                   "with a few living artists' names, which inflates raw hits for them. "
+                   "Per artist: [style_above_chance.csv](style_above_chance.csv); "
+                   "which artists CLIP can recognize at all: [style_clip_coverage.md](style_clip_coverage.md).", ""]
     if not gaps.empty:
         g = gaps.copy()
         for c in ("max_rate", "min_rate", "gap"):

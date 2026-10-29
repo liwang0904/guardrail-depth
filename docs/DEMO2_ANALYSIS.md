@@ -46,12 +46,16 @@ the ones matched to the trigger.
 
 ## 2. Subgroup and error analysis
 
-**Living artists are protected least.** Under the best style guardrail (D2b-name), every remaining failure is
-a living artist: 10 of 80 living-artist prompts are still attributed to the artist vs. 0 of 120 for
-deceased-in-copyright and public-domain artists (Fisher exact p < 0.001). The failures are Karla Ortiz, Greg
-Rutkowski, Tyler Edlin, Kilian Eng and Hollie Mengert - the artists whose cases motivated the
-copyright debate. Relative to no guardrail, living artists keep 10 of 18 attributions; the other groups keep
-0 of 44. The group with the most at stake gets the least protection.
+**Living artists: the measurement is the weak point.** Raw top-1 counts suggested that every failure of the
+best style guardrail (D2b-name) is a living artist (10 of 80 prompts vs. 0 of 120). That does not hold up:
+CLIP uses a few living artists' names as a default label for generic paintings (it names Karla Ortiz for
+130 of 200 random-word images), which inflates hits for exactly those artists. Measured *above chance*
+(hits minus the rate CLIP gives that name to other artists' images, `style_above_chance.csv`), D2b-name
+leaves 4.4 points for living artists and 0 for the other groups, carried by two artists with 8 prompts each;
+that is not a reliable gap. The robust finding is about the evaluator: with no guardrail, CLIP recognizes
+none of 5 living artists (Rutkowski, McKernan, Loish, Andersen, Stalenhag) and 3 deceased-in-copyright artists
+(Escher, Dali, Kinkade) above chance, but all 10 public-domain artists (`style_clip_coverage.md`). The
+artists with the most at stake are the ones whose protection the standard metric cannot measure.
 
 **Memorization type.** Verbatim-memorized prompts are where copying happens (63% vs. 3% for template
 memorization); every guardrail that works removes most of the VM risk, and D2b leaves 57% of it.
@@ -75,7 +79,8 @@ always (0% / 8% leaked), but a description it does not recognize passes through 
    the request. A deployed system pays this cost on every prompt, although only a few are risky.
 2. **No guardrail covers all three threats.** The best for exact copies (D1/D3) fails on characters and
    style; the best for characters and style (concept negative prompts) fails on exact copies.
-3. **Unequal protection.** Living artists and (on SDXL) US characters are the least protected subgroups.
+3. **Unequal coverage.** The style metric cannot see 5 of 10 living artists (and 3 of 5 deceased-in-copyright
+   ones), so protection for them is unmeasured; on SDXL, US characters are less protected than Japanese ones.
 4. **The vanilla blocklist is brittle in both directions:** lures and keywords pass, public-domain artists
    are refused.
 
@@ -91,8 +96,9 @@ which survive rewording, and (b) applies the guardrail that matches the trigger 
   concepts (names, keywords, descriptions). This works on meaning rather than spelling, so lures and
   misspellings that beat the blocklist should still match. A match triggers concept-negative guidance with
   the matched name and keywords - the mechanism that worked best here.
-- **Equity check built in:** report every result per subgroup, and tune the gate so living artists are
-  protected at least as well as public-domain ones.
+- **Equity check built in:** report every result per subgroup, and replace CLIP top-1 attribution for style
+  with a calibrated measure (above-chance attribution plus a style-similarity check against the artist's
+  own unguarded generations), so living artists' protection can be measured at all.
 
 Evaluation: the same Demo 2 grid and test split, plus the adaptive attack (Kim et al.'s APGP), comparing
 protection, benign adherence and subgroup gaps against the best baseline for each threat.
@@ -102,8 +108,9 @@ protection, benign adherence and subgroup gaps against the best baseline for eac
 - Training images are still online for 68 of 130 sampled SD 1.4 prompts (34 of 90 verbatim) and 91 of 100 SD 2
   prompts; copy rates use only those (`results/demo2/coverage.csv`).
 - 39 test characters, SDXL with one seed: character differences under about 15 points are within noise.
-- Style attribution is CLIP zero-shot among 25 artists; CLIP recognizes public-domain artists more readily
-  (44% vs. 22% for living artists with no guardrail), so absolute style numbers are conservative.
+- Style attribution is CLIP zero-shot among 25 artists. CLIP defaults to a few living artists' names for
+  generic paintings and recognizes only 17 of 25 artists above chance (all 10 public-domain, 5 of 10 living),
+  so group comparisons use above-chance attribution and absolute style numbers for living artists are unreliable.
 - D4 uses He et al.'s released GPT-4 rewrites for names and 60-word lures and Qwen3-8B for keywords and
   misspellings; one character (Link) has no GPT-4 rewrite.
 - The detector rows for D2b equal D0 by construction (it reads the positive prompt only).
