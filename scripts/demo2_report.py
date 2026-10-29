@@ -476,7 +476,7 @@ def main() -> None:
             "them more often for their own prompts than for other artists' prompts.\n\n"
             + md(base[["artist", "group", "hit", "false_label", "lift"]].sort_values(["group", "lift"])) + "\n\n"
             + f"Not recognizable above chance: {len(blind)} of {len(base)} artists "
-            + f"({', '.join(blind['artist'])}). Style protection cannot be measured for them with CLIP.\n")
+            + f"({', '.join(blind['artist'])}). Either SD 1.4 does not reproduce their style or CLIP cannot see it; either way, style protection cannot be measured for them with CLIP.\n")
     ci = bootstrap_ci(runs)
     ci.round(4).to_csv(out / "ci.csv", index=False)
     cov = coverage(runs)

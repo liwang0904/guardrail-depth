@@ -52,10 +52,12 @@ CLIP uses a few living artists' names as a default label for generic paintings (
 130 of 200 random-word images), which inflates hits for exactly those artists. Measured *above chance*
 (hits minus the rate CLIP gives that name to other artists' images, `style_above_chance.csv`), D2b-name
 leaves 4.4 points for living artists and 0 for the other groups, carried by two artists with 8 prompts each;
-that is not a reliable gap. The robust finding is about the evaluator: with no guardrail, CLIP recognizes
-none of 5 living artists (Rutkowski, McKernan, Loish, Andersen, Stalenhag) and 3 deceased-in-copyright artists
-(Escher, Dali, Kinkade) above chance, but all 10 public-domain artists (`style_clip_coverage.md`). The
-artists with the most at stake are the ones whose protection the standard metric cannot measure.
+that is not a reliable gap. The robust finding is about the evaluation: with no guardrail, CLIP never
+attributes SD 1.4's paintings to 5 living artists (Rutkowski, McKernan, Loish, Andersen, Stalenhag) or 3
+deceased-in-copyright artists (Escher, Dali, Kinkade), but does so above chance for all 10 public-domain
+artists (`style_clip_coverage.md`). Either SD 1.4 does not reproduce those styles or CLIP cannot see them;
+this data cannot separate the two. Either way, the artists with the most at stake are the ones whose
+protection the standard metric cannot measure.
 
 **Memorization type.** Verbatim-memorized prompts are where copying happens (63% vs. 3% for template
 memorization); every guardrail that works removes most of the VM risk, and D2b leaves 57% of it.

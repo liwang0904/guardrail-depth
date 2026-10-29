@@ -30,4 +30,4 @@ With no guardrail, an artist counts as recognizable when CLIP names them more of
 | Vincent van Gogh   | public_domain      | 0.750 |         0.000 |  0.750 |
 | Gustav Klimt       | public_domain      | 0.875 |         0.000 |  0.875 |
 
-Not recognizable above chance: 8 of 25 artists (Greg Rutkowski, Kelly McKernan, Loish, M.C. Escher, Salvador Dali, Sarah Andersen, Simon Stalenhag, Thomas Kinkade). Style protection cannot be measured for them with CLIP.
+Not recognizable above chance: 8 of 25 artists (Greg Rutkowski, Kelly McKernan, Loish, M.C. Escher, Salvador Dali, Sarah Andersen, Simon Stalenhag, Thomas Kinkade). Either SD 1.4 does not reproduce their style or CLIP cannot see it; either way, style protection cannot be measured for them with CLIP.
