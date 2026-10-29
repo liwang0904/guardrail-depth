@@ -1,0 +1,31 @@
+# Track 1b on Markov: He et al.'s CopyCat setting (Playground v2.5 main, SDXL secondary; 50 steps, cfg 3,
+# 3 runs) crossed with our attack families and the full defense set.
+#   sbatch --array=0-11%2 -C gpul40s --mem=48G slurm/generate.sbatch configs/experiments/track1_copycat.yaml playground_copycat
+# Then: sbatch slurm/llm.sbatch judge "$GD_OUTPUT_ROOT/track1_copycat/playground_copycat"
+# D4 rows need rewrites: GPT-4 rewrites from the CopyCat release cover attacks direct + lure_desc60;
+# run `sbatch slurm/llm.sbatch rewrite` first for the other attacks (Qwen3-8B, reasoning traces kept).
+
+defaults:
+  seeds: [0, 1, 2]
+  probes: [noise, attention]
+  rewrites: []      # e.g. ["$GD_OUTPUT_ROOT/rewrites/rewriter_reasoning_think_copycat_characters_test.csv"]
+
+jobs:
+  - name: playground_copycat
+    model: playground25
+    dataset: copycat_characters
+    attacks: [direct, lure_desc60, lure_kw_lm5, lure_kw_laion5, perturb_phonetic, perturb_homoglyph, override]
+    defenses: [none, task_instruction, neg_inprompt, cot, negbuf_generic, negbuf_name, negbuf_name_kw,
+               llm_rewrite, llm_rewrite+negbuf_name_kw]
+
+  - name: sdxl_copycat
+    model: sdxl
+    dataset: copycat_characters
+    attacks: [direct, lure_desc60, lure_kw_laion5, override]
+    defenses: [none, task_instruction, cot, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw]
+
+  - name: sd14_copycat
+    model: sd14
+    dataset: copycat_characters
+    attacks: [direct, lure_desc60, lure_kw_laion5, perturb_phonetic, override, truncate_repeat]
+    defenses: [none, task_instruction, neg_inprompt, cot, negbuf_name_kw, llm_rewrite+negbuf_name_kw, rand_tokens]

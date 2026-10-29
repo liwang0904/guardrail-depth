@@ -125,6 +125,7 @@ the closest prior work.
 
 | Baseline | Paper | Entry point |
 |---|---|---|
+| V0 keyword blocklist (vanilla baseline) | ours (CopyCat names + DALL·E artist policy) | `defenses.py` `blocklist` |
 | D1–D3 prompt templates (task instruction, in-prompt negation, CoT) | Reißinger et al. 2025 | `defenses.py` (verbatim Table 1) |
 | Negative-prompt buffer (name / name + keywords) | He et al. ICLR'25; SD-NP in Pham et al. | `defenses.py` `negbuf_*` |
 | LLM rewrite (+ negative prompt) | He et al. ICLR'25 (DALL·E policy prompt) | `rewriter.py`, `llm_rewrite*` defenses |
@@ -137,17 +138,27 @@ Defenses and attacks are chosen on the command line, e.g.
 `--attacks direct,lure_desc60 --defenses none,task_instruction,cot,negbuf_name_kw` with
 `--dataset copycat_characters`.
 
-## 5. Repository layout
+## 5. Demo 2: full baseline grid
+
+`configs/experiments/demo2.yaml` runs every baseline (vanilla keyword blocklist V0, Reissinger et al.
+templates, He et al. negative prompts and LLM rewrite, the random-word control) on SD 1.4, SD 2-base and
+SDXL across the memorized, control, CopyCat and style test sets. See [docs/DEMO2.md](docs/DEMO2.md) for
+the grid and metrics, [results/demo2/](results/demo2/) for the committed tables and figures, and
+[docs/DEMO2_ANALYSIS.md](docs/DEMO2_ANALYSIS.md) for which baseline works for whom, and the Demo 3 plan.
+
+## 6. Repository layout
 
 ```
 configs/models.yaml, data_sources.yaml         pinned models and data
 data/manifests/*.csv, data/SOURCES.lock.json   committed manifests + checksums
 src/guardrail_depth/                           defenses, attacks, data, models, generation, probes, metrics, rewriter, judge
-scripts/                                       check_env, prepare_data, run_generation, evaluate
+scripts/                                       check_env, prepare_data, run_generation, evaluate, demo2_report, ...
+slurm/                                         Markov jobs (demo2_submit.sh runs the whole Demo 2 grid)
+results/demo2/                                 committed Demo 2 tables and figures
 tests/                                         unit + tiny-model integration tests
 ```
 
-## 6. Responsible handling
+## 7. Responsible handling
 
 * Ground-truth LAION images and all generations stay out of git (`.gitignore`); they are used only
   to measure similarity.

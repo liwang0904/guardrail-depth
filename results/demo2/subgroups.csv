@@ -1,0 +1,213 @@
+run,subgroup_by,subgroup,guardrail,rate,n
+sd14_copycat,origin_region,JP,C1,0.0375,80
+sd14_copycat,origin_region,US,C1,0.0474,232
+sd14_copycat,origin_region,JP,D0,0.3375,80
+sd14_copycat,origin_region,US,D0,0.3621,232
+sd14_copycat,origin_region,JP,D1,0.3375,80
+sd14_copycat,origin_region,US,D1,0.3405,232
+sd14_copycat,origin_region,JP,D2a,0.2375,80
+sd14_copycat,origin_region,US,D2a,0.3319,232
+sd14_copycat,origin_region,JP,D2b-kw,0.0375,80
+sd14_copycat,origin_region,US,D2b-kw,0.1034,232
+sd14_copycat,origin_region,JP,D3,0.2875,80
+sd14_copycat,origin_region,US,D3,0.3017,232
+sd14_copycat,origin_region,JP,D4,0.0256,78
+sd14_copycat,origin_region,US,D4,0.0948,232
+sd14_copycat,origin_region,JP,D4+D2b,0.0,78
+sd14_copycat,origin_region,US,D4+D2b,0.0043,232
+sd14_copycat,origin_region,JP,V0,0.1375,80
+sd14_copycat,origin_region,US,V0,0.1552,232
+sd14_copycat,rights_holder,Disney,C1,0.0312,96
+sd14_copycat,rights_holder,Marvel (Disney),C1,0.0536,56
+sd14_copycat,rights_holder,Pixar (Disney),C1,0.0625,48
+sd14_copycat,rights_holder,The Pokemon Company,C1,0.0833,24
+sd14_copycat,rights_holder,Disney,D0,0.3333,96
+sd14_copycat,rights_holder,Marvel (Disney),D0,0.4464,56
+sd14_copycat,rights_holder,Pixar (Disney),D0,0.3958,48
+sd14_copycat,rights_holder,The Pokemon Company,D0,0.5,24
+sd14_copycat,rights_holder,Disney,D1,0.3333,96
+sd14_copycat,rights_holder,Marvel (Disney),D1,0.3571,56
+sd14_copycat,rights_holder,Pixar (Disney),D1,0.3958,48
+sd14_copycat,rights_holder,The Pokemon Company,D1,0.5417,24
+sd14_copycat,rights_holder,Disney,D2a,0.3333,96
+sd14_copycat,rights_holder,Marvel (Disney),D2a,0.3571,56
+sd14_copycat,rights_holder,Pixar (Disney),D2a,0.3958,48
+sd14_copycat,rights_holder,The Pokemon Company,D2a,0.4583,24
+sd14_copycat,rights_holder,Disney,D2b-kw,0.0417,96
+sd14_copycat,rights_holder,Marvel (Disney),D2b-kw,0.1964,56
+sd14_copycat,rights_holder,Pixar (Disney),D2b-kw,0.125,48
+sd14_copycat,rights_holder,The Pokemon Company,D2b-kw,0.125,24
+sd14_copycat,rights_holder,Disney,D3,0.2708,96
+sd14_copycat,rights_holder,Marvel (Disney),D3,0.4107,56
+sd14_copycat,rights_holder,Pixar (Disney),D3,0.25,48
+sd14_copycat,rights_holder,The Pokemon Company,D3,0.5,24
+sd14_copycat,rights_holder,Disney,D4,0.0521,96
+sd14_copycat,rights_holder,Marvel (Disney),D4,0.1964,56
+sd14_copycat,rights_holder,Pixar (Disney),D4,0.0417,48
+sd14_copycat,rights_holder,The Pokemon Company,D4,0.0417,24
+sd14_copycat,rights_holder,Disney,D4+D2b,0.0,96
+sd14_copycat,rights_holder,Marvel (Disney),D4+D2b,0.0179,56
+sd14_copycat,rights_holder,Pixar (Disney),D4+D2b,0.0,48
+sd14_copycat,rights_holder,The Pokemon Company,D4+D2b,0.0,24
+sd14_copycat,rights_holder,Disney,V0,0.1354,96
+sd14_copycat,rights_holder,Marvel (Disney),V0,0.1964,56
+sd14_copycat,rights_holder,Pixar (Disney),V0,0.1875,48
+sd14_copycat,rights_holder,The Pokemon Company,V0,0.25,24
+sd14_memorized,mem_type,TM,C1,0.0,68
+sd14_memorized,mem_type,VM,C1,0.0,68
+sd14_memorized,mem_type,TM,D0,0.0294,68
+sd14_memorized,mem_type,VM,D0,0.6324,68
+sd14_memorized,mem_type,TM,D1,0.0,68
+sd14_memorized,mem_type,VM,D1,0.0294,68
+sd14_memorized,mem_type,TM,D2a,0.0,68
+sd14_memorized,mem_type,VM,D2a,0.1176,68
+sd14_memorized,mem_type,TM,D2b,0.0147,68
+sd14_memorized,mem_type,VM,D2b,0.5735,68
+sd14_memorized,mem_type,TM,D3,0.0,68
+sd14_memorized,mem_type,VM,D3,0.0147,68
+sd14_memorized,mem_type,TM,D4,0.0,68
+sd14_memorized,mem_type,VM,D4,0.0,68
+sd14_memorized,mem_type,TM,V0,0.0294,68
+sd14_memorized,mem_type,VM,V0,0.6324,68
+sd14_memorized,duplicates,low,C1,0.0,66
+sd14_memorized,duplicates,mid,C1,0.0,60
+sd14_memorized,duplicates,high,C1,0.0,10
+sd14_memorized,duplicates,low,D0,0.1667,66
+sd14_memorized,duplicates,mid,D0,0.5167,60
+sd14_memorized,duplicates,high,D0,0.3,10
+sd14_memorized,duplicates,low,D1,0.0,66
+sd14_memorized,duplicates,mid,D1,0.0333,60
+sd14_memorized,duplicates,high,D1,0.0,10
+sd14_memorized,duplicates,low,D2a,0.0152,66
+sd14_memorized,duplicates,mid,D2a,0.0833,60
+sd14_memorized,duplicates,high,D2a,0.2,10
+sd14_memorized,duplicates,low,D2b,0.1364,66
+sd14_memorized,duplicates,mid,D2b,0.4667,60
+sd14_memorized,duplicates,high,D2b,0.3,10
+sd14_memorized,duplicates,low,D3,0.0,66
+sd14_memorized,duplicates,mid,D3,0.0167,60
+sd14_memorized,duplicates,high,D3,0.0,10
+sd14_memorized,duplicates,low,D4,0.0,66
+sd14_memorized,duplicates,mid,D4,0.0,60
+sd14_memorized,duplicates,high,D4,0.0,10
+sd14_memorized,duplicates,low,V0,0.1667,66
+sd14_memorized,duplicates,mid,V0,0.5167,60
+sd14_memorized,duplicates,high,V0,0.3,10
+sd14_style,group,deceased_copyright,C1,0.1177,40
+sd14_style,group,living,C1,0.024,80
+sd14_style,group,public_domain,C1,0.1245,80
+sd14_style,group,deceased_copyright,D0,0.2219,40
+sd14_style,group,living,D0,0.1682,80
+sd14_style,group,public_domain,D0,0.4375,80
+sd14_style,group,deceased_copyright,D1,0.4188,40
+sd14_style,group,living,D1,0.2141,80
+sd14_style,group,public_domain,D1,0.3344,80
+sd14_style,group,deceased_copyright,D2a,0.4927,40
+sd14_style,group,living,D2a,0.2151,80
+sd14_style,group,public_domain,D2a,0.4229,80
+sd14_style,group,deceased_copyright,D2b-name,0.0,40
+sd14_style,group,living,D2b-name,0.0438,80
+sd14_style,group,public_domain,D2b-name,0.0,80
+sd14_style,group,deceased_copyright,D3,0.3698,40
+sd14_style,group,living,D3,0.1401,80
+sd14_style,group,public_domain,D3,0.4229,80
+sd14_style,group,deceased_copyright,D4,0.1896,40
+sd14_style,group,living,D4,0.0776,80
+sd14_style,group,public_domain,D4,0.2953,80
+sd14_style,group,deceased_copyright,V0,-0.0071,40
+sd14_style,group,living,V0,-0.0304,80
+sd14_style,group,public_domain,V0,0.2875,80
+sd2_memorized,mem_type,TM,C1,0.0,180
+sd2_memorized,mem_type,VM,C1,0.0,2
+sd2_memorized,mem_type,TM,D0,0.0944,180
+sd2_memorized,mem_type,VM,D0,0.0,2
+sd2_memorized,mem_type,TM,D1,0.0444,180
+sd2_memorized,mem_type,VM,D1,0.0,2
+sd2_memorized,mem_type,TM,D2a,0.05,180
+sd2_memorized,mem_type,VM,D2a,0.0,2
+sd2_memorized,mem_type,TM,D2b,0.0944,180
+sd2_memorized,mem_type,VM,D2b,0.0,2
+sd2_memorized,mem_type,TM,D3,0.0444,180
+sd2_memorized,mem_type,VM,D3,0.0,2
+sd2_memorized,mem_type,TM,D4,0.0,180
+sd2_memorized,mem_type,VM,D4,0.0,2
+sd2_memorized,mem_type,TM,V0,0.0944,180
+sd2_memorized,mem_type,VM,V0,0.0,2
+sd2_memorized,duplicates,low,C1,0.0,66
+sd2_memorized,duplicates,mid,C1,0.0,56
+sd2_memorized,duplicates,high,C1,0.0,60
+sd2_memorized,duplicates,low,D0,0.0882,68
+sd2_memorized,duplicates,mid,D0,0.125,56
+sd2_memorized,duplicates,high,D0,0.069,58
+sd2_memorized,duplicates,low,D1,0.0588,68
+sd2_memorized,duplicates,mid,D1,0.0714,56
+sd2_memorized,duplicates,high,D1,0.0,58
+sd2_memorized,duplicates,low,D2a,0.0588,68
+sd2_memorized,duplicates,mid,D2a,0.0893,56
+sd2_memorized,duplicates,high,D2a,0.0,58
+sd2_memorized,duplicates,low,D2b,0.1029,68
+sd2_memorized,duplicates,mid,D2b,0.1071,56
+sd2_memorized,duplicates,high,D2b,0.069,58
+sd2_memorized,duplicates,low,D3,0.0597,67
+sd2_memorized,duplicates,mid,D3,0.0727,55
+sd2_memorized,duplicates,high,D3,0.0,60
+sd2_memorized,duplicates,low,D4,0.0,28
+sd2_memorized,duplicates,mid,D4,0.0,94
+sd2_memorized,duplicates,high,D4,0.0,60
+sd2_memorized,duplicates,low,V0,0.0882,68
+sd2_memorized,duplicates,mid,V0,0.125,56
+sd2_memorized,duplicates,high,V0,0.069,58
+sdxl_copycat,origin_region,JP,C1,0.025,40
+sdxl_copycat,origin_region,US,C1,0.0172,116
+sdxl_copycat,origin_region,JP,D0,0.15,40
+sdxl_copycat,origin_region,US,D0,0.3448,116
+sdxl_copycat,origin_region,JP,D1,0.25,40
+sdxl_copycat,origin_region,US,D1,0.3276,116
+sdxl_copycat,origin_region,JP,D2a,0.3,40
+sdxl_copycat,origin_region,US,D2a,0.3621,116
+sdxl_copycat,origin_region,JP,D2b-kw,0.05,40
+sdxl_copycat,origin_region,US,D2b-kw,0.1034,116
+sdxl_copycat,origin_region,JP,D3,0.2,40
+sdxl_copycat,origin_region,US,D3,0.3534,116
+sdxl_copycat,origin_region,JP,D4,0.0,39
+sdxl_copycat,origin_region,US,D4,0.1379,116
+sdxl_copycat,origin_region,JP,D4+D2b,0.0,39
+sdxl_copycat,origin_region,US,D4+D2b,0.0172,116
+sdxl_copycat,origin_region,JP,V0,0.0,40
+sdxl_copycat,origin_region,US,V0,0.1983,116
+sdxl_copycat,rights_holder,Disney,C1,0.0,48
+sdxl_copycat,rights_holder,Marvel (Disney),C1,0.0,28
+sdxl_copycat,rights_holder,Pixar (Disney),C1,0.0417,24
+sdxl_copycat,rights_holder,The Pokemon Company,C1,0.0,12
+sdxl_copycat,rights_holder,Disney,D0,0.25,48
+sdxl_copycat,rights_holder,Marvel (Disney),D0,0.5,28
+sdxl_copycat,rights_holder,Pixar (Disney),D0,0.375,24
+sdxl_copycat,rights_holder,The Pokemon Company,D0,0.1667,12
+sdxl_copycat,rights_holder,Disney,D1,0.2083,48
+sdxl_copycat,rights_holder,Marvel (Disney),D1,0.5714,28
+sdxl_copycat,rights_holder,Pixar (Disney),D1,0.3333,24
+sdxl_copycat,rights_holder,The Pokemon Company,D1,0.3333,12
+sdxl_copycat,rights_holder,Disney,D2a,0.2917,48
+sdxl_copycat,rights_holder,Marvel (Disney),D2a,0.5357,28
+sdxl_copycat,rights_holder,Pixar (Disney),D2a,0.2917,24
+sdxl_copycat,rights_holder,The Pokemon Company,D2a,0.3333,12
+sdxl_copycat,rights_holder,Disney,D2b-kw,0.0208,48
+sdxl_copycat,rights_holder,Marvel (Disney),D2b-kw,0.2143,28
+sdxl_copycat,rights_holder,Pixar (Disney),D2b-kw,0.1667,24
+sdxl_copycat,rights_holder,The Pokemon Company,D2b-kw,0.1667,12
+sdxl_copycat,rights_holder,Disney,D3,0.25,48
+sdxl_copycat,rights_holder,Marvel (Disney),D3,0.6071,28
+sdxl_copycat,rights_holder,Pixar (Disney),D3,0.3333,24
+sdxl_copycat,rights_holder,The Pokemon Company,D3,0.25,12
+sdxl_copycat,rights_holder,Disney,D4,0.0417,48
+sdxl_copycat,rights_holder,Marvel (Disney),D4,0.3571,28
+sdxl_copycat,rights_holder,Pixar (Disney),D4,0.0417,24
+sdxl_copycat,rights_holder,The Pokemon Company,D4,0.0,12
+sdxl_copycat,rights_holder,Disney,D4+D2b,0.0,48
+sdxl_copycat,rights_holder,Marvel (Disney),D4+D2b,0.0357,28
+sdxl_copycat,rights_holder,Pixar (Disney),D4+D2b,0.0,24
+sdxl_copycat,rights_holder,The Pokemon Company,D4+D2b,0.0,12
+sdxl_copycat,rights_holder,Disney,V0,0.1458,48
+sdxl_copycat,rights_holder,Marvel (Disney),V0,0.2857,28
+sdxl_copycat,rights_holder,Pixar (Disney),V0,0.2083,24
+sdxl_copycat,rights_holder,The Pokemon Company,V0,0.0,12

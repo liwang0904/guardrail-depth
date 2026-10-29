@@ -1,0 +1,31 @@
+# Track 1a on Markov: all 500 SD v1.4 memorized prompts (+ 219 SD v2 prompts), every prompt-level
+# defense and the model-level references, 4 seeds (Wen et al. use 4 generations per prompt).
+#   sbatch --array=0-15%2 slurm/generate.sbatch configs/experiments/track1_memorized.yaml sd14_memorized
+# Budget: 500 x 3 attacks x 7 defenses x 4 seeds = 42k images; ~1.5 s/image (RTX 4090) to ~3.5 s/image
+# (2080 Ti) at batch 4 -> 18-40 GPU-h; 16 array tasks -> ~1.1-2.5 h each. Run attack `direct` first.
+
+defaults:
+  seeds: [0, 1, 2, 3]
+  probes: [noise, attention]
+
+jobs:
+  - name: sd14_memorized
+    model: sd14
+    dataset: memorized_sd1
+    attacks: [direct, truncate_repeat, override]
+    defenses: [none, reissinger_base, task_instruction, neg_inprompt, negbuf_rules, cot, rand_tokens]
+    x0_steps: [0, 5, 10, 20, 49]
+
+  - name: sd2base_memorized
+    model: sd2base
+    dataset: memorized_sd2
+    attacks: [direct]
+    defenses: [none, reissinger_base, task_instruction, neg_inprompt, negbuf_rules, cot, rand_tokens]
+
+  # Reissinger et al. 2025 setting (SD 2, 30 steps) for a like-for-like replication of their Table 3
+  - name: sd21_memorized_replication
+    model: sd21
+    dataset: memorized_sd2
+    attacks: [direct]
+    defenses: [reissinger_base, task_instruction, neg_inprompt, cot]
+    probes: [noise]
