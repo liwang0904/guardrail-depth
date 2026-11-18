@@ -162,6 +162,8 @@ def main() -> None:
     sscd = SSCD(device) if p.get("gt") and Path(p["gt"]).exists() else None
     gt_feat = sscd.embed([Image.open(p["gt"])]) if sscd else None
     content = clip.embed_texts([str(p["content"])])
+    artist = p.get("artist") or (match if kinds.get(match) == "artist" else "")
+    artists = list(load_manifest("artists")["artist"])
 
     def score(img) -> str:
         if img is None:
@@ -170,9 +172,14 @@ def main() -> None:
         if sscd is not None:
             s = float(sscd.embed([img])[0] @ gt_feat[0])
             parts.append(f"SSCD {s:.2f}{' COPY' if s > COPY_THRESHOLD else ''}")
-        c = check([img])[0]
-        parts.append(f"looks like: {c['check_label']} ({c['check_prob']:.2f})")
-        parts.append(f"on-prompt CLIP {float(paired_cosine(clip.embed_images([img]), content)[0]):.2f}")
+        f = clip.embed_images([img])
+        if artist:   # the style metric: CLIP zero-shot attribution among the 25 artists (ViT-g/14 in the evaluation)
+            pr = clip.zero_shot(f, artists + ["an unknown contemporary artist"], template="a painting by {}")[0]
+            parts.append(f"{artist.split()[-1]} attribution {float(pr[artists.index(artist)]):.2f}")
+        else:
+            c = check([img])[0]
+            parts.append(f"looks like: {c['check_label']} ({c['check_prob']:.2f})")
+        parts.append(f"on-prompt CLIP {float(paired_cosine(f, content)[0]):.2f}")
         return "; ".join(parts)
 
     shots, captions = [], []
