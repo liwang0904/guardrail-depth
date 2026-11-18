@@ -246,6 +246,10 @@ def family_tables(runs: dict, rewrite_seconds: float = np.nan) -> tuple[pd.DataF
         prot[rr] = pa
         rt = runtime(runs[rr], rewrite_seconds)
         iv = intervention_rate(benign) if benign is not None else pd.Series(dtype=float)
+        # characters drawn unasked: benign near-miss images in which the judge names a protected character
+        unasked = (benign.groupby("defense_code")["detected"].mean()
+                   if benign is not None and benign["dataset"].iloc[0] == "generic_prompts" and "detected" in benign
+                   else pd.Series(dtype=float))
         d0_b = su.set_index("guardrail")["b_served"].get("D0", np.nan)
         for r in su.to_dict("records"):
             g = r["guardrail"]
@@ -260,6 +264,7 @@ def family_tables(runs: dict, rewrite_seconds: float = np.nan) -> tuple[pd.DataF
                 "benign_refused": r.get("benign_refused", np.nan),
                 "benign_utility_lost": (d0_b - r["b_served"]) if not pd.isna(r.get("b_served", np.nan)) else np.nan,
                 "benign_intervention": iv.get(g, np.nan),
+                "drawn_unasked": unasked.get(g, np.nan),
                 "attack_lift": (row_p.max() - row_p.get("A0", np.nan)) if len(row_p) else np.nan,
                 "worst_attack": ATTACKS.get(row_p.idxmax(), "") if len(row_p) and row_p.notna().any() else "",
                 "sec_per_request": rt.get(g, np.nan),
@@ -664,6 +669,10 @@ def main() -> None:
     sub.round(4).to_csv(out / "subgroups.csv", index=False)
     gaps = subgroup_gaps(sub)
     gaps.round(4).to_csv(out / "subgroup_gaps.csv", index=False)
+    if not gaps.empty:   # largest gap over the subgroupings of each threat/model, per guardrail
+        mg = gaps.groupby(["threat", "model", "guardrail"])["gap"].max()
+        rai["subgroup_gap"] = [mg.get((r.threat, r.model, r.guardrail), np.nan) for r in rai.itertuples()]
+        rai.round(4).to_csv(out / "responsible_ai.csv", index=False)
     sig = gate_signals(runs)
     sig_sum = gate_signal_summary(sig)
     sig_sum.round(4).to_csv(out / "gate_signals.csv", index=False)
@@ -710,10 +719,12 @@ def main() -> None:
            "| subgroup gap | max - min failure rate across character origin / rights holder, artist group, memorization type ([subgroup_gaps.csv](subgroup_gaps.csv)) |",
            "| drawn unasked | benign near-miss requests on which the judge finds a protected character |",
            "| runtime | seconds per request, including the gate's screening and any second render |", "",
-           md(view(rai.drop(columns=["oracle_target"]), ["threat", "model", "guardrail", "name", "safe_utility_f1", "benign_refused",
-                                                          "benign_utility_lost", "benign_intervention", "attack_lift",
-                                                          "worst_attack", "sec_per_request", "runtime_vs_D0"],
-                   ["benign_refused", "benign_utility_lost", "benign_intervention", "attack_lift"])), ""]
+           md(view(rai.drop(columns=["oracle_target"]),
+                   [c for c in ["threat", "model", "guardrail", "name", "safe_utility_f1", "benign_refused", "benign_utility_lost",
+                                "benign_intervention", "drawn_unasked", "attack_lift", "worst_attack", "subgroup_gap",
+                                "sec_per_request", "runtime_vs_D0"] if c in rai],
+                   ["benign_refused", "benign_utility_lost", "benign_intervention", "drawn_unasked", "attack_lift",
+                    "subgroup_gap"])), ""]
     if not gaps.empty:
         gv = gaps[gaps.guardrail.isin(["D0", "V0", "D2b-kw", "D2b-name", "D4", "D4+D2b", "D1", "D3", "G"])].copy()
         for c in ("max", "min", "gap"):
