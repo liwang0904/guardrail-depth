@@ -11,13 +11,14 @@
 # Short array tasks keep a GPU from being held for hours, so the big lane is not starved. The Demo 2
 # re-run is also scored into results/demo2_rerun/ as a reproducibility check (seed 0 vs. the committed
 # two-seed results/demo2/). `afterany` = start when the previous job ends even if it failed; reruns skip
-# finished images. Node class21t is excluded: its L40S fails CUDA initialization.
+# finished images. Nodes class21t (its L40S fails CUDA initialization) and class19t (one of its 2080 Tis
+# returns NaN at random, in fp16 and fp32 alike) are excluded.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p logs
 C2=configs/experiments/demo2.yaml
 C3=configs/experiments/demo3.yaml
-EXC=(--exclude=class21t)
+EXC=(--exclude=class21t,class19t)
 BIG=(-C "gpu4090|gpul40s" --mem=48G "${EXC[@]}")
 SD=(-C gpu2080 --nice=100 "${EXC[@]}")
 dep() { local d=""; for j in "$@"; do [ -n "$j" ] && d="${d:+$d:}$j"; done; echo "${d:+--dependency=afterany:$d}"; }

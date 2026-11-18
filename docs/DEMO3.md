@@ -112,9 +112,11 @@ squeue -u $USER
 `$GD_OUTPUT_ROOT/demo2`, `slurm/demo3_submit.sh` runs only the Demo 3 jobs. `slurm/demo3_calibrate.sbatch`
 renders the dev jobs and writes `configs/gate.yaml`; every gated job depends on it.
 `slurm/demo3_screen_dev.sbatch` evaluates the concept screen on the dev split (how the prompt was chosen).
-The report (`scripts/demo3_report.py`) writes `results/demo3/`, which is what we commit. Node `class21t`
-is excluded: its L40S fails CUDA initialization (jobs now fail fast on such a node instead of running on
-the CPU).
+The report (`scripts/demo3_report.py`) writes `results/demo3/`, which is what we commit. Two nodes are
+excluded: `class21t`, whose L40S fails CUDA initialization (jobs now fail fast on such a node instead of
+running on the CPU), and `class19t`, where one RTX 2080 Ti returned NaN at random (the same prompt rendered
+cleanly in every precision and attention mode on a second try). A condition that comes back non-finite is
+re-rendered once in fp32 (`fp32_retry` in its record) before the job gives up.
 
 ## Live run
 
