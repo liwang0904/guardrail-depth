@@ -50,7 +50,7 @@ def main() -> None:
     ap.add_argument("--ids")
     ap.add_argument("--attacks", default="direct")
     ap.add_argument("--out", type=Path)
-    ap.add_argument("--no-cards", action="store_true", help="screen with the protected names only (ablation)")
+    ap.add_argument("--cards", action="store_true", help="also list LLM-written appearance cards (dev ablation; off)")
     ap.add_argument("--device")
     args = ap.parse_args()
 
@@ -63,7 +63,7 @@ def main() -> None:
         batches.append((args.dataset, manifest_items(args.dataset, None if ids else args.split, ids), args.attacks.split(",")))
 
     cfg = registry()["auxiliary"][args.llm]
-    screen = ConceptScreen(cfg["hf_id"], cfg["revision"], pick_device(args.device), use_cards=not args.no_cards)
+    screen = ConceptScreen(cfg["hf_id"], cfg["revision"], pick_device(args.device), use_cards=args.cards)
     tok = None
     rows, done = [], set()
     t0 = time.time()

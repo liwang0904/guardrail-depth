@@ -99,7 +99,9 @@ def concept_meta(name: str) -> dict:
 # ----------------------------------------------------------------------------- concept screen
 @lru_cache(maxsize=1)
 def concept_cards() -> dict[str, str]:
-    """name -> one-line appearance card (scripts/build_concept_cards.py; written by the LLM from the name only)."""
+    """name -> one-line appearance card (scripts/build_concept_cards.py; written by the LLM from the name only).
+    Off by default: on the dev split the cards lowered recall (60-word lures 73% -> 64%, misspellings 73% -> 64%)
+    because the 8B model's cards were often wrong (e.g. Woody as "a small, round, red robot")."""
     from .paths import MANIFEST_DIR
 
     p = MANIFEST_DIR / "concept_cards.csv"
@@ -183,7 +185,7 @@ class ConceptScreen:
     (Qwen3, thinking off, greedy) for everything the name check does not catch."""
 
     def __init__(self, model_id: str, revision: str | None = None, device="cuda", max_new_tokens: int = 24,
-                 use_cards: bool = True):
+                 use_cards: bool = False):
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
