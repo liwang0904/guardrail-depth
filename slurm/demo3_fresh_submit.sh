@@ -1,12 +1,12 @@
 #!/bin/bash
-# Demo 2 baselines + Demo 3 from an empty $GD_OUTPUT_ROOT (an account that cannot read the Demo 2 renders).
+# Demo 2 baselines + Demo 3 from an empty $GD_OUTPUT_ROOT (an account that cannot read the Demo 2 images).
 #   bash slurm/demo3_fresh_submit.sh renders   # phase 1: rewrites, calibration, every baseline render
 #   bash slurm/demo3_fresh_submit.sh gate      # phase 2: concept screen, gate rows, judges, scoring, reports
 # Phase 1 re-renders the Demo 2 grid with configs/experiments/demo2.yaml (same items, seeds, settings; the
 # detector grid is skipped, Demo 3 does not use it) and the baselines of the new Demo 3 jobs. Phase 2 can be
 # submitted while phase 1 runs (it waits on phase 1's job ids, saved in logs/demo3_phase1.env). The Demo 2
 # re-run is scored into results/demo2_rerun/ as a reproducibility check; results/demo2/ stays as committed.
-# At most ~5 GPUs at once: SD 1.x/2.x on the 2080 Tis, 1024 px models and LLM/VLM stages on 4090/L40S.
+# About 6 GPUs at once at most: SD 1.x/2.x on the 2080 Tis, 1024 px models and LLM/VLM stages on 4090/L40S.
 # `afterany` = start when the previous job ends even if it failed; reruns skip finished images.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -27,33 +27,36 @@ base() {  # same, baselines only: the gate's rows are filled by a later pass of 
 
 case "${1:-}" in
 renders)
-  RW=$(sbatch --parsable slurm/demo2_llm.sbatch rewrite)          # Demo 2 D4 rewrites (Qwen3-8B)
-  CAL=$(sbatch --parsable slurm/demo3_calibrate.sbatch)           # dev renders -> configs/gate.yaml
-  # Demo 2 baselines on SD 1.4 / SD 2 (D4 rows of LLM-rewritten requests are filled after RW)
+  RWC=$(sbatch --parsable slurm/demo2_llm.sbatch rewrite-characters)   # Demo 2 D4 rewrites, characters (reasoning)
+  RWO=$(sbatch --parsable slurm/demo2_llm.sbatch rewrite-others)       # ... memorized, captions, styles
+  CAL=$(sbatch --parsable slurm/demo3_calibrate.sbatch)                # dev renders -> configs/gate.yaml
+  # Demo 2 baselines on SD 1.4 / SD 2; D4 rows wait for their rewrites and are filled by M2 / F2
   M=$(gen "" 0-3%2 $C2 sd14_memorized "${SMALL[@]}")
   CC=$(gen "$CAL" 0-1%1 $C2 sd14_copycat "${SMALL[@]}")
   ST=$(gen "$CC" 0-1%1 $C2 sd14_style "${SMALL[@]}")
   CT=$(gen "$M" 0-1%1 $C2 sd14_controls,sd2_memorized "${SMALL[@]}")
-  M2=$(gen "$M $RW" 0-1%1 $C2 sd14_memorized "${SMALL[@]}")
-  F2=$(gen "$CT $ST $RW" 0-1%1 $C2 sd14_copycat,sd14_style,sd14_controls,sd2_memorized "${SMALL[@]}")
-  # 1024 px and DiT models, after the rewrites so their D4 rows render in the same pass
-  X=$(gen "$RW" 0-1%1 $C2 sdxl_copycat "${BIG[@]}")
-  PX=$(base "$RW" 0-1%1 $C3 pixart_copycat,pixart_style "${BIG[@]}")
-  PG=$(base "$X" 0-1%1 $C3 playground_copycat,playground_style "${BIG[@]}")
-  printf 'RW=%s\nCAL=%s\nM=%s\nCC=%s\nST=%s\nCT=%s\nM2=%s\nF2=%s\nX=%s\nPX=%s\nPG=%s\n' \
-      "$RW" "$CAL" "$M" "$CC" "$ST" "$CT" "$M2" "$F2" "$X" "$PX" "$PG" > logs/demo3_phase1.env
+  M2=$(gen "$M $RWO" 0-1%1 $C2 sd14_memorized "${SMALL[@]}")
+  F2=$(gen "$CT $ST $RWC $RWO" 0-1%1 $C2 sd14_copycat,sd14_style,sd14_controls,sd2_memorized "${SMALL[@]}")
+  # 1024 px and DiT models start at once; their rows that need a Qwen rewrite are filled later (XF, gate pass)
+  X=$(gen "" 0-1%1 $C2 sdxl_copycat "${BIG[@]}")
+  PX=$(base "" 0-1%1 $C3 pixart_copycat,pixart_style "${BIG[@]}")
+  PG=$(base "$PX" 0-1%1 $C3 playground_copycat,playground_style "${BIG[@]}")
+  XF=$(gen "$X $RWC" 0%1 $C2 sdxl_copycat "${BIG[@]}")
+  RW="$RWC:$RWO"
+  printf 'RW=%s\nRWC=%s\nRWO=%s\nCAL=%s\nM=%s\nCC=%s\nST=%s\nCT=%s\nM2=%s\nF2=%s\nX=%s\nXF=%s\nPX=%s\nPG=%s\n' \
+      "$RW" "$RWC" "$RWO" "$CAL" "$M" "$CC" "$ST" "$CT" "$M2" "$F2" "$X" "$XF" "$PX" "$PG" > logs/demo3_phase1.env
   cat logs/demo3_phase1.env
   ;;
 gate)
   source logs/demo3_phase1.env
   SC=$(sbatch --parsable slurm/demo3_llm.sbatch screen)           # gate concept screen + near-miss rewrites
   # near-miss requests on every model (their D4 rows need the near-miss rewrites from SC)
-  NG=$(base "$SC $PX" 0%1 $C3 pixart_generic "${BIG[@]}")
+  NG=$(base "$SC $PX $RWC" 0%1 $C3 pixart_generic "${BIG[@]}")
   NX=$(base "$SC $PG" 0%1 $C3 playground_generic,sdxl_generic "${BIG[@]}")
   # gate rows: screen + calibration + the renders they reuse
   G1=$(gen "$SC $CAL $M2 $F2" 0-1%1 $C3 sd14_memorized,sd14_controls,sd2_memorized,sd14_copycat,sd14_style,sd14_generic "${SMALL[@]}")
-  G3=$(gen "$SC $CAL $X $NG $NX" 0%1 $C3 sdxl_copycat,sdxl_generic,pixart_copycat,pixart_generic,pixart_style,playground_copycat,playground_generic,playground_style "${BIG[@]}")
-  J=$(sbatch --parsable $(dep $F2 $X $G1 $G3) slurm/demo3_llm.sbatch judge \
+  G3=$(gen "$SC $CAL $XF $NG $NX" 0%1 $C3 sdxl_copycat,sdxl_generic,pixart_copycat,pixart_generic,pixart_style,playground_copycat,playground_generic,playground_style "${BIG[@]}")
+  J=$(sbatch --parsable $(dep $F2 $XF $G1 $G3) slurm/demo3_llm.sbatch judge \
       demo2/sd14_copycat demo2/sdxl_copycat demo3/sd14_copycat demo3/sdxl_copycat demo3/playground_copycat \
       demo3/pixart_copycat demo3/sd14_generic demo3/sdxl_generic demo3/playground_generic demo3/pixart_generic)
   EV=$(sbatch --parsable $(dep $J) --export=ALL,GD_RERUN_DEMO2=1 slurm/demo3_evaluate.sbatch)
