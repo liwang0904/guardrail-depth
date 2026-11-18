@@ -3,7 +3,7 @@
 #   * an on-prompt judge for every image (scripts/run_onprompt.py) and a safe-utility F1 per guardrail,
 #   * benign near-miss requests next to the protected concepts (generic_prompts, new),
 #   * two models outside the Stable Diffusion family: Playground v2.5 (SDXL architecture, other company and
-#     data) and PixArt-alpha (diffusion transformer, T5 text encoder).
+#     data) and PixArt-alpha (diffusion transformer, T5 text encoder), characters and near-miss requests.
 #
 #   bash slurm/demo3_submit.sh            # submits everything below in dependency order
 #
@@ -11,9 +11,13 @@
 # (prompt, negative prompt, seed) a baseline already rendered (`reuse:`), so G and the baselines are
 # compared on the very same images; only requests where the gate does something no baseline did are drawn.
 # Thresholds come from configs/gate.yaml, calibrated on the dev jobs below before any test job runs.
+#
+# Seed 0 only. The class GPU cap (2 GPUs per user) and a day's budget did not allow re-rendering the Demo 2
+# grid with both seeds; slurm/demo3_fresh_submit.sh re-renders configs/experiments/demo2.yaml with
+# GD_SEEDS=0, so every guardrail, ours included, is compared on the same seed-0 images.
 
 defaults:
-  seeds: [0, 1]
+  seeds: [0]
   probes: [noise]
 
 jobs:
@@ -91,16 +95,6 @@ jobs:
     screens: ["$GD_OUTPUT_ROOT/screens/demo3_copycat_characters.csv"]
     reuse: [demo2/sd14_copycat]
 
-  - name: sdxl_copycat
-    model: sdxl
-    dataset: copycat_characters
-    split: test
-    seeds: [0]
-    attacks: [direct, lure_desc60, lure_kw_laion5, perturb_phonetic]
-    defenses: [gated, gated_pre]
-    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_copycat_characters.csv"]
-    screens: ["$GD_OUTPUT_ROOT/screens/demo3_copycat_characters.csv"]
-    reuse: [demo2/sdxl_copycat]
 
   - name: sd14_style
     model: sd14
@@ -126,28 +120,19 @@ jobs:
     rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo3_generic_prompts.csv"]
     screens: ["$GD_OUTPUT_ROOT/screens/demo3_generic_prompts.csv"]
 
-  - name: sdxl_generic
-    model: sdxl
-    dataset: generic_prompts
-    split: test
-    seeds: [0]
-    attacks: [direct]
-    defenses: [none, blocklist, task_instruction, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw,
-               rand_tokens, gated, gated_pre]
-    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo3_generic_prompts.csv"]
-    screens: ["$GD_OUTPUT_ROOT/screens/demo3_generic_prompts.csv"]
 
   # ---------------------------------------------------------------- models outside Stable Diffusion
-  # Characters and styles only: the memorized prompts are specific to SD's training data. The templates
-  # D2a and D3 behaved like D1 on characters in Demo 2, so D1 stands for the template family here.
+  # Characters and near-miss requests (the memorized prompts are specific to SD's training data), with the
+  # baselines that matter for characters: no guardrail, the vanilla blocklist, the name/keyword negative prompt,
+  # the LLM rewrite and both together. The templates (D1-D3) did not protect characters on SD 1.4 or SDXL in
+  # Demo 2, and styles stay on SD 1.4, to fit the GPU budget.
   - name: playground_copycat
     model: playground25
     dataset: copycat_characters
     split: test
     seeds: [0]
     attacks: [direct, lure_desc60, lure_kw_laion5, perturb_phonetic]
-    defenses: [none, blocklist, task_instruction, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw,
-               rand_tokens, gated, gated_pre]
+    defenses: [none, blocklist, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw, gated, gated_pre]
     rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_copycat_characters.csv"]
     screens: ["$GD_OUTPUT_ROOT/screens/demo3_copycat_characters.csv"]
 
@@ -157,22 +142,10 @@ jobs:
     split: test
     seeds: [0]
     attacks: [direct]
-    defenses: [none, blocklist, task_instruction, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw,
-               rand_tokens, gated, gated_pre]
+    defenses: [none, blocklist, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw, gated, gated_pre]
     rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo3_generic_prompts.csv"]
     screens: ["$GD_OUTPUT_ROOT/screens/demo3_generic_prompts.csv"]
 
-  # one template of each structural type (simple, two-entity, entity-attribute, entity-scene)
-  - name: playground_style
-    model: playground25
-    dataset: style_prompts
-    split: test
-    query: "template_id in [0, 3, 5, 8]"
-    seeds: [0]
-    attacks: [direct, perturb_phonetic]
-    defenses: [none, blocklist, task_instruction, negbuf_name, llm_rewrite, gated, gated_pre]
-    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_style_prompts.csv"]
-    screens: ["$GD_OUTPUT_ROOT/screens/demo3_style_prompts.csv"]
 
   - name: pixart_copycat
     model: pixart512
@@ -180,8 +153,7 @@ jobs:
     split: test
     seeds: [0]
     attacks: [direct, lure_desc60, lure_kw_laion5, perturb_phonetic]
-    defenses: [none, blocklist, task_instruction, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw,
-               rand_tokens, gated, gated_pre]
+    defenses: [none, blocklist, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw, gated, gated_pre]
     rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_copycat_characters.csv"]
     screens: ["$GD_OUTPUT_ROOT/screens/demo3_copycat_characters.csv"]
 
@@ -191,18 +163,7 @@ jobs:
     split: test
     seeds: [0]
     attacks: [direct]
-    defenses: [none, blocklist, task_instruction, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw,
-               rand_tokens, gated, gated_pre]
+    defenses: [none, blocklist, negbuf_name_kw, llm_rewrite, llm_rewrite+negbuf_name_kw, gated, gated_pre]
     rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo3_generic_prompts.csv"]
     screens: ["$GD_OUTPUT_ROOT/screens/demo3_generic_prompts.csv"]
 
-  - name: pixart_style
-    model: pixart512
-    dataset: style_prompts
-    split: test
-    query: "template_id in [0, 3, 5, 8]"
-    seeds: [0]
-    attacks: [direct, perturb_phonetic]
-    defenses: [none, blocklist, task_instruction, negbuf_name, llm_rewrite, gated, gated_pre]
-    rewrites: ["$GD_OUTPUT_ROOT/rewrites/demo2_style_prompts.csv"]
-    screens: ["$GD_OUTPUT_ROOT/screens/demo3_style_prompts.csv"]

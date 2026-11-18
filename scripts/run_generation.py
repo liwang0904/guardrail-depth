@@ -42,6 +42,8 @@ def jobs_from_args(args) -> list[Job]:
             j.out = j.out or f"{Path(args.config).stem}/{j.name}"
             if os.environ.get("GD_SKIP_GATED"):   # baselines-only pass; the gate's rows are filled later
                 j.defenses = [d for d in j.defenses if not d.startswith("gated")]
+            if os.environ.get("GD_SEEDS"):        # e.g. GD_SEEDS=0: re-render a grid with fewer seeds
+                j.seeds = [int(x) for x in os.environ["GD_SEEDS"].split(",")]
         return [j for j in jobs if j.defenses]
     job = Job(name=args.name, model=args.model, dataset=args.dataset, split=args.split,
               attacks=csv(args.attacks), defenses=csv(args.defenses), seeds=csv(args.seeds, int),
