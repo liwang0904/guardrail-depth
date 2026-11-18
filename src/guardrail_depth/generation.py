@@ -452,9 +452,8 @@ class _GateRunner:
             if self.check is not None:
                 c = self.check([img])[0]
                 rec.update({f"pre_{k}": v for k, v in c.items()})
-                # the output check covers what the screens missed: a request already mitigated for a
-                # detected character keeps that mitigation (CLIP can misname the mitigated image)
-                if c["check_flag"] and not self.G.screened_character(plan):
+                # the output check covers what the screens missed (or matched to the wrong character)
+                if self.G.needs_output_replan(plan, c):
                     final_plan = self.G.replan_for_output(request, c["check_character"], rewrite, plan)
                     again = self.produce(final_plan.defended, [seed], cond, "")
                     final_img, final_fields = again[seed]

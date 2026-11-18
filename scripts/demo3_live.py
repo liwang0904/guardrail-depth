@@ -189,7 +189,7 @@ def main() -> None:
     img = render(plan.defended)
     c = check([img])[0]
     note = ""
-    if c["check_flag"] and not G.screened_character(plan):
+    if G.needs_output_replan(plan, c):
         print(f"[4] output check: sees {c['check_character']} ({c['check_prob']:.2f}) -> regenerate with its mitigation")
         plan = G.replan_for_output(request, c["check_character"], rewrite, plan)
         img = render(plan.defended)

@@ -188,9 +188,12 @@ def test_gated_run_reuses_renders_and_regenerates_after_the_output_check(tmp_pat
     assert len(pipe.calls) == 4    # every gated image was an existing render
     assert (tmp_path / "run" / lure[0]["image"]).exists()
 
-    # a request the screen matched keeps its mitigation even if CLIP misnames the mitigated image
+    # the check sees another character on an image the screen mitigated for Mario: Mario's mitigation
+    # stays and the seen character's negative prompt is added (a CLIP misreading cannot remove protection)
     monkeypatch.setattr(G, "OutputCheck", lambda clip, threshold: _StubCheck("Mike Wazowski"))
     job3 = Job(**{**job.__dict__, "defenses": ["gated"], "name": "g3", "attacks": ["direct"]})
     run_job(pipe, _Spec(), job3, tmp_path / "run3", log=lambda *_: None)
     r3 = [json.loads(l) for l in open(tmp_path / "run3" / "records.jsonl")]
-    assert r3 and all(r["gate_final_target"] == "Mario" and r["n_generations"] == 1 for r in r3)
+    assert r3 and all(r["gate_final_target"] == "Mario+Mike Wazowski" and r["n_generations"] == 2 for r in r3)
+    assert all(r["negative_prompt"].startswith("Mario, ") and "Mike Wazowski" in r["negative_prompt"] for r in r3)
+    assert all(r["model_prompt"] == by[("llm_rewrite+negbuf_name_kw", "direct")]["model_prompt"] for r in r3)

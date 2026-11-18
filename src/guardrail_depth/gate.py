@@ -41,7 +41,7 @@ import numpy as np
 import pandas as pd
 
 from .attacks import HOMOGLYPHS
-from .defenses import Defended, apply_defense
+from .defenses import Defended, apply_defense, he_negative_prompt
 
 # Defenses (Demo 2 codes) the gate can apply, in the order the memorization ladder tries them:
 # negation in the prompt (mildest rewording), chain-of-thought, task instruction.
@@ -365,14 +365,26 @@ def plan(request: str, screen: dict | None, rewrite: str | None, mem_fn=None, ta
 
 
 def screened_character(p: GatePlan) -> bool:
-    """True when the concept screen already detected a character and the plan mitigates it; the output
-    check then leaves the plan alone (it is the backstop for what the screens missed)."""
+    """True when the concept screen already detected a character and the plan mitigates it."""
     return bool(p.target) and p.info.get("screen_kind") == "character"
+
+
+def needs_output_replan(p: GatePlan, check: dict) -> bool:
+    """The output check acts when it sees a protected character the plan does not already cover."""
+    return bool(check.get("check_flag")) and check.get("check_character", "") not in p.target.split("+")
 
 
 def replan_for_output(request: str, character: str, rewrite: str | None, previous: GatePlan) -> GatePlan:
     """After the output check saw `character`: apply that character's mitigation (keeping any
-    memorization template the first plan chose)."""
+    memorization template the first plan chose). If the screen had matched another character, its
+    mitigation stays and the seen character's name/keyword negative prompt is added to it, so a wrong
+    screen match is corrected and a CLIP misreading of a mitigated image cannot remove protection."""
+    if screened_character(previous):
+        extra = he_negative_prompt("name_emb5_laion5", concept_meta(character))
+        p = previous.defended
+        d = Defended(p.defense, p.prompt, f"{p.negative_prompt}, {extra}".strip(", "), p.user_span, {})
+        return GatePlan(d, f"{previous.applied}+{CHARACTER_FALLBACK}", f"{previous.target}+{character}", "output",
+                        dict(previous.info))
     applied, d = concept_defense(character, "character", request, rewrite)
     rung = previous.info.get("mem_rung", "none") if previous.info.get("mem_flag") else "none"
     if rung != "none":

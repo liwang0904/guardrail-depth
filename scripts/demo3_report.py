@@ -363,9 +363,10 @@ def gate_signals(runs: dict) -> pd.DataFrame:
             if ds == "style_prompts" and r.get("group") == "public_domain":
                 target = ""
             final_target = str(r.get("gate_final_target") or r.get("gate_target") or "")
+            covered = final_target.split("+")
             rows.append({"run": name, "dataset": ds, "model": r.get("model"), "attack": ATTACKS.get(r["attack_code"], r["attack_code"]),
                          "item_id": r["item_id"], "seed": r["seed"], "risky": bool(target) or ds.startswith("memorized"),
-                         "signal": sig or "none", "right_target": (final_target == target) if target else np.nan,
+                         "signal": sig or "none", "right_target": (target in covered) if target else np.nan,
                          "mem_type": r.get("mem_type", ""), "group": r.get("group", "")})
     return pd.DataFrame(rows)
 
@@ -404,7 +405,7 @@ def gate_errors(runs: dict) -> str:
                         else f"flagged, template {r.get('mem_rung')} still copied")
             if not acted:
                 return "screen and output check both missed"
-            if acted != target:
+            if target not in acted.split("+"):
                 return f"acted on the wrong concept ({acted})"
             return "detected; the mitigation was not enough"
 
