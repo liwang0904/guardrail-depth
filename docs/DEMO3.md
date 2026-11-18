@@ -59,7 +59,7 @@ images; only requests where the gate does something no baseline did are rendered
 |---|---|
 | no responsible-AI metrics visible (-5) | a labelled **Responsible-AI metrics** table for every guardrail ([results/demo3](../results/demo3/README.md)): safe-utility F1, over-blocking (benign refusals), benign utility lost, benign intervention rate, attack lift, subgroup gap, characters drawn unasked, runtime |
 | use F1 so that blocking everything does not look safe; ask the judge whether the image still follows the prompt | **on-prompt judge** for all three tasks (VQAScore with Qwen2.5-VL-7B, Lin et al. ECCV'24: the caption, the character's generic key entity, the style prompt's subject) and a **safe-utility F1** per guardrail (below); the judge is validated by a matched-vs-mismatched test and a hand-labelled sample |
-| test outside the Stable Diffusion family | characters and styles on **Playground v2.5** (SDXL architecture, other company and data) and **PixArt-α** (diffusion transformer, T5 text encoder, 120-token window), all baselines + G |
+| test outside the Stable Diffusion family | characters and near-miss requests on **Playground v2.5** (SDXL architecture, other company and data) and **PixArt-α** (diffusion transformer, T5 text encoder, 120-token window), with the character baselines + G |
 
 ### Safe-utility F1
 
@@ -86,23 +86,35 @@ next to protected concepts and how often a model draws a protected character una
 
 | job | model | data (test split) | guardrails |
 |---|---|---|---|
-| sd14_memorized / sd14_controls / sd2_memorized / sd14_copycat / sdxl_copycat / sd14_style | as Demo 2 | as Demo 2 | G, G-pre (baselines: Demo 2 runs) |
-| sd14_generic, sdxl_generic | SD 1.4, SDXL | 54 near-miss requests | all baselines + G |
-| playground_copycat, pixart_copycat | Playground v2.5, PixArt-α | 39 characters x 4 attacks | D0, V0, D1, D2b-kw, D4, D4+D2b, C1, G, G-pre |
+| sd14_memorized, sd14_controls, sd2_memorized, sd14_copycat, sd14_style | SD 1.4, SD 2-base | as Demo 2 | Demo 2 baselines (re-rendered) + G, G-pre |
+| sd14_generic | SD 1.4 | 54 near-miss requests | all Demo 2 baselines + G, G-pre |
+| playground_copycat, pixart_copycat | Playground v2.5, PixArt-α | 39 characters x 4 attacks | D0, V0, D2b-kw, D4, D4+D2b, G, G-pre |
 | playground_generic, pixart_generic | Playground v2.5, PixArt-α | 54 near-miss requests | same |
-| playground_style, pixart_style | Playground v2.5, PixArt-α | 25 artists x 4 templates (one per type) x 2 attacks | D0, V0, D1, D2b-name, D4, G, G-pre |
+
+**Seed 0 only, and what was trimmed.** Markov caps each user at 2 GPUs, and the Demo 2 images live in a
+teammate's private folder, so the Demo 2 grid is re-rendered here (`GD_SEEDS=0`) on SD 1.4 and SD 2 with
+one seed instead of two. On Playground and PixArt we keep the baselines that matter for characters (the
+templates D1-D3 did not protect characters on SD 1.4 or SDXL in Demo 2) and leave styles on SD 1.4. SDXL is
+not re-rendered (it is a Stable Diffusion model; its Demo 2 numbers stay in results/demo2). The seed-0
+re-run is scored into `results/demo2_rerun/` and compared with the committed two-seed Demo 2 results.
 
 ## Running it on Markov
 
 ```bash
 source slurm/env.sh
-bash slurm/demo3_download.sh     # login node, once: Playground v2.5, PixArt-alpha, CLIP ViT-L/14
-bash slurm/demo3_submit.sh       # 3 lanes: screen -> calibrate -> gate rows / new models -> judges -> report
+bash slurm/demo3_download.sh       # login node, once: Playground v2.5, PixArt-alpha, CLIP ViT-L/14
+sbatch slurm/demo3_smoke.sbatch    # ~3 min: screen, gated loop, PixArt, Playground, batched judge on one GPU
+bash slurm/demo3_fresh_submit.sh   # Demo 2 re-render + Demo 3 in two lanes under the 2-GPU cap
 squeue -u $USER
 ```
 
-`slurm/demo3_calibrate.sbatch` renders the dev jobs and writes `configs/gate.yaml`; every gated job depends
-on it. The report (`scripts/demo3_report.py`) writes `results/demo3/`, which is what we commit.
+`slurm/demo3_fresh_submit.sh` is for an account without the Demo 2 renders (ours); with them in
+`$GD_OUTPUT_ROOT/demo2`, `slurm/demo3_submit.sh` runs only the Demo 3 jobs. `slurm/demo3_calibrate.sbatch`
+renders the dev jobs and writes `configs/gate.yaml`; every gated job depends on it.
+`slurm/demo3_screen_dev.sbatch` evaluates the concept screen on the dev split (how the prompt was chosen).
+The report (`scripts/demo3_report.py`) writes `results/demo3/`, which is what we commit. Node `class21t`
+is excluded: its L40S fails CUDA initialization (jobs now fail fast on such a node instead of running on
+the CPU).
 
 ## Live run
 

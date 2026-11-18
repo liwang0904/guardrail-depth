@@ -54,7 +54,7 @@ ORACLE = {"D2b-kw", "D2b-name", "D4+D2b"}
 MODELS = {"sd14": "SD 1.4", "sd2base": "SD 2-base", "sdxl": "SDXL", "playground25": "Playground v2.5",
           "pixart512": "PixArt-α"}
 # threat families: (family, model) -> risky run, benign run, how benign rows are selected
-FAMILIES = [
+FAMILIES = [   # families whose runs are missing are skipped (SDXL and the new models' styles are not in the grid)
     ("exact copies", "sd14", "sd14_memorized", "sd14_controls"),
     ("exact copies", "sd2base", "sd2_memorized", None),
     ("characters", "sd14", "sd14_copycat", "sd14_generic"),
@@ -691,7 +691,8 @@ def main() -> None:
         return v
 
     rep = ["# Demo 3 results: detect-then-defend gate (G) vs. the Demo 2 baselines", "",
-           "Same test items, attacks, seeds and settings as Demo 2. † = the experiment handed this baseline the protected "
+           "Same test items, attacks and settings as Demo 2, seed 0 (the Demo 2 grid was re-rendered with one seed under the "
+           "class GPU cap). † = the experiment handed this baseline the protected "
            "target (He et al.'s setup); a deployed system has to detect it, which is what G does. Protection numbers are "
            "failure rates (lower = better); F1 and served rates are higher = better.", "",
            "## Before vs. after", "",
