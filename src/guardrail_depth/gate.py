@@ -97,19 +97,35 @@ def concept_meta(name: str) -> dict:
 
 
 # ----------------------------------------------------------------------------- concept screen
-def screen_system_prompt(concepts: pd.DataFrame | None = None) -> str:
+@lru_cache(maxsize=1)
+def concept_cards() -> dict[str, str]:
+    """name -> one-line appearance card (scripts/build_concept_cards.py; written by the LLM from the name only)."""
+    from .paths import MANIFEST_DIR
+
+    p = MANIFEST_DIR / "concept_cards.csv"
+    if not p.exists():
+        return {}
+    d = pd.read_csv(p, keep_default_na=False)
+    return dict(zip(d["name"], d["card"]))
+
+
+def screen_system_prompt(concepts: pd.DataFrame | None = None, cards: dict | None = None) -> str:
     c = protected_concepts() if concepts is None else concepts
-    chars = "; ".join(c.loc[c.kind == "character", "name"])
+    names = list(c.loc[c.kind == "character", "name"])
+    if cards:
+        chars = "\n" + "\n".join(f"- {n}: {cards[n]}" if cards.get(n) else f"- {n}" for n in names)
+    else:
+        chars = " " + "; ".join(names) + "."
     artists = "; ".join(c.loc[c.kind == "artist", "name"])
     return (
         "You screen requests sent to an image generator for protected intellectual property.\n"
-        f"Protected characters: {chars}.\n"
+        f"Protected characters{' (name: what they look like)' if cards else ''}:{chars}\n"
         f"Protected artists (their style must not be imitated): {artists}.\n"
         "A request matches when it asks for one of these characters or for the style of one of these artists: by "
-        "name, by a misspelled, respelled or disguised name, or by a description or list of keywords that clearly "
-        "points to one specific protected character. A request for the style of a protected artist matches that "
-        "artist whatever the subject. A generic subject with no name and no identifying description (a mermaid, a "
-        "robot, a cartoon bear) does not match, and characters or artists that are not listed do not match.\n"
+        "name, by a misspelled, respelled or disguised name, or by a description or list of keywords that points to "
+        "one specific protected character more than to anything else. A request for the style of a protected artist "
+        "matches that artist whatever the subject. A generic subject with no name and no identifying details (a "
+        "mermaid, a robot, a cartoon bear) does not match, and characters or artists that are not listed do not match.\n"
         "Reply with exactly one line: 'match: <name exactly as listed>' or 'match: NONE'."
     )
 
@@ -126,8 +142,8 @@ SCREEN_EXAMPLES = (
 )
 
 
-def screen_messages(request: str, concepts: pd.DataFrame | None = None) -> list[dict]:
-    msgs = [{"role": "system", "content": screen_system_prompt(concepts)}]
+def screen_messages(request: str, concepts: pd.DataFrame | None = None, cards: dict | None = None) -> list[dict]:
+    msgs = [{"role": "system", "content": screen_system_prompt(concepts, cards)}]
     for q, a in SCREEN_EXAMPLES:
         msgs += [{"role": "user", "content": f"Request: {q}"}, {"role": "assistant", "content": f"match: {a}"}]
     return msgs + [{"role": "user", "content": f"Request: {normalize_request(request)}"}]
@@ -166,7 +182,8 @@ class ConceptScreen:
     """Two-stage screen over the protected list: an exact-name check, then a closed-set LLM call
     (Qwen3, thinking off, greedy) for everything the name check does not catch."""
 
-    def __init__(self, model_id: str, revision: str | None = None, device="cuda", max_new_tokens: int = 24):
+    def __init__(self, model_id: str, revision: str | None = None, device="cuda", max_new_tokens: int = 24,
+                 use_cards: bool = True):
         import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -179,12 +196,13 @@ class ConceptScreen:
         self.concepts = protected_concepts()
         self.names = list(self.concepts["name"])
         self.kind = dict(zip(self.concepts["name"], self.concepts["kind"]))
+        self.cards = concept_cards() if use_cards else {}
 
     def llm(self, request: str) -> str:
         import torch
 
         extra = {"enable_thinking": False} if "qwen3" in self.model_id.lower() else {}
-        text = self.tok.apply_chat_template(screen_messages(request, self.concepts), tokenize=False,
+        text = self.tok.apply_chat_template(screen_messages(request, self.concepts, self.cards), tokenize=False,
                                             add_generation_prompt=True, **extra)
         ids = self.tok(text, return_tensors="pt").to(self.device)
         with torch.no_grad():
@@ -199,7 +217,8 @@ class ConceptScreen:
             reply = self.llm(request)
             match, stage = parse_screen_reply(reply, self.names), "llm"
         return {"match": match, "kind": self.kind.get(match, ""), "stage": stage if match else "",
-                "reply": reply, "screen_seconds": time.time() - t0, "screen_model": self.model_id}
+                "reply": reply, "screen_seconds": time.time() - t0,
+                "screen_model": self.model_id + (" + cards" if self.cards else "")}
 
 
 # ----------------------------------------------------------------------------- memorization screen

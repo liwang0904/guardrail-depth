@@ -50,6 +50,7 @@ def main() -> None:
     ap.add_argument("--ids")
     ap.add_argument("--attacks", default="direct")
     ap.add_argument("--out", type=Path)
+    ap.add_argument("--no-cards", action="store_true", help="screen with the protected names only (ablation)")
     ap.add_argument("--device")
     args = ap.parse_args()
 
@@ -62,7 +63,7 @@ def main() -> None:
         batches.append((args.dataset, manifest_items(args.dataset, None if ids else args.split, ids), args.attacks.split(",")))
 
     cfg = registry()["auxiliary"][args.llm]
-    screen = ConceptScreen(cfg["hf_id"], cfg["revision"], pick_device(args.device))
+    screen = ConceptScreen(cfg["hf_id"], cfg["revision"], pick_device(args.device), use_cards=not args.no_cards)
     tok = None
     rows, done = [], set()
     t0 = time.time()
@@ -94,10 +95,25 @@ def main() -> None:
     flagged = df[df["match"] != ""]
     print(f"wrote {len(df)} decisions -> {out}; flagged {len(flagged)} "
           f"({flagged['stage'].value_counts().to_dict()}), {df['screen_seconds'].mean():.2f} s/request")
-    if "target" in df and df["target"].astype(bool).any():
-        t = df[df["target"] != ""]
-        acc = (t["match"] == t["target"]).groupby(t["attack"]).mean().round(3)
-        print("matched the true target, by attack:\n" + acc.to_string())
+    print(screen_report(df).to_string(index=False))
+
+
+def screen_report(df: pd.DataFrame) -> pd.DataFrame:
+    """Per dataset and attack: share of protected requests matched to their own target (recall) and share of
+    unprotected requests matched to anything (false matches: captions, near-miss requests, public-domain styles)."""
+    from guardrail_depth.gate import protected_concepts
+
+    protected = set(protected_concepts()["name"])
+    d = df.assign(target=df["target"].fillna("").astype(str), match=df["match"].fillna("").astype(str))
+    d["protected"] = d["target"].isin(protected)
+    rows = []
+    for (ds, atk), x in d.groupby(["dataset", "attack"]):
+        p, n = x[x["protected"]], x[~x["protected"]]
+        rows.append({"dataset": ds, "attack": atk, "n_protected": len(p),
+                     "recall": (p["match"] == p["target"]).mean() if len(p) else float("nan"),
+                     "wrong_concept": ((p["match"] != "") & (p["match"] != p["target"])).mean() if len(p) else float("nan"),
+                     "n_unprotected": len(n), "false_match": (n["match"] != "").mean() if len(n) else float("nan")})
+    return pd.DataFrame(rows).round(3)
 
 
 if __name__ == "__main__":

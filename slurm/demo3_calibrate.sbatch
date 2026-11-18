@@ -14,7 +14,8 @@
 set -euo pipefail
 source slurm/env.sh
 nvidia-smi -L
-python scripts/run_generation.py --config configs/experiments/demo3.yaml --job sd14_dev_copycat,sd14_dev_benign,sd14_dev_generic
+python scripts/run_generation.py --config configs/experiments/demo3.yaml --job sd14_dev_copycat,sd14_dev_benign,sd14_dev_generic,sd14_dev_style
 python scripts/calibrate_gate.py --models sd14,sd2base --check-runs \
-    "$GD_OUTPUT_ROOT/demo3/sd14_dev_copycat" "$GD_OUTPUT_ROOT/demo3/sd14_dev_benign" "$GD_OUTPUT_ROOT/demo3/sd14_dev_generic"
+    "$GD_OUTPUT_ROOT/demo3/sd14_dev_copycat" "$GD_OUTPUT_ROOT/demo3/sd14_dev_benign" "$GD_OUTPUT_ROOT/demo3/sd14_dev_generic" \
+    "$GD_OUTPUT_ROOT/demo3/sd14_dev_style"
 cat configs/gate.yaml

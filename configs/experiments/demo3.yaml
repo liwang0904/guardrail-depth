@@ -42,6 +42,14 @@ jobs:
     attacks: [direct]
     defenses: [none]
 
+  - name: sd14_dev_style
+    model: sd14
+    dataset: style_prompts
+    split: dev
+    seeds: [0]
+    attacks: [direct, perturb_phonetic]
+    defenses: [none]
+
   # ---------------------------------------------------------------- the gate on the Demo 2 grid
   - name: sd14_memorized
     model: sd14
