@@ -68,7 +68,7 @@ def panel(images: list[Image.Image | None], captions: list[str], title: str, pat
     h_txt = 22 * max(len(r) for r in rows) + 16
     canvas = Image.new("RGB", (w * len(images), w + h_txt + top), "white")
     d = ImageDraw.Draw(canvas)
-    for j, line in enumerate(textwrap.wrap(title, 120)[:2]):
+    for j, line in enumerate(textwrap.wrap(title, 32 * len(images))[:2]):
         d.text((10, 6 + 26 * j), line, fill=(10, 10, 10), font=font)
     for k, (im, lines) in enumerate(zip(images, rows)):
         x = k * w
@@ -125,7 +125,7 @@ def main() -> None:
         from guardrail_depth.rewriter import LLMRewriter
 
         t0 = time.time()
-        rw = LLMRewriter(lc["hf_id"], lc["revision"], device, thinking=False, max_new_tokens=160, temperature=0.0)
+        rw = LLMRewriter(lc["hf_id"], lc["revision"], device, thinking=False, max_new_tokens=110, temperature=0.0)
         rewrite = rw.rewrite(request)["rewrite"] or None
         del rw
         print(f"    rewrite ({time.time() - t0:.1f}s): {(rewrite or '')[:160]}")
