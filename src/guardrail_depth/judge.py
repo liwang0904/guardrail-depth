@@ -23,13 +23,14 @@ VQA_TEMPLATE = 'Does this figure show "{text}"? Please answer yes or no.'
 
 class VLMJudge:
     def __init__(self, model_id: str = "Qwen/Qwen2.5-VL-7B-Instruct", revision: str | None = None,
-                 device: torch.device | str = "cuda"):
+                 device: torch.device | str = "cuda", max_pixels: int | None = None):
         from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
 
         self.device = torch.device(device)
         dtype = torch.bfloat16 if self.device.type == "cuda" and torch.cuda.is_bf16_supported() else (
             torch.float16 if self.device.type != "cpu" else torch.float32)
-        self.processor = AutoProcessor.from_pretrained(model_id, revision=revision)
+        kw = {"max_pixels": max_pixels, "min_pixels": min(max_pixels, 256 * 28 * 28)} if max_pixels else {}
+        self.processor = AutoProcessor.from_pretrained(model_id, revision=revision, **kw)
         self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
             model_id, revision=revision, torch_dtype=dtype).to(self.device).eval()
         tok = self.processor.tokenizer
@@ -56,6 +57,27 @@ class VLMJudge:
         probs = logits.softmax(-1)
         y, n = probs[self.yes_ids].sum().item(), probs[self.no_ids].sum().item()
         return {"p_yes": y, "p_yes_norm": y / (y + n + 1e-12)}
+
+    @torch.no_grad()
+    def p_yes_batch(self, images: list[Image.Image], texts: list[str], batch_size: int = 8) -> list[dict]:
+        """VQAScore for many (image, text) pairs: left-padded batches, next-token P("Yes") at the end."""
+        tok = self.processor.tokenizer
+        side, tok.padding_side = tok.padding_side, "left"
+        out = []
+        try:
+            for i in range(0, len(images), batch_size):
+                ims, txs = images[i:i + batch_size], texts[i:i + batch_size]
+                prompts = [self.processor.apply_chat_template(
+                    [{"role": "user", "content": [{"type": "image"}, {"type": "text", "text": VQA_TEMPLATE.format(text=t)}]}],
+                    tokenize=False, add_generation_prompt=True) for t in txs]
+                inputs = self.processor(text=prompts, images=[im.convert("RGB") for im in ims], padding=True,
+                                        return_tensors="pt").to(self.device)
+                probs = self.model(**inputs).logits[:, -1].float().softmax(-1)
+                y, n = probs[:, self.yes_ids].sum(-1), probs[:, self.no_ids].sum(-1)
+                out += [{"p_yes": float(a), "p_yes_norm": float(a / (a + b + 1e-12))} for a, b in zip(y, n)]
+        finally:
+            tok.padding_side = side
+        return out
 
 
 def matches_target(detected: str, target: str) -> bool:

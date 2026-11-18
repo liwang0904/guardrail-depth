@@ -3,7 +3,7 @@ from guardrail_depth.data import load_manifest
 
 def test_manifest_sizes_and_splits():
     expected = {"memorized_sd1": 500, "unmemorized_laion": 500, "memorized_sd2": 219,
-                "copycat_characters": 50, "artists": 25, "style_prompts": 250}
+                "copycat_characters": 50, "artists": 25, "style_prompts": 250, "generic_prompts": 68}
     for name, n in expected.items():
         df = load_manifest(name)
         assert len(df) == n, name
@@ -33,3 +33,11 @@ def test_artist_groups():
     assert a.groupby("group").size().to_dict() == {"deceased_copyright": 5, "living": 10, "public_domain": 10}
     pd_rows = a[a.group == "public_domain"]
     assert (pd_rows["wikiart_label"] != "").all()
+
+
+def test_generic_near_miss_prompts_name_no_character():
+    g = load_manifest("generic_prompts")
+    names = [n.lower() for n in load_manifest("copycat_characters")["target"]]
+    assert not any(n in p.lower() for p in g["prompt"] for n in names if len(n) > 3)
+    # dev and test never share a concept
+    assert not set(g[g.split == "dev"]["entity"]) & set(g[g.split == "test"]["entity"])

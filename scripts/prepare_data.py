@@ -83,6 +83,7 @@ def build_all() -> None:
     artists = D.build_artists()
     outs["artists"] = artists
     outs["style_prompts"] = D.build_style_prompts(artists)
+    outs["generic_prompts"] = D.build_generic_prompts(outs["copycat_characters"])
     for name, df in outs.items():
         path = D.write_manifest(df, name)
         split = df["split"].value_counts().to_dict() if "split" in df else {}

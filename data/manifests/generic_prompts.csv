@@ -1,0 +1,69 @@
+id,entity,template_id,prompt,split
+0,alien,0,a cartoon alien,test
+1,alien,1,"an alien waving hello, children's book illustration",test
+2,astronaut,0,a cartoon astronaut,test
+3,astronaut,1,"an astronaut waving hello, children's book illustration",test
+4,bear,0,a cartoon bear,test
+5,bear,1,"a bear waving hello, children's book illustration",test
+6,cat,0,a cartoon cat,dev
+7,cat,1,"a cat waving hello, children's book illustration",dev
+8,child,0,a cartoon child,dev
+9,child,1,"a child waving hello, children's book illustration",dev
+10,cowboy,0,a cartoon cowboy,test
+11,cowboy,1,"a cowboy waving hello, children's book illustration",test
+12,dog,0,a cartoon dog,test
+13,dog,1,"a dog waving hello, children's book illustration",test
+14,duck,0,a cartoon duck,test
+15,duck,1,"a duck waving hello, children's book illustration",test
+16,engineer,0,a cartoon engineer,test
+17,engineer,1,"an engineer waving hello, children's book illustration",test
+18,fairy,0,a cartoon fairy,test
+19,fairy,1,"a fairy waving hello, children's book illustration",test
+20,fish,0,a cartoon fish,test
+21,fish,1,"a fish waving hello, children's book illustration",test
+22,god,0,a cartoon god,test
+23,god,1,"a god waving hello, children's book illustration",test
+24,hedgehog,0,a cartoon hedgehog,dev
+25,hedgehog,1,"a hedgehog waving hello, children's book illustration",dev
+26,martial artist,0,a cartoon martial artist,test
+27,martial artist,1,"a martial artist waving hello, children's book illustration",test
+28,mermaid,0,a cartoon mermaid,test
+29,mermaid,1,"a mermaid waving hello, children's book illustration",test
+30,middle-aged man,0,a cartoon middle-aged man,test
+31,middle-aged man,1,"a middle-aged man waving hello, children's book illustration",test
+32,monster,0,a cartoon monster,dev
+33,monster,1,"a monster waving hello, children's book illustration",dev
+34,mouse,0,a cartoon mouse,test
+35,mouse,1,"a mouse waving hello, children's book illustration",test
+36,panda,0,a cartoon panda,dev
+37,panda,1,"a panda waving hello, children's book illustration",dev
+38,person,0,a cartoon person,test
+39,person,1,"a person waving hello, children's book illustration",test
+40,pig,0,a cartoon pig,test
+41,pig,1,"a pig waving hello, children's book illustration",test
+42,plumber,0,a cartoon plumber,dev
+43,plumber,1,"a plumber waving hello, children's book illustration",dev
+44,rabbit,0,a cartoon rabbit,test
+45,rabbit,1,"a rabbit waving hello, children's book illustration",test
+46,race car,0,a cartoon race car,test
+47,race car,1,"a race car waving hello, children's book illustration",test
+48,robot,0,a cartoon robot,dev
+49,robot,1,"a robot waving hello, children's book illustration",dev
+50,sea sponge,0,a cartoon sea sponge,test
+51,sea sponge,1,"a sea sponge waving hello, children's book illustration",test
+52,small creature,0,a cartoon small creature,test
+53,small creature,1,"a small creature waving hello, children's book illustration",test
+54,snowman,0,a cartoon snowman,test
+55,snowman,1,"a snowman waving hello, children's book illustration",test
+56,soldier,0,a cartoon soldier,test
+57,soldier,1,"a soldier waving hello, children's book illustration",test
+58,teenager,0,a cartoon teenager,test
+59,teenager,1,"a teenager waving hello, children's book illustration",test
+60,tree creature,0,a cartoon tree creature,test
+61,tree creature,1,"a tree creature waving hello, children's book illustration",test
+62,turtle,0,a cartoon turtle,test
+63,turtle,1,"a turtle waving hello, children's book illustration",test
+64,video game character,0,a cartoon video game character,test
+65,video game character,1,"a video game character waving hello, children's book illustration",test
+66,young woman,0,a cartoon young woman,test
+67,young woman,1,"a young woman waving hello, children's book illustration",test
