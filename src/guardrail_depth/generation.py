@@ -142,8 +142,7 @@ def _negative(spec, negative: str):
     return negative if negative else ("" if getattr(spec, "family", "") == "pixart" else None)
 
 
-def _render(pipe, spec, job: Job, d, seeds: list[int], steps: int, guidance: float, res: int):
-    """One pipeline call for all `seeds` of a (prompt, negative prompt) pair, with the job's probes."""
+def _render_once(pipe, spec, job: Job, d, seeds: list[int], steps: int, guidance: float, res: int):
     has_unet = hasattr(pipe, "unet")
     gens = [torch.Generator("cpu").manual_seed(s) for s in seeds]
     t0 = time.time()
@@ -156,6 +155,36 @@ def _render(pipe, spec, job: Job, d, seeds: list[int], steps: int, guidance: flo
         probe_out = {k: v.result() for k, v in P.items() if k in ("noise", "attention")}
         x0 = P["x0"].decode(pipe) if "x0" in P else {}
     return images, probe_out, x0, (time.time() - t0) / len(seeds)
+
+
+def _finite(images, probe_out: dict) -> bool:
+    noise = probe_out.get("noise")
+    if noise is not None and noise.size and not np.isfinite(noise).all():
+        return False
+    return not all(np.asarray(im).max() == 0 for im in images)
+
+
+def _render(pipe, spec, job: Job, d, seeds: list[int], steps: int, guidance: float, res: int):
+    """One pipeline call for all `seeds` of a (prompt, negative prompt) pair, with the job's probes.
+
+    A few prompts overflow fp16 on the RTX 2080 Ti (Turing) and return NaN noise / black images; those
+    are rendered again in fp32 (same seeds) and flagged `fp32_retry` instead of failing the whole job."""
+    out = _render_once(pipe, spec, job, d, seeds, steps, guidance, res)
+    if _finite(out[0], out[1]):
+        return out
+    dtype = getattr(pipe, "dtype", torch.float16)
+    print(f"  non-finite output in {torch.float16 if dtype == torch.float16 else dtype}, re-rendering in fp32: "
+          f"{d.prompt[:60]!r}", flush=True)
+    pipe.to(dtype=torch.float32)
+    try:
+        out = _render_once(pipe, spec, job, d, seeds, steps, guidance, res)
+    finally:
+        pipe.to(dtype=dtype)
+    _RETRIED.add((d.prompt, d.negative_prompt))
+    return out
+
+
+_RETRIED: set[tuple[str, str]] = set()     # (prompt, negative) pairs rendered in fp32 after an fp16 overflow
 
 
 def _token_window(tokenizer, spec, d) -> dict:
@@ -300,7 +329,8 @@ def run_job(pipe, spec, job: Job, out_dir: Path, shard: tuple[int, int] = (0, 1)
                         rec = {
                             **base, "seed": seed, "model_prompt": d.prompt, "refused": False,
                             "negative_prompt": d.negative_prompt, "image": rel, "x0": x0_paths,
-                            "sec_per_image": round(dt, 2), **window, **_summaries(probe_out, window, b),
+                            "sec_per_image": round(dt, 2), "fp32_retry": (d.prompt, d.negative_prompt) in _RETRIED,
+                            **window, **_summaries(probe_out, window, b),
                         }
                         if defense == "none":
                             d0[(str(item["id"]), attack, seed)] = rec
@@ -319,7 +349,7 @@ def run_job(pipe, spec, job: Job, out_dir: Path, shard: tuple[int, int] = (0, 1)
 
 
 # Probe summaries copied from a reused image's record (they describe that same computation).
-_PROBE_KEYS = re.compile(r"^(noise_|attn_|n_tokens|n_truncated|fits|user_tok_|suffix_tokens_)")
+_PROBE_KEYS = re.compile(r"^(noise_|attn_|n_tokens|n_truncated|fits|user_tok_|suffix_tokens_|fp32_retry)")
 
 
 class _GateRunner:
@@ -383,7 +413,8 @@ class _GateRunner:
                 rel = f"images/{cond}{tag}_s{s}.png"
                 img.save(self.out_dir / rel)
                 rec = {"model_prompt": d.prompt, "negative_prompt": d.negative_prompt, "seed": s, "image": rel,
-                       "sec_per_image": round(dt, 2), **window, **_summaries(probe_out, window, b)}
+                       "sec_per_image": round(dt, 2), "fp32_retry": (d.prompt, d.negative_prompt) in _RETRIED,
+                       **window, **_summaries(probe_out, window, b)}
                 self.cache.add(self.out_dir, rec)
                 out[s] = (img, {k: v for k, v in rec.items() if _PROBE_KEYS.match(k)} | {"sec_per_image": round(dt, 2),
                                                                                           "rendered": True})
