@@ -1,0 +1,13 @@
+# Demo 3 gate settings, calibrated on the dev split only (scripts/calibrate_gate.py), before any test run.
+# tau_mem: memorization-scan threshold per model (about mem_fpr_target of dev captions flagged);
+# check_threshold: CLIP probability above which the output check calls a protected character.
+mem_fpr_target: 0.02
+mem_n_images: 4
+check_clip: ViT-L-14
+check_pretrained: openai
+check_fpr_target: 0.02
+screen_llm: rewriter_reasoning
+tau_mem:
+  sd14: 1.8033
+  sd2base: 1.8317
+check_threshold: 0.9026
