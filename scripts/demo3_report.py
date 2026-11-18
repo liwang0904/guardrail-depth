@@ -590,6 +590,50 @@ def fig_models(ba: pd.DataFrame, out: Path) -> list[str]:
     return [p.name]
 
 
+def fig_gate_flow(out: Path) -> list[str]:
+    """How a request moves through the gate (no data; for the slides and the README)."""
+    import matplotlib.pyplot as plt
+    from matplotlib.patches import FancyBboxPatch
+
+    fig, ax = plt.subplots(figsize=(11.6, 4.6), facecolor=SURFACE)
+    ax.set_xlim(-2, 116)
+    ax.set_ylim(0, 46)
+    ax.axis("off")
+
+    def box(x, y, w, h, title, body, color):
+        ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.4,rounding_size=1.2", fc=SURFACE, ec=color, lw=1.6))
+        ax.text(x + w / 2, y + h - 2.2, title, ha="center", va="top", fontsize=9.5, color=INK, weight="bold")
+        ax.text(x + w / 2, y + h - 6.2, body, ha="center", va="top", fontsize=7.8, color=INK2, linespacing=1.35)
+
+    def arrow(x0, y0, x1, y1, label="", color=INK2):
+        ax.annotate("", xy=(x1, y1), xytext=(x0, y0), arrowprops=dict(arrowstyle="-|>", color=color, lw=1.2))
+        if label:
+            ax.text((x0 + x1) / 2, (y0 + y1) / 2 + 1.0, label, ha="center", fontsize=7.5, color=color)
+
+    blue, green, orange, gray = "#2a78d6", "#1baf7a", "#eb6834", "#85847e"
+    box(0, 17, 14, 12, "request", "what the user\ntyped (maybe a lure,\nmisspelling, padding)", gray)
+    box(19, 26, 24, 18, "concept screen", "protected name after\nUnicode folding, else\nQwen3-8B over the closed\nlist of 50 characters +\n15 in-copyright artists", blue)
+    box(19, 2, 24, 18, "memorization screen", "SD 1.x/2.x only: first-step\ntext-conditional noise\nmagnitude (Wen et al.)\nof the request and its\nsegments vs. tau (dev)", green)
+    box(49, 26, 24, 18, "matched mitigation", "character: LLM rewrite +\nits name/keyword negative\nprompt (D4+D2b)\nartist: name as negative\nprompt (D2b-name)", blue)
+    box(49, 2, 24, 18, "verified rewording", "mildest template whose own\nscore is below tau:\nD2a -> D3 -> D1\n(checked before rendering)", green)
+    box(79, 14, 13, 16, "render", "nothing fired:\nthe request\nunchanged", gray)
+    box(96, 13, 17, 18, "output check", "CLIP sees a protected\ncharacter the screens\nmissed? re-render\nonce with its\nmitigation", orange)
+    arrow(14, 26, 19, 33)
+    arrow(14, 20, 19, 13)
+    arrow(43, 35, 49, 35, "fires", blue)
+    arrow(43, 11, 49, 11, "fires", green)
+    arrow(73, 33, 79, 26, "", blue)
+    arrow(73, 12, 79, 18, "", green)
+    arrow(92, 22, 96, 22)
+    ax.text(55, 23.2, "no signal: no change, no refusal", ha="center", fontsize=8, color=gray, style="italic")
+    ax.text(0, 44.5, "Demo 3 gate (G): detect the trigger, then apply the Demo 2 defense matched to it", fontsize=11,
+            color=INK, ha="left")
+    p = out / "fig_gate_flow.png"
+    fig.savefig(p, dpi=170, facecolor=SURFACE, bbox_inches="tight")
+    plt.close(fig)
+    return [p.name]
+
+
 # ----------------------------------------------------------------------------- main
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -627,7 +671,7 @@ def main() -> None:
     jv.round(4).to_csv(out / "judge_validation.csv", index=False)
     mt = models_table(ba)
     mt.to_csv(out / "models.csv")
-    figs = fig_f1(f1, out) + fig_tradeoff(ba, out) + fig_signals(sig, out) + fig_models(ba, out)
+    figs = fig_gate_flow(out) + fig_f1(f1, out) + fig_tradeoff(ba, out) + fig_signals(sig, out) + fig_models(ba, out)
 
     # headline numbers
     h = {}
