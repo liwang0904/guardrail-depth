@@ -3,7 +3,7 @@
 #   sbatch slurm/demo3_llm.sbatch screen             # gate concept screen for every Demo 3 request + D4 rewrites
 #                                                    # of the near-miss set (Qwen3-8B)
 #   sbatch slurm/demo3_llm.sbatch judge <run>...     # He et al. DETECT / CONS (Qwen2.5-VL-7B) on runs under $GD_OUTPUT_ROOT
-#   sbatch slurm/demo3_llm.sbatch onprompt           # on-prompt VQAScore (+ mismatch check) on every Demo 2 and Demo 3 run
+#   sbatch slurm/demo3_llm.sbatch onprompt [run...]  # on-prompt VQAScore (+ mismatch check) on every Demo 2 and Demo 3 run
 #SBATCH -A csds447
 #SBATCH -p markov_gpu
 #SBATCH -C "gpu4090|gpul40s"
@@ -34,7 +34,11 @@ case "$mode" in
   judge)
     for run in "$@"; do python scripts/run_judge.py "$GD_OUTPUT_ROOT/$run" --batch-size 8; done
     ;;
-  onprompt)
-    python scripts/run_onprompt.py --mismatch "$GD_OUTPUT_ROOT"/demo2/*/ "$GD_OUTPUT_ROOT"/demo3/*/
+  onprompt)   # all runs, or only the runs given (relative to $GD_OUTPUT_ROOT)
+    if [ $# -gt 0 ]; then
+      python scripts/run_onprompt.py --mismatch $(for r in "$@"; do echo "$GD_OUTPUT_ROOT/$r"; done)
+    else
+      python scripts/run_onprompt.py --mismatch "$GD_OUTPUT_ROOT"/demo2/*/ "$GD_OUTPUT_ROOT"/demo3/*/
+    fi
     ;;
 esac
