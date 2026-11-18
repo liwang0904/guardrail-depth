@@ -52,23 +52,33 @@ def preset(name: str) -> dict:
     raise SystemExit(f"unknown preset {name}")
 
 
+def _font(size: int):
+    try:
+        from matplotlib import font_manager
+
+        return ImageFont.truetype(font_manager.findfont("DejaVu Sans"), size)
+    except Exception:  # noqa: BLE001
+        return ImageFont.load_default()
+
+
 def panel(images: list[Image.Image | None], captions: list[str], title: str, path: Path) -> None:
-    w = 384
-    font = ImageFont.load_default()
-    rows = [textwrap.wrap(c, 46) for c in captions]
-    h_txt = 16 * max(len(r) for r in rows) + 12
-    canvas = Image.new("RGB", (w * len(images), w + h_txt + 34), "white")
+    w, top = 448, 64
+    font, small = _font(22), _font(17)
+    rows = [textwrap.wrap(c, 40) for c in captions]
+    h_txt = 22 * max(len(r) for r in rows) + 16
+    canvas = Image.new("RGB", (w * len(images), w + h_txt + top), "white")
     d = ImageDraw.Draw(canvas)
-    d.text((8, 8), title[:150], fill=(10, 10, 10), font=font)
+    for j, line in enumerate(textwrap.wrap(title, 120)[:2]):
+        d.text((10, 6 + 26 * j), line, fill=(10, 10, 10), font=font)
     for k, (im, lines) in enumerate(zip(images, rows)):
         x = k * w
         if im is None:
-            d.rectangle([x + 4, 34, x + w - 4, 34 + w - 8], fill=(235, 235, 232))
-            d.text((x + w // 2 - 30, 34 + w // 2), "REFUSED", fill=(120, 0, 0), font=font)
+            d.rectangle([x + 4, top, x + w - 4, top + w - 8], fill=(235, 235, 232))
+            d.text((x + w // 2 - 50, top + w // 2 - 12), "REFUSED", fill=(150, 0, 0), font=font)
         else:
-            canvas.paste(im.convert("RGB").resize((w - 8, w - 8)), (x + 4, 34))
+            canvas.paste(im.convert("RGB").resize((w - 8, w - 8)), (x + 4, top))
         for j, line in enumerate(lines):
-            d.text((x + 8, 34 + w + 4 + 16 * j), line, fill=(40, 40, 40), font=font)
+            d.text((x + 8, top + w + 4 + 22 * j), line, fill=(40, 40, 40), font=small)
     path.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(path)
 
@@ -82,6 +92,7 @@ def main() -> None:
     ap.add_argument("--steps", type=int, default=25)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--screen-llm", default=None, help="auxiliary LLM key; default: small Qwen3 on a laptop, Qwen3-8B on CUDA")
+    ap.add_argument("--no-rewrite", action="store_true", help="character mitigation without the LLM rewrite (D2b-kw only)")
     ap.add_argument("--device")
     args = ap.parse_args()
     p = preset(args.preset) if args.preset else {"request": args.request, "content": args.request,
@@ -99,8 +110,8 @@ def main() -> None:
     llm_key = args.screen_llm or ("rewriter_reasoning" if device.type == "cuda" else "rewriter_reasoning_small")
     match, stage = G.exact_name_match(request), "exact name"
     reply = ""
+    lc = registry()["auxiliary"][llm_key]
     if not match:
-        lc = registry()["auxiliary"][llm_key]
         screen = G.ConceptScreen(lc["hf_id"], lc["revision"], device)
         reply = screen.llm(request)
         match, stage = G.parse_screen_reply(reply, screen.names), f"LLM ({lc['hf_id']})"
@@ -108,6 +119,16 @@ def main() -> None:
     kinds = dict(zip(G.protected_concepts()["name"], G.protected_concepts()["kind"]))
     print(f"[1] concept screen ({time.time() - t0:.1f}s): "
           + (f"{kinds[match]} '{match}' via {stage}" if match else f"no protected concept ({stage}: {reply or 'no name'})"))
+    rewrite = None
+    if kinds.get(match) == "character" and not args.no_rewrite:
+        # the character mitigation is D4+D2b: the request rewritten under the DALL-E policy (He et al.) + negative prompt
+        from guardrail_depth.rewriter import LLMRewriter
+
+        t0 = time.time()
+        rw = LLMRewriter(lc["hf_id"], lc["revision"], device, thinking=False, max_new_tokens=160, temperature=0.0)
+        rewrite = rw.rewrite(request)["rewrite"] or None
+        del rw
+        print(f"    rewrite ({time.time() - t0:.1f}s): {(rewrite or '')[:160]}")
 
     pipe, spec = load_t2i(args.model, device)
     tau = (cfg.get("tau_mem") or {}).get(spec.key)
@@ -119,8 +140,10 @@ def main() -> None:
 
     # 2. plan: matched mitigation + memorization scan with the verified template ladder
     t0 = time.time()
-    plan = G.plan(request, {"match": match, "kind": kinds.get(match, "")}, None, mem_fn, tau)
-    if mem_fn is not None:
+    plan = G.plan(request, {"match": match, "kind": kinds.get(match, "")}, rewrite, mem_fn, tau)
+    if mem_fn is None:
+        print("[2] memorization scan: off (SD 1.x/2.x only, threshold from configs/gate.yaml)")
+    else:
         info = plan.info
         print(f"[2] memorization scan ({time.time() - t0:.1f}s): score {info['mem_scan_score']:.2f} vs tau {tau:.2f}"
               + (f" -> FLAGGED; ladder {info['mem_rung_scores']} -> {info['mem_rung']}"
@@ -168,7 +191,7 @@ def main() -> None:
     note = ""
     if c["check_flag"] and not G.screened_character(plan):
         print(f"[4] output check: sees {c['check_character']} ({c['check_prob']:.2f}) -> regenerate with its mitigation")
-        plan = G.replan_for_output(request, c["check_character"], None, plan)
+        plan = G.replan_for_output(request, c["check_character"], rewrite, plan)
         img = render(plan.defended)
         note = f" (regenerated for {plan.target})"
     else:

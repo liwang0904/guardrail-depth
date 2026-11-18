@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+import socket
 from dataclasses import dataclass
 from functools import lru_cache
 
@@ -41,6 +43,11 @@ def pick_device(prefer: str | None = None) -> torch.device:
         return torch.device(prefer)
     if torch.cuda.is_available():
         return torch.device("cuda")
+    if os.environ.get("SLURM_JOB_ID") and os.environ.get("CUDA_VISIBLE_DEVICES", "") not in ("", "NoDevFiles"):
+        # a SLURM job that was given a GPU but cannot initialize CUDA (a broken node): fail instead of
+        # silently running a 50-step diffusion model or an 8B LLM on the CPU
+        raise RuntimeError(f"job {os.environ['SLURM_JOB_ID']} has GPU {os.environ['CUDA_VISIBLE_DEVICES']} on "
+                           f"{socket.gethostname()} but CUDA is unavailable; resubmit with --exclude={socket.gethostname().split('.')[0]}")
     if torch.backends.mps.is_available():
         return torch.device("mps")
     return torch.device("cpu")
