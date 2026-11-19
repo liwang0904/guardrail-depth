@@ -20,6 +20,11 @@ deployed system has to detect the target, which is what the gate (G) does.
 * **First trade-off: protection vs. on-prompt images.** G's character mitigation keeps only 34% (SD 1.4) to
   53% (Playground) of protected character images on-prompt. The rewrite-only ablation (G-rw) has a higher F1
   on every model, but it leaks 13–15% of characters (vs 2–7% for G) and widens the gap between rights holders.
+* **The on-prompt judge is strict, but the conclusions hold.** On 120 hand-labelled images:
+  * When the judge says on-prompt, a person agrees 93% of the time.
+  * 60% of the judge's off-prompt calls look on-prompt to a person. Overall agreement is 67%, Cohen's κ 0.33.
+  * At the threshold that best fits the labels (κ 0.54), every F1 rises but the rankings barely move. G stays
+    first for exact copies, and elsewhere its rank changes by at most one place (Section 6).
 * **Second trade-off: runtime and the output check.** Screening without the output check (G-pre) adds 4–13%
   to a benign request on Playground and SD 1.4, and 20% on PixArt, whose render takes only 1.3 s. The output
   check halves the leak under the worst attack. But its threshold was set on SD 1.4, and on Playground and
@@ -118,6 +123,8 @@ method.
 * **Safe-utility F1 weighs a leak and an off-prompt image equally, so it prefers the rewrite alone.**
   * G-rw has the higher F1 on every model.
   * The differences are inside the 95% intervals.
+  * Part of the on-prompt cost comes from the judge's strictness. At the threshold that fits the hand labels
+    (Section 6), the SD 1.4 F1 gap between G and G-rw shrinks from 0.10 to 0.01 (0.681 vs 0.695).
 * **The negative prompt also evens out who is protected.**
   * Under the rewrite alone, Marvel characters leak 21–39% across the three models.
   * G's largest gap between rights holders is 4 / 14 / 7 points, vs 13 / 37 / 30 for G-rw.
@@ -247,9 +254,32 @@ not test exact copies on them. Only the output-check threshold failed to transfe
   * It works well for captions, styles and near-miss requests: AUC 0.93–0.99, false-yes rate 0–11%.
   * It is weaker for a character's generic subject (AUC 0.72–0.78) and for SD 2 captions (0.79). Treat
     character on-prompt differences of a few points as noise.
-  * A hand-labelled, balanced sample of 120 images is the second check
-    (`scripts/onprompt_sample.py`). Its agreement and Cohen's kappa go into the judge-validation table once
-    the labels are in.
+* **Hand labels.** We labelled 120 images without seeing the judge's answers. The sample is stratified over
+  the 15 runs and balanced between the judge's yes and no (`scripts/onprompt_sample.py`;
+  [onprompt_labels.csv](../results/demo3/onprompt_labels.csv)).
+  * The judge is strict: when it says on-prompt, a person agrees 93% of the time, but 60% of its off-prompt
+    calls look on-prompt to a person. Overall agreement is 67%, Cohen's κ 0.33.
+  * By task, κ is 0.75 for styles, 0.50 for near-miss requests, 0.31 for characters and 0.12 for LAION
+    captions.
+  * For long product captions, the judge and a person disagree about what "shows the caption" means at any
+    threshold.
+  * So the absolute on-prompt rates (and the two parts of F1) are underestimates. Captions are the least
+    reliable.
+* **Does the threshold change the conclusions?** P(yes) > 0.1 agrees best with the labels (82% agreement,
+  κ 0.54). It was chosen on the same 120 images, so it is optimistic. Recomputing every on-prompt-based number
+  at 0.1 ([onprompt_threshold_sensitivity.csv](../results/demo3/onprompt_threshold_sensitivity.csv)) raises
+  every F1, and the rankings barely move:
+
+  | threat, model | best F1 at 0.5 | best F1 at 0.1 | G: F1 (rank) at 0.5 → at 0.1 |
+  |---|---|---|---|
+  | exact copies, SD 1.4 | G 0.639 | G 0.909 | 0.639 (#1) → 0.909 (#1 of 10) |
+  | characters, SD 1.4 | G-rw 0.593 | D4 0.704 | 0.494 (#3) → 0.681 (#3 of 12) |
+  | characters, Playground | G-rw 0.674 | G-rw 0.752 | 0.664 (#2) → 0.747 (#2 of 8) |
+  | characters, PixArt | D4 0.644 | D4 0.750 | 0.590 (#4) → 0.674 (#4 of 8) |
+  | styles, SD 1.4 | D4 0.599 | D2b-name† 0.711 | 0.588 (#3) → 0.701 (#2 of 10) |
+
+  Protection numbers do not use this judge. Character protection uses He et al.'s DETECT question, copies use
+  SSCD, and styles use CLIP attribution.
 * **One seed.** The Demo 2 grid was re-rendered with seed 0 under the class GPU cap. The re-render matches the
   committed two-seed Demo 2 results closely:
   * median absolute difference 0.3 points, largest 5 points;

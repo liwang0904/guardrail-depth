@@ -279,18 +279,34 @@ Same detection, different mitigation. The negative prompt buys protection and co
 
 ## On-prompt judge validation
 
-| run                |   images |   auc_matched_vs_mismatched |   yes_rate_matched |   false_yes_rate_mismatched |
-|:-------------------|---------:|----------------------------:|-------------------:|----------------------------:|
-| sd14_controls      |     1000 |                       0.954 |              0.574 |                       0.024 |
-| sd14_copycat       |     1674 |                       0.720 |              0.371 |                       0.113 |
-| sd14_memorized     |     3767 |                       0.939 |              0.467 |                       0.012 |
-| sd14_style         |     3856 |                       0.976 |              0.564 |                       0.002 |
-| sd2_memorized      |     1000 |                       0.794 |              0.475 |                       0.126 |
-| pixart_copycat     |     1050 |                       0.783 |              0.444 |                       0.116 |
-| pixart_generic     |      378 |                       0.972 |              0.958 |                       0.106 |
-| playground_copycat |     1050 |                       0.776 |              0.525 |                       0.121 |
-| playground_generic |      378 |                       0.987 |              0.952 |                       0.029 |
-| sd14_generic       |      594 |                       0.933 |              0.779 |                       0.054 |
+Matched vs. mismatched: the judge's P(yes) for the image's own request vs. another request of the same run (AUC). Hand-labelled sample: 120 images stratified over runs and balanced between the judge's yes and no, labelled by a person who did not see the judge's answer ([onprompt_labels.csv](onprompt_labels.csv)).
+
+| run                                |   images |   auc_matched_vs_mismatched |   yes_rate_matched |   false_yes_rate_mismatched |   agreement |   cohen_kappa |   human_yes |   judge_yes |   judge_yes_precision |   judge_no_but_human_yes |
+|:-----------------------------------|---------:|----------------------------:|-------------------:|----------------------------:|------------:|--------------:|------------:|------------:|----------------------:|-------------------------:|
+| sd14_controls                      |     1000 |                       0.954 |              0.574 |                       0.024 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| sd14_copycat                       |     1674 |                       0.720 |              0.371 |                       0.113 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| sd14_memorized                     |     3767 |                       0.939 |              0.467 |                       0.012 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| sd14_style                         |     3856 |                       0.976 |              0.564 |                       0.002 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| sd2_memorized                      |     1000 |                       0.794 |              0.475 |                       0.126 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| pixart_copycat                     |     1050 |                       0.783 |              0.444 |                       0.116 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| pixart_generic                     |      378 |                       0.972 |              0.958 |                       0.106 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| playground_copycat                 |     1050 |                       0.776 |              0.525 |                       0.121 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| playground_generic                 |      378 |                       0.987 |              0.952 |                       0.029 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| sd14_generic                       |      594 |                       0.933 |              0.779 |                       0.054 |     nan     |       nan     |     nan     |     nan     |               nan     |                  nan     |
+| hand-labelled sample, P(yes) > 0.5 |      120 |                     nan     |            nan     |                     nan     |       0.667 |         0.333 |       0.767 |       0.500 |                 0.933 |                    0.600 |
+| hand-labelled sample, P(yes) > 0.1 |      120 |                     nan     |            nan     |                     nan     |       0.817 |         0.544 |       0.767 |       0.683 |                 0.927 |                    0.421 |
+
+## Does the judge's threshold change the conclusions?
+
+The hand labels show the judge's on-prompt threshold (P(yes) > 0.5) is strict: it calls many images off-prompt that a person calls on-prompt (judge validation above). P(yes) > 0.1 agrees best with the hand labels (Cohen's kappa 0.54; chosen on the same sample, so optimistic). Below, every on-prompt-based number is recomputed at that threshold (protection numbers do not use the judge); F1 (rank among the guardrails) at 0.5 -> at 0.1. All guardrails: [onprompt_threshold_sensitivity.csv](onprompt_threshold_sensitivity.csv).
+
+| threat       | model           | best at 0.5   | best at 0.1      | G                              | G-rw                           |
+|:-------------|:----------------|:--------------|:-----------------|:-------------------------------|:-------------------------------|
+| exact copies | SD 1.4          | G (0.639)     | G (0.909)        | 0.639 (#1) -> 0.909 (#1 of 10) | –                              |
+| characters   | SD 1.4          | G-rw (0.593)  | D4 (0.704)       | 0.494 (#3) -> 0.681 (#3 of 12) | 0.593 (#1) -> 0.695 (#2 of 12) |
+| characters   | Playground v2.5 | G-rw (0.674)  | G-rw (0.752)     | 0.664 (#2) -> 0.747 (#2 of 8)  | 0.674 (#1) -> 0.752 (#1 of 8)  |
+| characters   | PixArt-α        | D4 (0.644)    | D4 (0.750)       | 0.590 (#4) -> 0.674 (#4 of 8)  | 0.614 (#2) -> 0.716 (#2 of 8)  |
+| styles       | SD 1.4          | D4 (0.599)    | D2b-name (0.711) | 0.588 (#3) -> 0.701 (#2 of 10) | –                              |
 
 ## Across model families
 
