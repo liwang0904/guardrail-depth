@@ -7,7 +7,8 @@ models outside Stable Diffusion): metrics.csv (scripts/evaluate.py), judge.csv (
 onprompt.csv (scripts/run_onprompt.py), and the gate's screen decisions. Writes small committed files
 to results/demo3/:
 
-  before_after.csv / .md       per threat and model: no guardrail, vanilla, best Demo 2 baseline, G, G-pre
+  before_after.csv / .md       per threat and model: no guardrail, vanilla, best Demo 2 baseline, G, G-pre, G-rw
+  ablation_mitigation.csv      characters: the gate with D4+D2b (G-pre, G) vs. the rewrite alone (G-rw), and D4, D4+D2b
   responsible_ai.csv / .md     the responsible-AI metrics, labelled: safe-utility F1, over-blocking,
                                benign utility lost, subgroup gap, attack lift, characters drawn unasked,
                                runtime overhead
@@ -46,8 +47,12 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 import demo2_report as R2  # noqa: E402
 
-NAMES = {**R2.NAMES, "G": "gate (ours)", "G-pre": "gate, no output check (ablation)"}
-ORDER = list(R2.NAMES) + ["G-pre", "G"]
+NAMES = {**R2.NAMES, "G": "gate (ours)", "G-pre": "gate, no output check (ablation)",
+         "G-rw": "gate, rewrite-only character mitigation (ablation)"}
+ORDER = list(R2.NAMES) + ["G-pre", "G-rw", "G"]
+GATES = ("G", "G-pre", "G-rw")
+# G's character mitigation (D4+D2b for the detected character); G-rw keeps only its rewrite (D4)
+CHARACTER_MITIGATION = "llm_rewrite+negbuf_name_kw"
 ATTACKS = R2.ATTACKS
 # guardrails that were handed the protected target by the experiment (a deployed system does not know it)
 ORACLE = {"D2b-kw", "D2b-name", "D4+D2b"}
@@ -107,6 +112,39 @@ def load_all(outputs: Path) -> dict[str, pd.DataFrame]:
         # a guardrail evaluated in both stages (none) keeps the Demo 2 rows
         dup = df.duplicated(["item_id", "attack_code", "defense_code", "seed"], keep="first")
         out[k] = df[~dup].reset_index(drop=True)
+    return out
+
+
+def add_rewrite_only(runs: dict[str, pd.DataFrame], log=print) -> dict[str, pd.DataFrame]:
+    """G-rw ablation, assembled from existing renders (no new images): which character mitigation should the
+    gate apply? G-rw is G-pre (screens, no output check) with the LLM rewrite alone (D4) instead of D4+D2b:
+    where the concept screen flagged a character and a rewrite exists, G-rw takes the D4 image of the same
+    request and seed (the gate and D4 use the same rewrite: checked here); every other request keeps its
+    G-pre image (D0 when nothing fired, the D2b-kw fallback when no rewrite exists). Character runs only; on
+    the other threats it would equal G-pre."""
+    key = ["item_id", "attack_code", "seed"]
+    out = dict(runs)
+    for name, df in runs.items():
+        if df["dataset"].iloc[0] not in ("copycat_characters", "generic_prompts"):
+            continue
+        pre, d4 = df[df["defense_code"] == "G-pre"], df[df["defense_code"] == "D4"]
+        if pre.empty or d4.empty or "gate_applied" not in pre:
+            continue
+        d4 = d4.drop_duplicates(key).set_index(key)
+        swap = pre["gate_applied"].fillna("") == CHARACTER_MITIGATION
+        sw = pre[swap]
+        found = pd.MultiIndex.from_frame(sw[key]).isin(d4.index)
+        new = d4.loc[pd.MultiIndex.from_frame(sw.loc[found, key])].reset_index()
+        for c in [c for c in pre.columns if c.startswith(("gate_", "screen_", "mem_")) or c == "rewrite_available"]:
+            new[c] = sw.loc[found, c].to_numpy()
+        new["gate_applied"] = new["gate_final_applied"] = "llm_rewrite"
+        new["n_generations"] = 1
+        same = ((new["model_prompt"].to_numpy() == sw.loc[found, "model_prompt"].to_numpy()).mean()
+                if "model_prompt" in new and "model_prompt" in sw and len(new) else np.nan)
+        rw = pd.concat([pre[~swap], sw[~found], new], ignore_index=True).assign(defense_code="G-rw")
+        log(f"  G-rw {name}: {len(new)} of {len(pre)} requests take the D4 image ({(~found).sum()} without one),"
+            f" same rewrite as D4: {same:.0%}")
+        out[name] = pd.concat([df, rw], ignore_index=True)
     return out
 
 
@@ -208,7 +246,7 @@ def runtime(df: pd.DataFrame, rewrite_seconds: float = np.nan) -> pd.Series:
             out[g] = np.nan
             continue
         render = x["sec_per_image"].fillna(d0)
-        if g in ("G", "G-pre"):
+        if g in GATES:
             full = g == "G"
             n = x["n_generations"].fillna(1) if full and "n_generations" in x else 1.0
             t = (render * n).mean()
@@ -241,7 +279,7 @@ def intervention_rate(df: pd.DataFrame) -> pd.Series:
             out[g] = 0.0
         elif g == "V0":
             out[g] = x["refused"].mean()
-        elif g in ("G", "G-pre"):
+        elif g in GATES:
             col = "gate_final_applied" if "gate_final_applied" in x and g == "G" else "gate_applied"
             out[g] = (x[col].fillna("none") != "none").mean() if col in x else np.nan
         else:
@@ -296,21 +334,22 @@ def family_tables(runs: dict, rewrite_seconds: float = np.nan) -> tuple[pd.DataF
 
 
 def pick_rows(ba: pd.DataFrame) -> pd.DataFrame:
-    """Per (threat, model): D0, V0, the best Demo 2 baseline by F1 (or protection when no F1), G-pre, G."""
+    """Per (threat, model): D0, V0, the best Demo 2 baseline by F1 (or protection when no F1), G-pre, G-rw, G."""
     keep = []
     for (fam, model), x in ba.groupby(["threat", "model"], sort=False):
-        base = x[~x.guardrail.isin(["D0", "V0", "C1", "G", "G-pre"])]
+        base = x[~x.guardrail.isin(["D0", "V0", "C1", *GATES])]
         if base.empty:
             continue
         key = "su_f1" if base["su_f1"].notna().any() else "mean_attacks"
         best = base.sort_values(key, ascending=(key == "mean_attacks")).iloc[0]["guardrail"]
         prot = base.sort_values("mean_attacks").iloc[0]["guardrail"]
-        want = ["D0", "V0", prot, best, "G-pre", "G"]
+        want = ["D0", "V0", prot, best, "G-pre", "G-rw", "G"]
         sub = x.set_index("guardrail")
         for g in dict.fromkeys(want):
             if g in sub.index:
                 r = sub.loc[g].to_dict()
-                role = {"D0": "no guardrail", "V0": "vanilla baseline", "G": "ours", "G-pre": "ours (ablation)"}.get(g, "")
+                role = {"D0": "no guardrail", "V0": "vanilla baseline", "G": "ours", "G-pre": "ours (ablation)",
+                        "G-rw": "ours (ablation)"}.get(g, "")
                 if g == best:
                     role = "best Demo 2 baseline (F1)" if key == "su_f1" else "best Demo 2 baseline"
                 if g == prot and g != best:
@@ -471,8 +510,23 @@ def judge_validation(runs: dict, labels: Path | None) -> pd.DataFrame:
 
 
 def models_table(ba: pd.DataFrame) -> pd.DataFrame:
-    x = ba[ba.threat.isin(["characters", "styles"]) & ba.guardrail.isin(["D0", "V0", "D1", "D2b-kw", "D2b-name", "D4", "D4+D2b", "G"])]
+    x = ba[ba.threat.isin(["characters", "styles"]) & ba.guardrail.isin(["D0", "V0", "D1", "D2b-kw", "D2b-name", "D4", "D4+D2b",
+                                                                        "G-rw", "G"])]
     return x.pivot_table(index=["threat", "guardrail"], columns="model", values=["mean_attacks", "su_f1"]).round(3)
+
+
+def mitigation_ablation(ba: pd.DataFrame) -> pd.DataFrame:
+    """Characters: the always-on rewrite (D4), the oracle D4+D2b, and the gate with each as its mitigation."""
+    steps = ["D4", "D4+D2b", "G-rw", "G-pre", "G"]
+    x = ba[(ba.threat == "characters") & ba.guardrail.isin(steps)].copy()
+    x["_m"] = x.model.map({m: k for k, m in enumerate(dict.fromkeys(x.model))})
+    x = x.assign(_g=x.guardrail.map(steps.index)).sort_values(["_m", "_g"])
+    x["mitigation"] = x.guardrail.map({"D4": "rewrite, every request", "D4+D2b": "rewrite + true target's negative prompt, every request",
+                                       "G-pre": "rewrite + detected character's negative prompt",
+                                       "G-rw": "rewrite only", "G": "rewrite + negative prompt, + output check"})
+    x["guardrail"] = x.guardrail.map(label)
+    return x[["model", "guardrail", "mitigation", "plain", "worst_attack", "mean_attacks", "risky_on_prompt",
+              "benign_served", "su_f1", "f1_ci", "sec_per_request"]]
 
 
 # ----------------------------------------------------------------------------- figures
@@ -490,8 +544,8 @@ def fig_f1(f1: pd.DataFrame, out: Path) -> list[str]:
         _style(ax)
         ax.grid(axis="y", color=GRID, linewidth=0.6)
         ax.set_axisbelow(True)
-        colors = [G_BLUE if g in ("G", "G-pre") else GRAYS[1] for g in x["guardrail"]]
-        alphas = [1.0 if g == "G" else 0.55 if g == "G-pre" else 1.0 for g in x["guardrail"]]
+        colors = [G_BLUE if g in GATES else GRAYS[1] for g in x["guardrail"]]
+        alphas = [{"G-pre": 0.45, "G-rw": 0.7}.get(g, 1.0) for g in x["guardrail"]]
         bars = ax.bar(range(len(x)), x["su_f1"], color=colors, width=0.7)
         for b, a in zip(bars, alphas):
             b.set_alpha(a)
@@ -531,9 +585,9 @@ def fig_tradeoff(ba: pd.DataFrame, out: Path) -> list[str]:
         ax.set_axisbelow(True)
         y = x[x.threat == fam]
         for r in y.itertuples():
-            ours = r.guardrail in ("G", "G-pre")
+            ours = r.guardrail in GATES
             ax.scatter(r.benign_served, 100 * (1 - r.mean_attacks), s=70 if ours else 40,
-                       color=G_BLUE if ours else GRAYS[2], alpha=1 if r.guardrail != "G-pre" else 0.6,
+                       color=G_BLUE if ours else GRAYS[2], alpha={"G-pre": 0.5, "G-rw": 0.7}.get(r.guardrail, 1),
                        edgecolor=SURFACE, linewidth=1.5, zorder=3)
             ax.annotate(f"{r.guardrail}{'†' if r.guardrail in ORACLE else ''}", (r.benign_served, 100 * (1 - r.mean_attacks)),
                         xytext=(4, 3), textcoords="offset points", fontsize=8, color=INK if ours else INK2)
@@ -583,17 +637,17 @@ def fig_signals(sig: pd.DataFrame, out: Path) -> list[str]:
 def fig_models(ba: pd.DataFrame, out: Path) -> list[str]:
     import matplotlib.pyplot as plt
 
-    x = ba[(ba.threat == "characters") & ba.guardrail.isin(["D0", "V0", "D4", "D4+D2b", "G"])]
+    x = ba[(ba.threat == "characters") & ba.guardrail.isin(["D0", "V0", "D4", "D4+D2b", "G-rw", "G"])]
     if x.empty:
         return []
     models = [m for m in ("SD 1.4", "SDXL", "Playground v2.5", "PixArt-α") if m in set(x.model)]
-    guards = [g for g in ("D0", "V0", "D4", "D4+D2b", "G") if g in set(x.guardrail)]
+    guards = [g for g in ("D0", "V0", "D4", "D4+D2b", "G-rw", "G") if g in set(x.guardrail)]
     w = 0.8 / len(guards)
     fig, ax = plt.subplots(figsize=(2 + 1.6 * len(models), 3.8), facecolor=SURFACE)
     _style(ax)
     ax.grid(axis="y", color=GRID, linewidth=0.6)
     ax.set_axisbelow(True)
-    shades = {"D0": "#d9d8d3", "V0": "#b5b4ae", "D4": "#919089", "D4+D2b": "#6c6b65", "G": G_BLUE}
+    shades = {"D0": "#d9d8d3", "V0": "#b5b4ae", "D4": "#919089", "D4+D2b": "#6c6b65", "G-rw": "#8fb8ea", "G": G_BLUE}
     for k, g in enumerate(guards):
         v = [100 * x[(x.model == m) & (x.guardrail == g)]["mean_attacks"].mean() for m in models]
         bars = ax.bar(np.arange(len(models)) + (k - (len(guards) - 1) / 2) * w, v, w - 0.02, color=shades[g],
@@ -668,6 +722,7 @@ def main() -> None:
     runs = load_all(args.outputs)
     if not runs:
         raise SystemExit(f"no scored runs under {args.outputs}/demo2 or demo3")
+    runs = add_rewrite_only(runs)
     print("runs:", {k: sorted(v["defense_code"].unique()) for k, v in runs.items()})
 
     # LLM rewrite time per request (D4, and the gate when it detects a character): measured by run_rewriter.py
@@ -697,6 +752,8 @@ def main() -> None:
     jv.round(4).to_csv(out / "judge_validation.csv", index=False)
     mt = models_table(ba)
     mt.to_csv(out / "models.csv")
+    abl = mitigation_ablation(ba)
+    abl.round(4).to_csv(out / "ablation_mitigation.csv", index=False)
     figs = fig_gate_flow(out) + fig_f1(f1, out) + fig_tradeoff(ba, out) + fig_signals(sig, out) + fig_models(ba, out)
 
     # headline numbers
@@ -720,7 +777,10 @@ def main() -> None:
            "Same test items, attacks and settings as Demo 2, seed 0 (the Demo 2 grid was re-rendered with one seed under the "
            "class GPU cap). † = the experiment handed this baseline the protected "
            "target (He et al.'s setup); a deployed system has to detect it, which is what G does. Protection numbers are "
-           "failure rates (lower = better); F1 and served rates are higher = better.", "",
+           "failure rates (lower = better); F1 and served rates are higher = better. Ablations: G-pre = G without the output "
+           "check; G-rw = G-pre with the LLM rewrite alone (D4) as the character mitigation, assembled from existing "
+           "renders (the D4 image of the same request and seed) and added after the test results, so G stays the method "
+           "fixed before the test run.", "",
            "## Before vs. after", "",
            md(view(pick, ["threat", "model", "role", "guardrail", "plain", "worst_attack", "mean_attacks", "risky_on_prompt",
                           "benign_served", "benign_refused", "su_f1", "f1_ci", "sec_per_request"],
@@ -750,6 +810,12 @@ def main() -> None:
         sv = sig_sum.copy()
         sv["share"] = sv["share"].map(pct)
         rep += ["## Why it works: which signal fired", "", md(sv), "", "What still gets through: [gate_errors.md](gate_errors.md)", ""]
+    if len(abl):
+        rep += ["## Ablation: which character mitigation should the gate apply?", "",
+                "Same detection, different mitigation. The negative prompt buys protection and costs on-prompt "
+                "images (it also suppresses the generic entity, e.g. the mouse in a Mickey request); the rewrite alone "
+                "keeps more of the request and lets more through.", "",
+                md(view(abl, list(abl.columns), ["plain", "worst_attack", "mean_attacks", "risky_on_prompt", "benign_served"])), ""]
     if not jv.empty:
         rep += ["## On-prompt judge validation", "", md(jv), ""]
     if len(mt):
