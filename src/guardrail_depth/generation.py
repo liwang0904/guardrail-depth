@@ -449,7 +449,9 @@ class _GateRunner:
             img, fields = first[seed]
             final_plan, final_img, final_fields = plan, img, fields
             rec = {**base, **gate_info, "seed": seed, "refused": False, "n_generations": 1}
-            if self.check is not None:
+            # the output check belongs to G only: G-pre (the ablation) shares the job, and the check object
+            # exists whenever G is in it, so test the defense, not the object
+            if self.check is not None and defense == "gated":
                 c = self.check([img])[0]
                 rec.update({f"pre_{k}": v for k, v in c.items()})
                 # the output check covers what the screens missed (or matched to the wrong character)

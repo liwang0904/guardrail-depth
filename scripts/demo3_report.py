@@ -197,19 +197,34 @@ def runtime(df: pd.DataFrame, rewrite_seconds: float = np.nan) -> pd.Series:
     gate) + the gate's screening and output check + the LLM rewrite for D4 rows (measured separately)."""
     out = {}
     d0 = df.loc[df["defense_code"] == "D0", "sec_per_image"].mean() if "sec_per_image" in df else np.nan
+    key = ["item_id", "attack_code", "seed"]
+    # G and G-pre share one in-process memorization cache, so whichever ran second shows ~0 s: charge both
+    # the cost of the request's first computation
+    gg = df[df["defense_code"].isin(["G", "G-pre"])]
+    mem = (gg.assign(m=pd.to_numeric(gg["mem_seconds"], errors="coerce")).groupby(key)["m"].max()
+           if "mem_seconds" in gg and len(gg) else None)
     for g, x in df.groupby("defense_code"):
         if "sec_per_image" not in x:
             out[g] = np.nan
             continue
         render = x["sec_per_image"].fillna(d0)
         if g in ("G", "G-pre"):
-            n = x["n_generations"].fillna(1) if "n_generations" in x else 1.0
+            full = g == "G"
+            n = x["n_generations"].fillna(1) if full and "n_generations" in x else 1.0
             t = (render * n).mean()
-            t += sum(x[c].fillna(0).mean() for c in ("screen_seconds", "mem_seconds", "check_seconds",
-                                                    "pre_check_seconds") if c in x)
+            if "screen_seconds" in x:
+                t += x["screen_seconds"].fillna(0).mean()
+            if mem is not None:
+                t += mem.reindex(pd.MultiIndex.from_frame(x[key])).fillna(0).mean()
+            if full:   # the output check: once per request, again on a second render
+                first = x["pre_check_seconds"] if "pre_check_seconds" in x else x.get("check_seconds")
+                again = x["check_seconds"].fillna(0).where(n > 1, 0) if "check_seconds" in x and not np.isscalar(n) else 0
+                if first is not None:
+                    t += (first.fillna(0) + again).mean()
             # the gate rewrites only the requests where it detected a character
-            if "gate_final_applied" in x:
-                t += x["gate_final_applied"].fillna("").str.startswith("llm_rewrite").mean() * np.nan_to_num(rewrite_seconds)
+            col = "gate_final_applied" if full else "gate_applied"
+            if col in x:
+                t += x[col].fillna("").str.startswith("llm_rewrite").mean() * np.nan_to_num(rewrite_seconds)
         elif g == "V0":
             t = (render * (1 - x["refused"])).mean()
         else:
@@ -493,7 +508,8 @@ def fig_f1(f1: pd.DataFrame, out: Path) -> list[str]:
         ax.set_title(f"{fam}, {model}: protected AND useful on risky requests, served on benign", loc="left",
                      fontsize=10, color=INK)
         fig.tight_layout()
-        p = out / f"fig_f1_{fam.replace(' ', '_')}_{model.replace(' ', '').replace('.', '').replace('-', '')}.png"
+        slug = "".join(ch for ch in model.replace("α", "alpha") if ch.isascii() and ch.isalnum())
+        p = out / f"fig_f1_{fam.replace(' ', '_')}_{slug}.png"
         fig.savefig(p, dpi=160, facecolor=SURFACE)
         plt.close(fig)
         made.append(p.name)

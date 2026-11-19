@@ -197,3 +197,28 @@ def test_gated_run_reuses_renders_and_regenerates_after_the_output_check(tmp_pat
     assert r3 and all(r["gate_final_target"] == "Mario+Mike Wazowski" and r["n_generations"] == 2 for r in r3)
     assert all(r["negative_prompt"].startswith("Mario, ") and "Mike Wazowski" in r["negative_prompt"] for r in r3)
     assert all(r["model_prompt"] == by[("llm_rewrite+negbuf_name_kw", "direct")]["model_prompt"] for r in r3)
+
+
+def test_gate_ablation_in_the_same_job_skips_the_output_check(tmp_path, monkeypatch):
+    """G and G-pre run in one job (as in configs/experiments/demo3.yaml): only G is output-checked."""
+    from guardrail_depth import generation as Gen
+    import pandas as pd
+
+    monkeypatch.setattr(Gen, "output_root", lambda: tmp_path)
+    monkeypatch.setattr(G, "OutputCheck", lambda clip, threshold: _StubCheck())
+    monkeypatch.setattr("guardrail_depth.metrics.CLIPScorer", lambda *a, **k: None)
+    screens = tmp_path / "screen.csv"
+    pd.DataFrame([{"dataset": "copycat_characters", "item_id": 23, "attack": "lure_desc60", "match": "", "kind": "",
+                   "stage": "", "reply": "match: NONE", "screen_seconds": 0.2}]).to_csv(screens, index=False)
+    pipe = _FakePipe()
+    job = Job(name="g", model="fake", dataset="copycat_characters", ids=[23], attacks=["lure_desc60"],
+              defenses=["none", "llm_rewrite+negbuf_name_kw", "gated", "gated_pre"], seeds=[0], probes=[],
+              screens=[str(screens)], gate={"tau_mem": None})
+    run_job(pipe, _Spec(), job, tmp_path / "run", log=lambda *_: None)
+    by = {r["defense"]: r for r in map(json.loads, open(tmp_path / "run" / "records.jsonl"))}
+    g, pre, d0 = by["gated"], by["gated_pre"], by["none"]
+    assert g["n_generations"] == 2 and g["gate_final_target"] == "Mario"
+    # the ablation keeps the first render (here the D0 image: the screen missed the lure) and never checks it
+    assert pre["n_generations"] == 1 and pre["gate_final_applied"] == "none"
+    assert pre["model_prompt"] == d0["model_prompt"] and pre["negative_prompt"] == d0["negative_prompt"]
+    assert not any(k.startswith(("check_", "pre_check_")) for k in pre) and "pre_image" not in pre
