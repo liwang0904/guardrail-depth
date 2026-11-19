@@ -839,7 +839,7 @@ def main() -> None:
                    f"on-prompt-based number is recomputed at that threshold (protection numbers do not use the judge); "
                    f"F1 (rank among the guardrails) at 0.5 -> at {bt[0]:g}. All guardrails: "
                    "[onprompt_threshold_sensitivity.csv](onprompt_threshold_sensitivity.csv).", "",
-                   md(pd.DataFrame(rows)), ""]
+                   md(pd.DataFrame(rows).fillna("–")), ""]
     mt = models_table(ba)
     mt.to_csv(out / "models.csv")
     abl = mitigation_ablation(ba)
