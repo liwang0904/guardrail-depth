@@ -16,6 +16,7 @@ Writes $GD_OUTPUT_ROOT/live/<name>.png (kept out of git: it can show training im
 from __future__ import annotations
 
 import argparse
+import gc
 import sys
 import textwrap
 import time
@@ -83,6 +84,16 @@ def panel(images: list[Image.Image | None], captions: list[str], title: str, pat
     canvas.save(path)
 
 
+def release(device: torch.device) -> None:
+    """Hand the LLM's memory back before the diffusion model loads: on a laptop the cached weights
+    otherwise push the memorization scan into swap (138 s instead of about 25 s on an M2)."""
+    gc.collect()
+    if device.type == "mps":
+        torch.mps.empty_cache()
+    elif device.type == "cuda":
+        torch.cuda.empty_cache()
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("request", nargs="?")
@@ -116,6 +127,7 @@ def main() -> None:
         reply = screen.llm(request)
         match, stage = G.parse_screen_reply(reply, screen.names), f"LLM ({lc['hf_id']})"
         del screen
+        release(device)
     kinds = dict(zip(G.protected_concepts()["name"], G.protected_concepts()["kind"]))
     print(f"[1] concept screen ({time.time() - t0:.1f}s): "
           + (f"{kinds[match]} '{match}' via {stage}" if match else f"no protected concept ({stage}: {reply or 'no name'})"))
@@ -128,6 +140,7 @@ def main() -> None:
         rw = LLMRewriter(lc["hf_id"], lc["revision"], device, thinking=False, max_new_tokens=110, temperature=0.0)
         rewrite = rw.rewrite(request)["rewrite"] or None
         del rw
+        release(device)
         print(f"    rewrite ({time.time() - t0:.1f}s): {(rewrite or '')[:160]}")
 
     pipe, spec = load_t2i(args.model, device)

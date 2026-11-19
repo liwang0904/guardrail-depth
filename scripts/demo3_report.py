@@ -496,7 +496,8 @@ def judge_validation(runs: dict, labels: Path | None) -> pd.DataFrame:
     for name, df in runs.items():
         if "mm_p_yes_norm" not in df or df["mm_p_yes_norm"].isna().all():
             continue
-        x = df.dropna(subset=["p_yes_norm", "mm_p_yes_norm"])
+        # G-rw rows reuse D4's (and G-pre's) images: count every judged image once
+        x = df[df["defense_code"] != "G-rw"].dropna(subset=["p_yes_norm", "mm_p_yes_norm"])
         x = x[x["refused"] == 0]
         if len(x) < 10:
             continue
