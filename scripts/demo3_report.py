@@ -298,6 +298,8 @@ def family_tables(runs: dict, rewrite_seconds: float = np.nan) -> tuple[pd.DataF
         pa = protection_by_attack(risky)
         prot[rr] = pa
         rt = runtime(runs[rr], rewrite_seconds)
+        # benign requests: the gate screens them but (mostly) does not rewrite or render twice
+        rt_b = runtime(benign, rewrite_seconds) if benign is not None else pd.Series(dtype=float)
         iv = intervention_rate(benign) if benign is not None else pd.Series(dtype=float)
         # characters drawn unasked: benign near-miss images in which the judge names a protected character
         unasked = (benign.groupby("defense_code")["detected"].mean()
@@ -322,6 +324,7 @@ def family_tables(runs: dict, rewrite_seconds: float = np.nan) -> tuple[pd.DataF
                 "worst_attack": ATTACKS.get(row_p.idxmax(), "") if len(row_p) and row_p.notna().any() else "",
                 "sec_per_request": rt.get(g, np.nan),
                 "runtime_vs_D0": rt.get(g, np.nan) / rt.get("D0", np.nan) if rt.get("D0", np.nan) else np.nan,
+                "sec_per_benign_request": rt_b.get(g, np.nan),
             })
             ba_rows.append({"threat": fam, "model": MODELS.get(model, model), "guardrail": g,
                             "plain": row_p.get("A0", np.nan), "worst_attack": row_p.max() if len(row_p) else np.nan,
@@ -794,11 +797,11 @@ def main() -> None:
            "| attack lift | worst attack minus plain request (robustness to a non-cooperative user) |",
            "| subgroup gap | max - min failure rate across character origin / rights holder, artist group, memorization type ([subgroup_gaps.csv](subgroup_gaps.csv)) |",
            "| drawn unasked | benign near-miss requests on which the judge finds a protected character |",
-           "| runtime | seconds per request, including the gate's screening and any second render |", "",
+           "| runtime | seconds per risky request (and per benign request), including the gate's screening, LLM rewrite and any second render |", "",
            md(view(rai.drop(columns=["oracle_target"]),
                    [c for c in ["threat", "model", "guardrail", "name", "safe_utility_f1", "benign_refused", "benign_utility_lost",
                                 "benign_intervention", "drawn_unasked", "attack_lift", "worst_attack", "subgroup_gap",
-                                "sec_per_request", "runtime_vs_D0"] if c in rai],
+                                "sec_per_request", "runtime_vs_D0", "sec_per_benign_request"] if c in rai],
                    ["benign_refused", "benign_utility_lost", "benign_intervention", "drawn_unasked", "attack_lift",
                     "subgroup_gap"])), ""]
     if not gaps.empty:

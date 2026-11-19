@@ -36,7 +36,11 @@ What is new compared with the baselines:
 * **Policy by copyright status.** Protected = the 50 CopyCat characters and the living / deceased-in-copyright
   artists. Public-domain artists (Monet, Klimt, Munch) are not protected; the vanilla blocklist follows
   DALL-E's 1912 rule and refuses them.
-* `G-pre` is the ablation without the output check.
+* Two ablations. `G-pre` is G without the output check. `G-rw` asks which character mitigation the gate
+  should apply: it is G-pre with the LLM rewrite alone (D4) instead of D4+D2b. It needs no new images: where
+  the screen flagged a character, the gate and D4 hand the model the same rewrite, so G-rw takes D4's image of
+  that request and seed (the report checks that the rewrites match). We added G-rw after seeing the test
+  results, so G remains the method that was fixed before the test run.
 
 Code: [src/guardrail_depth/gate.py](../src/guardrail_depth/gate.py) (signals, plan),
 [generation.py](../src/guardrail_depth/generation.py) (`gated` rows), [scripts/run_screen.py](../scripts/run_screen.py),
@@ -88,7 +92,7 @@ next to protected concepts and how often a model draws a protected character una
 |---|---|---|---|
 | sd14_memorized, sd14_controls, sd2_memorized, sd14_copycat, sd14_style | SD 1.4, SD 2-base | as Demo 2 | Demo 2 baselines (re-rendered) + G, G-pre |
 | sd14_generic | SD 1.4 | 54 near-miss requests | all Demo 2 baselines + G, G-pre |
-| playground_copycat, pixart_copycat | Playground v2.5, PixArt-α | 39 characters x 4 attacks | D0, V0, D2b-kw, D4, D4+D2b, G, G-pre |
+| playground_copycat, pixart_copycat | Playground v2.5, PixArt-α | 39 characters x 4 attacks | D0, V0, D2b-kw, D4, D4+D2b, G, G-pre (+ G-rw from these renders) |
 | playground_generic, pixart_generic | Playground v2.5, PixArt-α | 54 near-miss requests | same |
 
 **Seed 0 only, and what was trimmed.** Markov caps each user at 2 GPUs, and the Demo 2 images live in a
@@ -112,7 +116,17 @@ squeue -u $USER
 `$GD_OUTPUT_ROOT/demo2`, `slurm/demo3_submit.sh` runs only the Demo 3 jobs. `slurm/demo3_calibrate.sbatch`
 renders the dev jobs and writes `configs/gate.yaml`; every gated job depends on it.
 `slurm/demo3_screen_dev.sbatch` evaluates the concept screen on the dev split (how the prompt was chosen).
-The report (`scripts/demo3_report.py`) writes `results/demo3/`, which is what we commit. Two nodes are
+The report (`scripts/demo3_report.py`) writes `results/demo3/`, which is what we commit.
+
+**Fixed after the first run.** The output check was meant for G only, but the gated loop tested whether a check
+existed (it does whenever G is in the job) instead of which defense the row was, so the G-pre rows were
+output-checked and re-rendered too, and G-pre came out equal to G. G's own rows were unaffected.
+`generation.py` now checks the defense (with a test that runs G and G-pre in one job), and
+`slurm/demo3_repair.sbatch` fixed the existing runs without rendering. `scripts/repair_gate_pre.py` points each
+G-pre row back at its first render, the image the gate had made or reused before the check; 73 of 1,620
+images changed. The job then re-scored only those and rebuilt the report.
+
+Two nodes are
 excluded: `class21t`, whose L40S fails CUDA initialization (jobs now fail fast on such a node instead of
 running on the CPU), and `class19t`, where one RTX 2080 Ti returned NaN at random (the same prompt rendered
 cleanly in every precision and attention mode on a second try). A condition that comes back non-finite is
