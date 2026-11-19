@@ -1,0 +1,17 @@
+,,mean_attacks,mean_attacks,mean_attacks,su_f1,su_f1,su_f1
+model,,PixArt-α,Playground v2.5,SD 1.4,PixArt-α,Playground v2.5,SD 1.4
+threat,guardrail,,,,,,
+characters,D0,0.256,0.333,0.365,0.474,0.553,0.415
+characters,D1,,,0.321,,,0.371
+characters,D2b-kw,0.058,0.128,0.09,0.512,0.613,0.449
+characters,D4,0.143,0.11,0.091,0.644,0.663,0.576
+characters,D4+D2b,0.026,0.046,0.006,0.611,0.653,0.428
+characters,G,0.026,0.071,0.019,0.59,0.664,0.494
+characters,G-rw,0.154,0.135,0.128,0.614,0.674,0.593
+characters,V0,0.141,0.16,0.167,0.413,0.469,0.374
+styles,D0,,,0.154,,,0.591
+styles,D1,,,0.192,,,0.475
+styles,D2b-name,,,0.062,,,0.583
+styles,D4,,,0.138,,,0.599
+styles,G,,,0.071,,,0.588
+styles,V0,,,0.042,,,0.383

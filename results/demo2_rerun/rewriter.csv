@@ -1,0 +1,3 @@
+attack,name kept in rewrite,character named in reasoning,mean token entropy,keyword share kept
+lure_kw_laion5,0.0769,0.2051,0.3755,0.3294
+perturb_phonetic,0.0,0.4359,0.3717,0.1007

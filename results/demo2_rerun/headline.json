@@ -1,0 +1,114 @@
+{
+ "sd14_copycat": {
+  "no_guardrail_plain": 0.7948717949,
+  "best_prompt_guardrail": "D4+D2b",
+  "best_plain": 0.0,
+  "best_worst_attack": 0.0256410256,
+  "best_worst_attack_name": "60-word lure",
+  "vanilla_plain": 0.0,
+  "vanilla_worst_attack": 0.3846153846,
+  "vanilla_refusal": 0.2564102564,
+  "random_words_plain": 0.0512820513
+ },
+ "sd14_memorized": {
+  "no_guardrail_plain": 0.3333333333,
+  "best_prompt_guardrail": "D4",
+  "best_plain": 0.0,
+  "best_worst_attack": 0.0144927536,
+  "best_worst_attack_name": "override",
+  "vanilla_plain": 0.3333333333,
+  "vanilla_worst_attack": 0.3333333333,
+  "vanilla_refusal": 0.0076923077,
+  "random_words_plain": 0.0
+ },
+ "sd14_style": {
+  "no_guardrail_plain": 0.31,
+  "best_prompt_guardrail": "D2b-name",
+  "best_plain": 0.05,
+  "best_worst_attack": 0.05,
+  "best_worst_attack_name": "plain request",
+  "vanilla_plain": 0.115,
+  "vanilla_worst_attack": 0.115,
+  "vanilla_refusal": 0.36,
+  "random_words_plain": 0.115
+ },
+ "sd2_memorized": {
+  "no_guardrail_plain": 0.0769230769,
+  "best_prompt_guardrail": "D1",
+  "best_plain": 0.0,
+  "best_worst_attack": 0.0,
+  "best_worst_attack_name": "plain request",
+  "vanilla_plain": 0.0769230769,
+  "vanilla_worst_attack": 0.0769230769,
+  "vanilla_refusal": 0.0,
+  "random_words_plain": 0.0
+ },
+ "largest_subgroup_gaps": [
+  {
+   "run": "sd14_memorized",
+   "subgroup_by": "mem_type",
+   "guardrail": "V0",
+   "max_rate": 0.618,
+   "min_rate": 0.057,
+   "most_exposed": "VM",
+   "least_exposed": "TM",
+   "gap": 0.561
+  },
+  {
+   "run": "sd14_memorized",
+   "subgroup_by": "mem_type",
+   "guardrail": "D0",
+   "max_rate": 0.618,
+   "min_rate": 0.057,
+   "most_exposed": "VM",
+   "least_exposed": "TM",
+   "gap": 0.561
+  },
+  {
+   "run": "sd14_memorized",
+   "subgroup_by": "mem_type",
+   "guardrail": "D2b",
+   "max_rate": 0.559,
+   "min_rate": 0.029,
+   "most_exposed": "VM",
+   "least_exposed": "TM",
+   "gap": 0.53
+  },
+  {
+   "run": "sd14_memorized",
+   "subgroup_by": "duplicates",
+   "guardrail": "D0",
+   "max_rate": 0.5,
+   "min_rate": 0.176,
+   "most_exposed": "mid",
+   "least_exposed": "low",
+   "gap": 0.324
+  },
+  {
+   "run": "sd14_memorized",
+   "subgroup_by": "duplicates",
+   "guardrail": "V0",
+   "max_rate": 0.5,
+   "min_rate": 0.176,
+   "most_exposed": "mid",
+   "least_exposed": "low",
+   "gap": 0.324
+  }
+ ],
+ "rewriter": [
+  {
+   "attack": "lure_kw_laion5",
+   "name kept in rewrite": 0.077,
+   "character named in reasoning": 0.205,
+   "mean token entropy": 0.376,
+   "keyword share kept": 0.329
+  },
+  {
+   "attack": "perturb_phonetic",
+   "name kept in rewrite": 0.0,
+   "character named in reasoning": 0.436,
+   "mean token entropy": 0.372,
+   "keyword share kept": 0.101
+  }
+ ]
+}

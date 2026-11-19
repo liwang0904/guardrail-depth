@@ -1,0 +1,16 @@
+model,guardrail,mitigation,plain,worst_attack,mean_attacks,risky_on_prompt,benign_served,su_f1,f1_ci,sec_per_request
+SD 1.4,D4 LLM rewrite,"rewrite, every request",0.1842,0.1842,0.0909,0.4968,0.7407,0.5758,"[0.49, 0.66]",7.036
+SD 1.4,D4+D2b† LLM rewrite + neg. prompt,"rewrite + true target's negative prompt, every request",0.0,0.0256,0.0064,0.3355,0.5926,0.4284,"[0.34, 0.51]",7.0424
+SD 1.4,"G-rw gate, rewrite-only character mitigation (ablation)",rewrite only,0.1795,0.1795,0.1282,0.4808,0.9259,0.5927,"[0.49, 0.68]",8.3232
+SD 1.4,"G-pre gate, no output check (ablation)",rewrite + detected character's negative prompt,0.0,0.1026,0.0513,0.359,0.9074,0.4944,"[0.40, 0.59]",8.3059
+SD 1.4,G gate (ours),"rewrite + negative prompt, + output check",0.0,0.0513,0.0192,0.3397,0.9074,0.4944,"[0.39, 0.59]",8.8246
+Playground v2.5,D4 LLM rewrite,"rewrite, every request",0.1579,0.2308,0.11,0.5548,0.8889,0.6633,"[0.57, 0.74]",7.8452
+Playground v2.5,D4+D2b† LLM rewrite + neg. prompt,"rewrite + true target's negative prompt, every request",0.1053,0.1053,0.0455,0.529,0.8704,0.6531,"[0.56, 0.73]",7.8657
+Playground v2.5,"G-rw gate, rewrite-only character mitigation (ablation)",rewrite only,0.1538,0.2051,0.1346,0.5513,0.9815,0.6737,"[0.57, 0.76]",7.6121
+Playground v2.5,"G-pre gate, no output check (ablation)",rewrite + detected character's negative prompt,0.1026,0.1538,0.0897,0.5321,0.9815,0.6625,"[0.56, 0.75]",7.6282
+Playground v2.5,G gate (ours),"rewrite + negative prompt, + output check",0.1026,0.1026,0.0705,0.5256,0.963,0.6638,"[0.57, 0.75]",8.4637
+PixArt-α,D4 LLM rewrite,"rewrite, every request",0.2895,0.2895,0.1429,0.5226,0.963,0.6441,"[0.54, 0.73]",2.8855
+PixArt-α,D4+D2b† LLM rewrite + neg. prompt,"rewrite + true target's negative prompt, every request",0.0263,0.0769,0.0258,0.4645,0.9444,0.611,"[0.51, 0.70]",2.8878
+PixArt-α,"G-rw gate, rewrite-only character mitigation (ablation)",rewrite only,0.2821,0.2821,0.1538,0.4936,0.9444,0.6142,"[0.51, 0.70]",2.6526
+PixArt-α,"G-pre gate, no output check (ablation)",rewrite + detected character's negative prompt,0.0256,0.1538,0.0513,0.4487,0.9444,0.5905,"[0.48, 0.68]",2.6541
+PixArt-α,G gate (ours),"rewrite + negative prompt, + output check",0.0256,0.0769,0.0256,0.4423,0.9444,0.5905,"[0.48, 0.69]",2.8927

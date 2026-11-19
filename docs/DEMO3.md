@@ -1,5 +1,8 @@
 # Demo 3: detect, then defend
 
+Results and analysis (before vs. after, responsible-AI metrics, trade-offs, errors, subgroups):
+[DEMO3_ANALYSIS.md](DEMO3_ANALYSIS.md). Generated tables and figures: [results/demo3](../results/demo3/README.md).
+
 Demo 2 showed three things about the prompt-level baselines:
 
 1. **Each kind of protected content has its own trigger**, and only the guardrail matched to it works:

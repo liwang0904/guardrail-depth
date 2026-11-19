@@ -666,6 +666,8 @@ def fig_models(ba: pd.DataFrame, out: Path) -> list[str]:
             if not np.isnan(val):
                 ax.text(b.get_x() + b.get_width() / 2, val + 1, f"{val:.0f}", ha="center", fontsize=7, color=INK2)
     ax.set_xticks(range(len(models)), models, fontsize=9)
+    top = np.nanmax([100 * v for v in x["mean_attacks"]]) if len(x) else 1.0
+    ax.set_ylim(0, 1.5 * top)   # room for the legend above the tallest bar
     ax.set_ylabel("characters detected, mean over 4 attacks (%)", color=INK2, fontsize=9)
     ax.legend(frameon=False, fontsize=7.5, ncol=2)
     ax.set_title("Characters across model families (lower = better)", loc="left", fontsize=10, color=INK)
