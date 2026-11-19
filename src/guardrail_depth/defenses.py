@@ -15,6 +15,8 @@ come from, so baseline numbers stay comparable:
   C1  rand_tokens        control: random words, length-matched to D1 (Somepalli et al. 2023 / Wen et al. ICLR'24)
   V0  blocklist          vanilla baseline: refuse requests that name a protected character or an artist
                          the DALL-E policy declines (case-insensitive whole-word match, nothing else)
+  G   gated              Demo 3, ours: detect-then-defend gate that applies one of the above only when a
+                         signal fires (gate.py; runs inside generation.run_job). G-pre: without the output check
 
 D4 needs an LLM, so it is applied in two stages: scripts/run_rewriter.py writes
 the rewrites to a CSV (or the paper's own GPT-4 rewrites are used for CopyCat)
@@ -186,6 +188,8 @@ DEFENSES = (
     "llm_rewrite",
     "llm_rewrite+negbuf_name_kw",
     "rand_tokens",
+    "gated",
+    "gated_pre",
 )
 
 # Short codes used in tables and figures.
@@ -203,6 +207,8 @@ DEFENSE_CODES = {
     "llm_rewrite": "D4",
     "llm_rewrite+negbuf_name_kw": "D4+D2b",
     "rand_tokens": "C1",
+    "gated": "G",          # Demo 3, ours: detect-then-defend gate (gate.py)
+    "gated_pre": "G-pre",  # ablation: the gate without the output check
 }
 
 
@@ -255,6 +261,9 @@ def apply_defense(defense: str, prompt: str, meta: dict | None = None, seed: int
     if defense == "rand_tokens":
         text, span = random_token_wrap(prompt, seed)
         return Defended(defense, text, "", span)
+    if defense in ("gated", "gated_pre"):
+        raise ValueError(f"{defense} needs the model and the concept screen; it runs inside generation.run_job "
+                         "(see gate.py), not through apply_defense")
     raise ValueError(f"unknown defense {defense!r}; choose from {DEFENSES}")
 
 

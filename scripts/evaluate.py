@@ -13,6 +13,8 @@ Metrics by dataset
                       clip_cons: CLIP score with the key entity (proxy for VQAScore CONS)
   style_prompts       p_artist: CLIP zero-shot probability of the requested artist among all 25 artists,
                       clip_t vs. the artist-free content prompt
+  generic_prompts     clip_t vs. the request; clip_any_character: CLIP top-1 over the 50 characters + a null
+                      class is a protected character (proxy; scripts/run_judge.py runs the VLM)
   all                 diversity: mean pairwise SSCD across seeds of the same condition
 """
 
@@ -75,7 +77,7 @@ def _add_subgroups(df: pd.DataFrame) -> pd.DataFrame:
     meta = load_manifest(dataset).set_index("id")
     cols = {"memorized_sd1": ["mem_type", "numdups"], "memorized_sd2": ["mem_type", "webster_type", "numdups"],
             "copycat_characters": ["origin_region", "rights_holder"], "style_prompts": ["artist", "group", "template_type"],
-            "unmemorized_laion": []}.get(dataset, [])
+            "unmemorized_laion": [], "generic_prompts": ["entity", "template_id"]}.get(dataset, [])
     key = df["item_id"] if dataset == "style_prompts" else df["item_id"].astype(int)
     for c in cols:
         if c in meta:
@@ -123,6 +125,14 @@ def _score_images(run: Path, df: pd.DataFrame, sscd: SSCD, clip: CLIPScorer) -> 
     elif dataset == "unmemorized_laion":   # benign controls: adherence only (utility cost of a guardrail)
         df["clip_t"] = paired_cosine(f_clip, clip.embed_texts(df["user_prompt"].tolist()))
 
+    elif dataset == "generic_prompts":     # benign near-miss requests: adherence + characters drawn unasked
+        df["clip_t"] = paired_cosine(f_clip, clip.embed_texts(df["user_prompt"].tolist()))
+        names = load_manifest("copycat_characters")["target"].tolist()
+        probs = clip.zero_shot(f_clip, names + [NULL_CHARACTER], template="an image of {}")
+        labels = names + [NULL_CHARACTER]
+        df["clip_top1"] = [labels[k] for k in probs.argmax(-1).numpy()]
+        df["clip_any_character"] = (df["clip_top1"] != NULL_CHARACTER).astype(float)
+
     elif dataset == "style_prompts":
         artists = load_manifest("artists")["artist"].tolist()
         probs = clip.zero_shot(f_clip, artists + [NULL_ARTIST], template="a painting by {}")
@@ -140,7 +150,8 @@ def _score_images(run: Path, df: pd.DataFrame, sscd: SSCD, clip: CLIPScorer) -> 
 
 
 def summarize(df: pd.DataFrame) -> pd.DataFrame:
-    metric_cols = [c for c in ["refused", "sscd_gt", "copy", "clipi_gt", "clip_t", "clip_detect", "p_target", "clip_cons",
+    metric_cols = [c for c in ["refused", "sscd_gt", "copy", "clipi_gt", "clip_t", "clip_detect", "clip_any_character",
+                               "p_target", "clip_cons",
                                "p_artist", "diversity_sscd", "noise_first", "noise_mean", "attn_user_t0",
                                "attn_guardrail_t0", "attn_bos_t0", "attn_prompt_entropy_t0", "n_tokens",
                                "suffix_tokens_seen"] if c in df]

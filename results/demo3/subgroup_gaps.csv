@@ -1,0 +1,87 @@
+threat,model,by,guardrail,max,min,most_exposed,gap
+characters,PixArt-α,origin_region,D0,0.2845,0.175,US,0.1095
+characters,PixArt-α,origin_region,D2b-kw,0.0776,0.0,US,0.0776
+characters,PixArt-α,origin_region,D4,0.1724,0.0513,US,0.1211
+characters,PixArt-α,origin_region,D4+D2b,0.0259,0.0256,US,0.0002
+characters,PixArt-α,origin_region,G,0.0259,0.025,US,0.0009
+characters,PixArt-α,origin_region,G-pre,0.075,0.0431,JP,0.0319
+characters,PixArt-α,origin_region,G-rw,0.1724,0.1,US,0.0724
+characters,PixArt-α,origin_region,V0,0.1552,0.1,US,0.0552
+characters,PixArt-α,rights_holder,D0,0.5,0.125,Marvel (Disney),0.375
+characters,PixArt-α,rights_holder,D2b-kw,0.1786,0.0,Marvel (Disney),0.1786
+characters,PixArt-α,rights_holder,D4,0.3214,0.0833,Marvel (Disney),0.2381
+characters,PixArt-α,rights_holder,D4+D2b,0.0714,0.0,Marvel (Disney),0.0714
+characters,PixArt-α,rights_holder,G,0.0714,0.0,Marvel (Disney),0.0714
+characters,PixArt-α,rights_holder,G-pre,0.1071,0.0,Marvel (Disney),0.1071
+characters,PixArt-α,rights_holder,G-rw,0.3571,0.0625,Marvel (Disney),0.2946
+characters,PixArt-α,rights_holder,V0,0.2857,0.0417,Marvel (Disney),0.244
+characters,Playground v2.5,origin_region,D0,0.3707,0.225,US,0.1457
+characters,Playground v2.5,origin_region,D2b-kw,0.1466,0.075,US,0.0716
+characters,Playground v2.5,origin_region,D4,0.1466,0.0,US,0.1466
+characters,Playground v2.5,origin_region,D4+D2b,0.0603,0.0,US,0.0603
+characters,Playground v2.5,origin_region,G,0.0948,0.0,US,0.0948
+characters,Playground v2.5,origin_region,G-pre,0.1121,0.025,US,0.0871
+characters,Playground v2.5,origin_region,G-rw,0.1724,0.025,US,0.1474
+characters,Playground v2.5,origin_region,V0,0.1897,0.075,US,0.1147
+characters,Playground v2.5,rights_holder,D0,0.5714,0.2083,Marvel (Disney),0.3631
+characters,Playground v2.5,rights_holder,D2b-kw,0.25,0.0417,Marvel (Disney),0.2083
+characters,Playground v2.5,rights_holder,D4,0.3214,0.0,Marvel (Disney),0.3214
+characters,Playground v2.5,rights_holder,D4+D2b,0.1429,0.0,Marvel (Disney),0.1429
+characters,Playground v2.5,rights_holder,G,0.1429,0.0,Marvel (Disney),0.1429
+characters,Playground v2.5,rights_holder,G-pre,0.2143,0.0,Marvel (Disney),0.2143
+characters,Playground v2.5,rights_holder,G-rw,0.3929,0.0208,Marvel (Disney),0.372
+characters,Playground v2.5,rights_holder,V0,0.3571,0.0625,Marvel (Disney),0.2946
+characters,SD 1.4,origin_region,C1,0.0517,0.025,US,0.0267
+characters,SD 1.4,origin_region,D0,0.375,0.3621,JP,0.0129
+characters,SD 1.4,origin_region,D1,0.325,0.319,JP,0.006
+characters,SD 1.4,origin_region,D2a,0.3276,0.225,US,0.1026
+characters,SD 1.4,origin_region,D2b-kw,0.1034,0.05,US,0.0534
+characters,SD 1.4,origin_region,D3,0.325,0.319,JP,0.006
+characters,SD 1.4,origin_region,D4,0.1121,0.0256,US,0.0864
+characters,SD 1.4,origin_region,D4+D2b,0.0086,0.0,US,0.0086
+characters,SD 1.4,origin_region,G,0.0259,0.0,US,0.0259
+characters,SD 1.4,origin_region,G-pre,0.0517,0.05,US,0.0017
+characters,SD 1.4,origin_region,G-rw,0.1466,0.075,US,0.0716
+characters,SD 1.4,origin_region,V0,0.175,0.1638,JP,0.0112
+characters,SD 1.4,rights_holder,C1,0.0833,0.0,Pixar (Disney),0.0833
+characters,SD 1.4,rights_holder,D0,0.5,0.125,The Pokemon Company,0.375
+characters,SD 1.4,rights_holder,D1,0.5833,0.125,The Pokemon Company,0.4583
+characters,SD 1.4,rights_holder,D2a,0.5,0.125,The Pokemon Company,0.375
+characters,SD 1.4,rights_holder,D2b-kw,0.25,0.0,Marvel (Disney),0.25
+characters,SD 1.4,rights_holder,D3,0.5,0.125,The Pokemon Company,0.375
+characters,SD 1.4,rights_holder,D4,0.2143,0.0208,Marvel (Disney),0.1935
+characters,SD 1.4,rights_holder,D4+D2b,0.0357,0.0,Marvel (Disney),0.0357
+characters,SD 1.4,rights_holder,G,0.0417,0.0,Pixar (Disney),0.0417
+characters,SD 1.4,rights_holder,G-pre,0.0833,0.0,Disney,0.0833
+characters,SD 1.4,rights_holder,G-rw,0.2143,0.0833,Marvel (Disney),0.131
+characters,SD 1.4,rights_holder,V0,0.25,0.0,The Pokemon Company,0.25
+exact copies,SD 1.4,mem_type,C1,0.0,0.0,TM,0.0
+exact copies,SD 1.4,mem_type,D0,0.4314,0.019,VM,0.4123
+exact copies,SD 1.4,mem_type,D1,0.0294,0.0,VM,0.0294
+exact copies,SD 1.4,mem_type,D2a,0.098,0.0,VM,0.098
+exact copies,SD 1.4,mem_type,D2b,0.3922,0.0095,VM,0.3826
+exact copies,SD 1.4,mem_type,D3,0.0588,0.0,VM,0.0588
+exact copies,SD 1.4,mem_type,D4,0.0147,0.0,VM,0.0147
+exact copies,SD 1.4,mem_type,G,0.0882,0.0,VM,0.0882
+exact copies,SD 1.4,mem_type,G-pre,0.0882,0.0,VM,0.0882
+exact copies,SD 1.4,mem_type,V0,0.4314,0.019,VM,0.4123
+exact copies,SD 2-base,mem_type,C1,0.0,0.0,TM,0.0
+exact copies,SD 2-base,mem_type,D0,0.0778,0.0778,TM,0.0
+exact copies,SD 2-base,mem_type,D1,0.0,0.0,TM,0.0
+exact copies,SD 2-base,mem_type,D2a,0.0,0.0,TM,0.0
+exact copies,SD 2-base,mem_type,D2b,0.0889,0.0889,TM,0.0
+exact copies,SD 2-base,mem_type,D3,0.0,0.0,TM,0.0
+exact copies,SD 2-base,mem_type,D4,0.0,0.0,TM,0.0
+exact copies,SD 2-base,mem_type,G,0.0,0.0,TM,0.0
+exact copies,SD 2-base,mem_type,G-pre,0.0,0.0,TM,0.0
+exact copies,SD 2-base,mem_type,V0,0.0778,0.0778,TM,0.0
+styles,SD 1.4,artist group (above chance),C1,0.1177,0.024,deceased_copyright,0.0938
+styles,SD 1.4,artist group (above chance),D0,0.2219,0.1682,deceased_copyright,0.0536
+styles,SD 1.4,artist group (above chance),D1,0.4188,0.2141,deceased_copyright,0.2047
+styles,SD 1.4,artist group (above chance),D2a,0.4927,0.2151,deceased_copyright,0.2776
+styles,SD 1.4,artist group (above chance),D2b-name,0.0438,0.0,living,0.0438
+styles,SD 1.4,artist group (above chance),D3,0.3698,0.1401,deceased_copyright,0.2297
+styles,SD 1.4,artist group (above chance),D4,0.1896,0.0776,deceased_copyright,0.112
+styles,SD 1.4,artist group (above chance),G,0.0505,0.0229,living,0.0276
+styles,SD 1.4,artist group (above chance),G-pre,0.063,-0.0021,living,0.0651
+styles,SD 1.4,artist group (above chance),V0,-0.0071,-0.0304,deceased_copyright,0.0232

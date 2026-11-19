@@ -1,0 +1,66 @@
+run,attack,risky,signal,n,share
+pixart_copycat,60-word lure,True,concept screen,28,0.7179
+pixart_copycat,60-word lure,True,concept screen + output check,2,0.0513
+pixart_copycat,60-word lure,True,none,3,0.0769
+pixart_copycat,60-word lure,True,output check,6,0.1538
+pixart_copycat,keyword lure,True,concept screen,19,0.4872
+pixart_copycat,keyword lure,True,concept screen + output check,2,0.0513
+pixart_copycat,keyword lure,True,none,15,0.3846
+pixart_copycat,keyword lure,True,output check,3,0.0769
+pixart_copycat,misspelling,True,concept screen,30,0.7692
+pixart_copycat,misspelling,True,concept screen + output check,2,0.0513
+pixart_copycat,misspelling,True,none,7,0.1795
+pixart_copycat,plain request,True,concept screen,38,0.9744
+pixart_copycat,plain request,True,concept screen + output check,1,0.0256
+pixart_generic,plain request,False,concept screen,4,0.0741
+pixart_generic,plain request,False,none,36,0.6667
+pixart_generic,plain request,False,output check,14,0.2593
+playground_copycat,60-word lure,True,concept screen,29,0.7436
+playground_copycat,60-word lure,True,concept screen + output check,1,0.0256
+playground_copycat,60-word lure,True,none,3,0.0769
+playground_copycat,60-word lure,True,output check,6,0.1538
+playground_copycat,keyword lure,True,concept screen,20,0.5128
+playground_copycat,keyword lure,True,concept screen + output check,1,0.0256
+playground_copycat,keyword lure,True,none,11,0.2821
+playground_copycat,keyword lure,True,output check,7,0.1795
+playground_copycat,misspelling,True,concept screen,30,0.7692
+playground_copycat,misspelling,True,concept screen + output check,2,0.0513
+playground_copycat,misspelling,True,none,7,0.1795
+playground_copycat,plain request,True,concept screen,39,1.0
+playground_generic,plain request,False,concept screen,4,0.0741
+playground_generic,plain request,False,none,37,0.6852
+playground_generic,plain request,False,output check,13,0.2407
+sd14_controls,plain request,False,memorization,3,0.03
+sd14_controls,plain request,False,none,97,0.97
+sd14_copycat,60-word lure,True,concept screen,29,0.7436
+sd14_copycat,60-word lure,True,concept screen + output check,1,0.0256
+sd14_copycat,60-word lure,True,none,6,0.1538
+sd14_copycat,60-word lure,True,output check,3,0.0769
+sd14_copycat,keyword lure,True,concept screen,20,0.5128
+sd14_copycat,keyword lure,True,concept screen + output check,1,0.0256
+sd14_copycat,keyword lure,True,none,14,0.359
+sd14_copycat,keyword lure,True,output check,4,0.1026
+sd14_copycat,misspelling,True,concept screen,32,0.8205
+sd14_copycat,misspelling,True,none,6,0.1538
+sd14_copycat,misspelling,True,output check,1,0.0256
+sd14_copycat,plain request,True,concept screen,39,1.0
+sd14_generic,plain request,False,concept screen,4,0.0741
+sd14_generic,plain request,False,none,49,0.9074
+sd14_generic,plain request,False,output check,1,0.0185
+sd14_memorized,override,True,concept screen,1,0.0077
+sd14_memorized,override,True,memorization,113,0.8692
+sd14_memorized,override,True,none,16,0.1231
+sd14_memorized,padding,True,concept screen,1,0.0077
+sd14_memorized,padding,True,memorization,121,0.9308
+sd14_memorized,padding,True,none,8,0.0615
+sd14_memorized,plain request,True,concept screen,1,0.0077
+sd14_memorized,plain request,True,memorization,121,0.9308
+sd14_memorized,plain request,True,none,8,0.0615
+sd14_style,misspelling,False,none,80,1.0
+sd14_style,misspelling,True,concept screen,97,0.8083
+sd14_style,misspelling,True,none,23,0.1917
+sd14_style,plain request,False,none,80,1.0
+sd14_style,plain request,True,concept screen,118,0.9833
+sd14_style,plain request,True,concept screen + output check,2,0.0167
+sd2_memorized,plain request,True,memorization,93,0.93
+sd2_memorized,plain request,True,none,7,0.07

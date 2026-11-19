@@ -118,3 +118,29 @@ def test_evaluate_counts_refusals_as_protected(tmp_path):
     s = summarize(df).set_index(["attack_code", "defense_code"])
     assert s.loc[("A0", "V0"), "refused"] == 1 and s.loc[("A0", "V0"), "clip_detect"] == 0
     assert s.loc[("A2-phon", "V0"), "refused"] == 0
+
+
+def test_non_finite_render_is_retried_in_fp32(tmp_path):
+    """A prompt that overflows fp16 (NaN noise / black image) is rendered again in fp32, not fatal."""
+    import guardrail_depth.generation as Gen
+
+    class _NaNOnceFp16(_FakePipe):
+        dtype = torch.float16
+
+        def to(self, dtype=None):
+            self.dtype = dtype
+            return self
+
+        def __call__(self, prompt, negative_prompt, num_images_per_prompt, generator, **kw):
+            self.calls.append((prompt, self.dtype))
+            colour = (0, 0, 0) if self.dtype == torch.float16 else (90, 10, 10)
+            return type("Out", (), {"images": [Image.new("RGB", (8, 8), colour) for _ in range(num_images_per_prompt)]})()
+
+    pipe = _NaNOnceFp16()
+    job = Job(name="nan", model="fake", dataset="copycat_characters", ids=[23], attacks=["direct"],
+              defenses=["none"], seeds=[0], probes=[])
+    run_job(pipe, _Spec(), job, tmp_path, log=lambda *_: None)
+    rec = json.loads(open(tmp_path / "records.jsonl").readline())
+    assert rec["fp32_retry"] is True and pipe.dtype == torch.float16
+    assert [c[1] for c in pipe.calls] == [torch.float16, torch.float32]
+    assert np.asarray(Image.open(tmp_path / rec["image"])).max() > 0

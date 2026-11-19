@@ -1,0 +1,394 @@
+{
+ "exact copies / SD 1.4": {
+  "D0 none": {
+   "plain": 0.3333,
+   "worst_attack": 0.3333,
+   "mean_attacks": 0.2222,
+   "risky_on_prompt": 0.7246,
+   "benign_served": 0.66,
+   "benign_refused": 0.0,
+   "su_f1": 0.5917,
+   "sec_per_request": 5.1615
+  },
+  "V0 blocklist (vanilla)": {
+   "plain": 0.3333,
+   "worst_attack": 0.3333,
+   "mean_attacks": 0.2222,
+   "risky_on_prompt": 0.7246,
+   "benign_served": 0.66,
+   "benign_refused": 0.0,
+   "su_f1": 0.5917,
+   "sec_per_request": 5.1043
+  },
+  "D4 LLM rewrite": {
+   "plain": 0.0,
+   "worst_attack": 0.0145,
+   "mean_attacks": 0.0072,
+   "risky_on_prompt": 0.558,
+   "benign_served": 0.59,
+   "benign_refused": 0.0,
+   "su_f1": 0.5735,
+   "sec_per_request": 6.7453
+  },
+  "D2a negation in prompt": {
+   "plain": 0.0725,
+   "worst_attack": 0.0725,
+   "mean_attacks": 0.0483,
+   "risky_on_prompt": 0.6522,
+   "benign_served": 0.63,
+   "benign_refused": 0.0,
+   "su_f1": 0.6241,
+   "sec_per_request": 5.1678
+  },
+  "G-pre gate, no output check (ablation)": {
+   "plain": 0.058,
+   "worst_attack": 0.058,
+   "mean_attacks": 0.0435,
+   "risky_on_prompt": 0.6618,
+   "benign_served": 0.65,
+   "benign_refused": 0.0,
+   "su_f1": 0.6388,
+   "sec_per_request": 6.5374
+  },
+  "G gate (ours)": {
+   "plain": 0.058,
+   "worst_attack": 0.058,
+   "mean_attacks": 0.0435,
+   "risky_on_prompt": 0.6618,
+   "benign_served": 0.65,
+   "benign_refused": 0.0,
+   "su_f1": 0.6388,
+   "sec_per_request": 6.5672
+  }
+ },
+ "exact copies / SD 2-base": {
+  "D0 none": {
+   "plain": 0.0769,
+   "worst_attack": 0.0769,
+   "mean_attacks": 0.0769,
+   "risky_on_prompt": 0.7912,
+   "benign_served": null,
+   "benign_refused": null,
+   "su_f1": null,
+   "sec_per_request": 4.8518
+  },
+  "V0 blocklist (vanilla)": {
+   "plain": 0.0769,
+   "worst_attack": 0.0769,
+   "mean_attacks": 0.0769,
+   "risky_on_prompt": 0.7912,
+   "benign_served": null,
+   "benign_refused": null,
+   "su_f1": null,
+   "sec_per_request": 4.8518
+  },
+  "D1 task instruction": {
+   "plain": 0.0,
+   "worst_attack": 0.0,
+   "mean_attacks": 0.0,
+   "risky_on_prompt": 0.4615,
+   "benign_served": null,
+   "benign_refused": null,
+   "su_f1": null,
+   "sec_per_request": 4.8676
+  },
+  "G-pre gate, no output check (ablation)": {
+   "plain": 0.0,
+   "worst_attack": 0.0,
+   "mean_attacks": 0.0,
+   "risky_on_prompt": 0.3516,
+   "benign_served": null,
+   "benign_refused": null,
+   "su_f1": null,
+   "sec_per_request": 6.0859
+  },
+  "G gate (ours)": {
+   "plain": 0.0,
+   "worst_attack": 0.0,
+   "mean_attacks": 0.0,
+   "risky_on_prompt": 0.3516,
+   "benign_served": null,
+   "benign_refused": null,
+   "su_f1": null,
+   "sec_per_request": 6.119
+  }
+ },
+ "characters / SD 1.4": {
+  "D0 none": {
+   "plain": 0.7949,
+   "worst_attack": 0.7949,
+   "mean_attacks": 0.3654,
+   "risky_on_prompt": 0.4487,
+   "benign_served": 0.9815,
+   "benign_refused": 0.0,
+   "su_f1": 0.4146,
+   "sec_per_request": 5.4487
+  },
+  "V0 blocklist (vanilla)": {
+   "plain": 0.0,
+   "worst_attack": 0.3846,
+   "mean_attacks": 0.1667,
+   "risky_on_prompt": 0.2949,
+   "benign_served": 0.9815,
+   "benign_refused": 0.0,
+   "su_f1": 0.3737,
+   "sec_per_request": 4.0756
+  },
+  "D4+D2b† LLM rewrite + neg. prompt": {
+   "plain": 0.0,
+   "worst_attack": 0.0256,
+   "mean_attacks": 0.0064,
+   "risky_on_prompt": 0.3355,
+   "benign_served": 0.5926,
+   "benign_refused": 0.0,
+   "su_f1": 0.4284,
+   "sec_per_request": 7.0424
+  },
+  "D4 LLM rewrite": {
+   "plain": 0.1842,
+   "worst_attack": 0.1842,
+   "mean_attacks": 0.0909,
+   "risky_on_prompt": 0.4968,
+   "benign_served": 0.7407,
+   "benign_refused": 0.0,
+   "su_f1": 0.5758,
+   "sec_per_request": 7.036
+  },
+  "G-pre gate, no output check (ablation)": {
+   "plain": 0.0,
+   "worst_attack": 0.1026,
+   "mean_attacks": 0.0513,
+   "risky_on_prompt": 0.359,
+   "benign_served": 0.9074,
+   "benign_refused": 0.0,
+   "su_f1": 0.4944,
+   "sec_per_request": 8.3059
+  },
+  "G-rw gate, rewrite-only character mitigation (ablation)": {
+   "plain": 0.1795,
+   "worst_attack": 0.1795,
+   "mean_attacks": 0.1282,
+   "risky_on_prompt": 0.4808,
+   "benign_served": 0.9259,
+   "benign_refused": 0.0,
+   "su_f1": 0.5927,
+   "sec_per_request": 8.3232
+  },
+  "G gate (ours)": {
+   "plain": 0.0,
+   "worst_attack": 0.0513,
+   "mean_attacks": 0.0192,
+   "risky_on_prompt": 0.3397,
+   "benign_served": 0.9074,
+   "benign_refused": 0.0,
+   "su_f1": 0.4944,
+   "sec_per_request": 8.8246
+  }
+ },
+ "characters / Playground v2.5": {
+  "D0 none": {
+   "plain": 0.6667,
+   "worst_attack": 0.6667,
+   "mean_attacks": 0.3333,
+   "risky_on_prompt": 0.5513,
+   "benign_served": 0.9815,
+   "benign_refused": 0.0,
+   "su_f1": 0.5527,
+   "sec_per_request": 6.2624
+  },
+  "V0 blocklist (vanilla)": {
+   "plain": 0.0,
+   "worst_attack": 0.3333,
+   "mean_attacks": 0.1603,
+   "risky_on_prompt": 0.3782,
+   "benign_served": 0.9815,
+   "benign_refused": 0.0,
+   "su_f1": 0.4685,
+   "sec_per_request": 4.6558
+  },
+  "D4+D2b† LLM rewrite + neg. prompt": {
+   "plain": 0.1053,
+   "worst_attack": 0.1053,
+   "mean_attacks": 0.0455,
+   "risky_on_prompt": 0.529,
+   "benign_served": 0.8704,
+   "benign_refused": 0.0,
+   "su_f1": 0.6531,
+   "sec_per_request": 7.8657
+  },
+  "D4 LLM rewrite": {
+   "plain": 0.1579,
+   "worst_attack": 0.2308,
+   "mean_attacks": 0.11,
+   "risky_on_prompt": 0.5548,
+   "benign_served": 0.8889,
+   "benign_refused": 0.0,
+   "su_f1": 0.6633,
+   "sec_per_request": 7.8452
+  },
+  "G-pre gate, no output check (ablation)": {
+   "plain": 0.1026,
+   "worst_attack": 0.1538,
+   "mean_attacks": 0.0897,
+   "risky_on_prompt": 0.5321,
+   "benign_served": 0.9815,
+   "benign_refused": 0.0,
+   "su_f1": 0.6625,
+   "sec_per_request": 7.6282
+  },
+  "G-rw gate, rewrite-only character mitigation (ablation)": {
+   "plain": 0.1538,
+   "worst_attack": 0.2051,
+   "mean_attacks": 0.1346,
+   "risky_on_prompt": 0.5513,
+   "benign_served": 0.9815,
+   "benign_refused": 0.0,
+   "su_f1": 0.6737,
+   "sec_per_request": 7.6121
+  },
+  "G gate (ours)": {
+   "plain": 0.1026,
+   "worst_attack": 0.1026,
+   "mean_attacks": 0.0705,
+   "risky_on_prompt": 0.5256,
+   "benign_served": 0.963,
+   "benign_refused": 0.0,
+   "su_f1": 0.6638,
+   "sec_per_request": 8.4637
+  }
+ },
+ "characters / PixArt-α": {
+  "D0 none": {
+   "plain": 0.4615,
+   "worst_attack": 0.4615,
+   "mean_attacks": 0.2564,
+   "risky_on_prompt": 0.4231,
+   "benign_served": 0.963,
+   "benign_refused": 0.0,
+   "su_f1": 0.4737,
+   "sec_per_request": 1.312
+  },
+  "V0 blocklist (vanilla)": {
+   "plain": 0.0,
+   "worst_attack": 0.359,
+   "mean_attacks": 0.141,
+   "risky_on_prompt": 0.3205,
+   "benign_served": 0.963,
+   "benign_refused": 0.0,
+   "su_f1": 0.4129,
+   "sec_per_request": 0.9678
+  },
+  "D4+D2b† LLM rewrite + neg. prompt": {
+   "plain": 0.0263,
+   "worst_attack": 0.0769,
+   "mean_attacks": 0.0258,
+   "risky_on_prompt": 0.4645,
+   "benign_served": 0.9444,
+   "benign_refused": 0.0,
+   "su_f1": 0.611,
+   "sec_per_request": 2.8878
+  },
+  "D4 LLM rewrite": {
+   "plain": 0.2895,
+   "worst_attack": 0.2895,
+   "mean_attacks": 0.1429,
+   "risky_on_prompt": 0.5226,
+   "benign_served": 0.963,
+   "benign_refused": 0.0,
+   "su_f1": 0.6441,
+   "sec_per_request": 2.8855
+  },
+  "G-pre gate, no output check (ablation)": {
+   "plain": 0.0256,
+   "worst_attack": 0.1538,
+   "mean_attacks": 0.0513,
+   "risky_on_prompt": 0.4487,
+   "benign_served": 0.9444,
+   "benign_refused": 0.0,
+   "su_f1": 0.5905,
+   "sec_per_request": 2.6541
+  },
+  "G-rw gate, rewrite-only character mitigation (ablation)": {
+   "plain": 0.2821,
+   "worst_attack": 0.2821,
+   "mean_attacks": 0.1538,
+   "risky_on_prompt": 0.4936,
+   "benign_served": 0.9444,
+   "benign_refused": 0.0,
+   "su_f1": 0.6142,
+   "sec_per_request": 2.6526
+  },
+  "G gate (ours)": {
+   "plain": 0.0256,
+   "worst_attack": 0.0769,
+   "mean_attacks": 0.0256,
+   "risky_on_prompt": 0.4423,
+   "benign_served": 0.9444,
+   "benign_refused": 0.0,
+   "su_f1": 0.5905,
+   "sec_per_request": 2.8927
+  }
+ },
+ "styles / SD 1.4": {
+  "D0 none": {
+   "plain": 0.225,
+   "worst_attack": 0.225,
+   "mean_attacks": 0.1542,
+   "risky_on_prompt": 0.6333,
+   "benign_served": 0.6438,
+   "benign_refused": 0.0,
+   "su_f1": 0.5908,
+   "sec_per_request": 5.5837
+  },
+  "V0 blocklist (vanilla)": {
+   "plain": 0.0,
+   "worst_attack": 0.0833,
+   "mean_attacks": 0.0417,
+   "risky_on_prompt": 0.325,
+   "benign_served": 0.5437,
+   "benign_refused": 0.15,
+   "su_f1": 0.3832,
+   "sec_per_request": 3.6004
+  },
+  "D2b-name† negative prompt (name)": {
+   "plain": 0.0833,
+   "worst_attack": 0.0833,
+   "mean_attacks": 0.0625,
+   "risky_on_prompt": 0.6042,
+   "benign_served": 0.625,
+   "benign_refused": 0.0,
+   "su_f1": 0.5827,
+   "sec_per_request": 5.5771
+  },
+  "D4 LLM rewrite": {
+   "plain": 0.1583,
+   "worst_attack": 0.1583,
+   "mean_attacks": 0.1375,
+   "risky_on_prompt": 0.625,
+   "benign_served": 0.6687,
+   "benign_refused": 0.0,
+   "su_f1": 0.5985,
+   "sec_per_request": 7.1791
+  },
+  "G-pre gate, no output check (ablation)": {
+   "plain": 0.0833,
+   "worst_attack": 0.0833,
+   "mean_attacks": 0.0708,
+   "risky_on_prompt": 0.6083,
+   "benign_served": 0.6375,
+   "benign_refused": 0.0,
+   "su_f1": 0.5881,
+   "sec_per_request": 5.9884
+  },
+  "G gate (ours)": {
+   "plain": 0.0833,
+   "worst_attack": 0.0833,
+   "mean_attacks": 0.0708,
+   "risky_on_prompt": 0.6083,
+   "benign_served": 0.6375,
+   "benign_refused": 0.0,
+   "su_f1": 0.5881,
+   "sec_per_request": 6.0471
+  }
+ }
+}

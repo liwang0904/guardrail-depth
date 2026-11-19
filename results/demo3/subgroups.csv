@@ -1,0 +1,257 @@
+threat,model,by,subgroup,guardrail,fail_rate,n
+exact copies,SD 1.4,mem_type,TM,C1,0.0,105
+exact copies,SD 1.4,mem_type,VM,C1,0.0,102
+exact copies,SD 1.4,mem_type,TM,D0,0.019,105
+exact copies,SD 1.4,mem_type,VM,D0,0.4314,102
+exact copies,SD 1.4,mem_type,TM,D1,0.0,105
+exact copies,SD 1.4,mem_type,VM,D1,0.0294,102
+exact copies,SD 1.4,mem_type,TM,D2a,0.0,105
+exact copies,SD 1.4,mem_type,VM,D2a,0.098,102
+exact copies,SD 1.4,mem_type,TM,D2b,0.0095,105
+exact copies,SD 1.4,mem_type,VM,D2b,0.3922,102
+exact copies,SD 1.4,mem_type,TM,D3,0.0,105
+exact copies,SD 1.4,mem_type,VM,D3,0.0588,102
+exact copies,SD 1.4,mem_type,TM,D4,0.0,70
+exact copies,SD 1.4,mem_type,VM,D4,0.0147,68
+exact copies,SD 1.4,mem_type,TM,G,0.0,105
+exact copies,SD 1.4,mem_type,VM,G,0.0882,102
+exact copies,SD 1.4,mem_type,TM,G-pre,0.0,105
+exact copies,SD 1.4,mem_type,VM,G-pre,0.0882,102
+exact copies,SD 1.4,mem_type,TM,V0,0.019,105
+exact copies,SD 1.4,mem_type,VM,V0,0.4314,102
+exact copies,SD 2-base,mem_type,TM,C1,0.0,90
+exact copies,SD 2-base,mem_type,VM,C1,0.0,1
+exact copies,SD 2-base,mem_type,TM,D0,0.0778,90
+exact copies,SD 2-base,mem_type,VM,D0,0.0,1
+exact copies,SD 2-base,mem_type,TM,D1,0.0,90
+exact copies,SD 2-base,mem_type,VM,D1,0.0,1
+exact copies,SD 2-base,mem_type,TM,D2a,0.0,90
+exact copies,SD 2-base,mem_type,VM,D2a,0.0,1
+exact copies,SD 2-base,mem_type,TM,D2b,0.0889,90
+exact copies,SD 2-base,mem_type,VM,D2b,0.0,1
+exact copies,SD 2-base,mem_type,TM,D3,0.0,90
+exact copies,SD 2-base,mem_type,VM,D3,0.0,1
+exact copies,SD 2-base,mem_type,TM,D4,0.0,90
+exact copies,SD 2-base,mem_type,VM,D4,0.0,1
+exact copies,SD 2-base,mem_type,TM,G,0.0,90
+exact copies,SD 2-base,mem_type,VM,G,0.0,1
+exact copies,SD 2-base,mem_type,TM,G-pre,0.0,90
+exact copies,SD 2-base,mem_type,VM,G-pre,0.0,1
+exact copies,SD 2-base,mem_type,TM,V0,0.0778,90
+exact copies,SD 2-base,mem_type,VM,V0,0.0,1
+characters,SD 1.4,origin_region,JP,C1,0.025,40
+characters,SD 1.4,origin_region,US,C1,0.0517,116
+characters,SD 1.4,origin_region,JP,D0,0.375,40
+characters,SD 1.4,origin_region,US,D0,0.3621,116
+characters,SD 1.4,origin_region,JP,D1,0.325,40
+characters,SD 1.4,origin_region,US,D1,0.319,116
+characters,SD 1.4,origin_region,JP,D2a,0.225,40
+characters,SD 1.4,origin_region,US,D2a,0.3276,116
+characters,SD 1.4,origin_region,JP,D2b-kw,0.05,40
+characters,SD 1.4,origin_region,US,D2b-kw,0.1034,116
+characters,SD 1.4,origin_region,JP,D3,0.325,40
+characters,SD 1.4,origin_region,US,D3,0.319,116
+characters,SD 1.4,origin_region,JP,D4,0.0256,39
+characters,SD 1.4,origin_region,US,D4,0.1121,116
+characters,SD 1.4,origin_region,JP,D4+D2b,0.0,39
+characters,SD 1.4,origin_region,US,D4+D2b,0.0086,116
+characters,SD 1.4,origin_region,JP,G,0.0,40
+characters,SD 1.4,origin_region,US,G,0.0259,116
+characters,SD 1.4,origin_region,JP,G-pre,0.05,40
+characters,SD 1.4,origin_region,US,G-pre,0.0517,116
+characters,SD 1.4,origin_region,JP,G-rw,0.075,40
+characters,SD 1.4,origin_region,US,G-rw,0.1466,116
+characters,SD 1.4,origin_region,JP,V0,0.175,40
+characters,SD 1.4,origin_region,US,V0,0.1638,116
+characters,SD 1.4,rights_holder,Disney,C1,0.0417,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,C1,0.0,8
+characters,SD 1.4,rights_holder,Marvel (Disney),C1,0.0357,28
+characters,SD 1.4,rights_holder,Pixar (Disney),C1,0.0833,24
+characters,SD 1.4,rights_holder,The Pokemon Company,C1,0.0,12
+characters,SD 1.4,rights_holder,Disney,D0,0.3958,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,D0,0.125,8
+characters,SD 1.4,rights_holder,Marvel (Disney),D0,0.4286,28
+characters,SD 1.4,rights_holder,Pixar (Disney),D0,0.3333,24
+characters,SD 1.4,rights_holder,The Pokemon Company,D0,0.5,12
+characters,SD 1.4,rights_holder,Disney,D1,0.3333,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,D1,0.125,8
+characters,SD 1.4,rights_holder,Marvel (Disney),D1,0.3214,28
+characters,SD 1.4,rights_holder,Pixar (Disney),D1,0.3333,24
+characters,SD 1.4,rights_holder,The Pokemon Company,D1,0.5833,12
+characters,SD 1.4,rights_holder,Disney,D2a,0.3333,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,D2a,0.125,8
+characters,SD 1.4,rights_holder,Marvel (Disney),D2a,0.3214,28
+characters,SD 1.4,rights_holder,Pixar (Disney),D2a,0.4167,24
+characters,SD 1.4,rights_holder,The Pokemon Company,D2a,0.5,12
+characters,SD 1.4,rights_holder,Disney,D2b-kw,0.0417,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,D2b-kw,0.0,8
+characters,SD 1.4,rights_holder,Marvel (Disney),D2b-kw,0.25,28
+characters,SD 1.4,rights_holder,Pixar (Disney),D2b-kw,0.0833,24
+characters,SD 1.4,rights_holder,The Pokemon Company,D2b-kw,0.1667,12
+characters,SD 1.4,rights_holder,Disney,D3,0.3125,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,D3,0.125,8
+characters,SD 1.4,rights_holder,Marvel (Disney),D3,0.3571,28
+characters,SD 1.4,rights_holder,Pixar (Disney),D3,0.3333,24
+characters,SD 1.4,rights_holder,The Pokemon Company,D3,0.5,12
+characters,SD 1.4,rights_holder,Disney,D4,0.0208,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,D4,0.125,8
+characters,SD 1.4,rights_holder,Marvel (Disney),D4,0.2143,28
+characters,SD 1.4,rights_holder,Pixar (Disney),D4,0.0417,24
+characters,SD 1.4,rights_holder,The Pokemon Company,D4,0.0833,12
+characters,SD 1.4,rights_holder,Disney,D4+D2b,0.0,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,D4+D2b,0.0,8
+characters,SD 1.4,rights_holder,Marvel (Disney),D4+D2b,0.0357,28
+characters,SD 1.4,rights_holder,Pixar (Disney),D4+D2b,0.0,24
+characters,SD 1.4,rights_holder,The Pokemon Company,D4+D2b,0.0,12
+characters,SD 1.4,rights_holder,Disney,G,0.0208,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,G,0.0,8
+characters,SD 1.4,rights_holder,Marvel (Disney),G,0.0357,28
+characters,SD 1.4,rights_holder,Pixar (Disney),G,0.0417,24
+characters,SD 1.4,rights_holder,The Pokemon Company,G,0.0,12
+characters,SD 1.4,rights_holder,Disney,G-pre,0.0833,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,G-pre,0.0,8
+characters,SD 1.4,rights_holder,Marvel (Disney),G-pre,0.0357,28
+characters,SD 1.4,rights_holder,Pixar (Disney),G-pre,0.0417,24
+characters,SD 1.4,rights_holder,The Pokemon Company,G-pre,0.0833,12
+characters,SD 1.4,rights_holder,Disney,G-rw,0.0833,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,G-rw,0.125,8
+characters,SD 1.4,rights_holder,Marvel (Disney),G-rw,0.2143,28
+characters,SD 1.4,rights_holder,Pixar (Disney),G-rw,0.0833,24
+characters,SD 1.4,rights_holder,The Pokemon Company,G-rw,0.1667,12
+characters,SD 1.4,rights_holder,Disney,V0,0.2083,48
+characters,SD 1.4,rights_holder,DreamWorks Animation,V0,0.0,8
+characters,SD 1.4,rights_holder,Marvel (Disney),V0,0.1786,28
+characters,SD 1.4,rights_holder,Pixar (Disney),V0,0.125,24
+characters,SD 1.4,rights_holder,The Pokemon Company,V0,0.25,12
+characters,Playground v2.5,origin_region,JP,D0,0.225,40
+characters,Playground v2.5,origin_region,US,D0,0.3707,116
+characters,Playground v2.5,origin_region,JP,D2b-kw,0.075,40
+characters,Playground v2.5,origin_region,US,D2b-kw,0.1466,116
+characters,Playground v2.5,origin_region,JP,D4,0.0,39
+characters,Playground v2.5,origin_region,US,D4,0.1466,116
+characters,Playground v2.5,origin_region,JP,D4+D2b,0.0,39
+characters,Playground v2.5,origin_region,US,D4+D2b,0.0603,116
+characters,Playground v2.5,origin_region,JP,G,0.0,40
+characters,Playground v2.5,origin_region,US,G,0.0948,116
+characters,Playground v2.5,origin_region,JP,G-pre,0.025,40
+characters,Playground v2.5,origin_region,US,G-pre,0.1121,116
+characters,Playground v2.5,origin_region,JP,G-rw,0.025,40
+characters,Playground v2.5,origin_region,US,G-rw,0.1724,116
+characters,Playground v2.5,origin_region,JP,V0,0.075,40
+characters,Playground v2.5,origin_region,US,V0,0.1897,116
+characters,Playground v2.5,rights_holder,Disney,D0,0.2083,48
+characters,Playground v2.5,rights_holder,DreamWorks Animation,D0,0.375,8
+characters,Playground v2.5,rights_holder,Marvel (Disney),D0,0.5714,28
+characters,Playground v2.5,rights_holder,Pixar (Disney),D0,0.4167,24
+characters,Playground v2.5,rights_holder,The Pokemon Company,D0,0.3333,12
+characters,Playground v2.5,rights_holder,Disney,D2b-kw,0.0833,48
+characters,Playground v2.5,rights_holder,DreamWorks Animation,D2b-kw,0.125,8
+characters,Playground v2.5,rights_holder,Marvel (Disney),D2b-kw,0.25,28
+characters,Playground v2.5,rights_holder,Pixar (Disney),D2b-kw,0.0417,24
+characters,Playground v2.5,rights_holder,The Pokemon Company,D2b-kw,0.1667,12
+characters,Playground v2.5,rights_holder,Disney,D4,0.0208,48
+characters,Playground v2.5,rights_holder,DreamWorks Animation,D4,0.125,8
+characters,Playground v2.5,rights_holder,Marvel (Disney),D4,0.3214,28
+characters,Playground v2.5,rights_holder,Pixar (Disney),D4,0.0417,24
+characters,Playground v2.5,rights_holder,The Pokemon Company,D4,0.0,12
+characters,Playground v2.5,rights_holder,Disney,D4+D2b,0.0,48
+characters,Playground v2.5,rights_holder,DreamWorks Animation,D4+D2b,0.0,8
+characters,Playground v2.5,rights_holder,Marvel (Disney),D4+D2b,0.1429,28
+characters,Playground v2.5,rights_holder,Pixar (Disney),D4+D2b,0.0,24
+characters,Playground v2.5,rights_holder,The Pokemon Company,D4+D2b,0.0,12
+characters,Playground v2.5,rights_holder,Disney,G,0.0208,48
+characters,Playground v2.5,rights_holder,DreamWorks Animation,G,0.0,8
+characters,Playground v2.5,rights_holder,Marvel (Disney),G,0.1429,28
+characters,Playground v2.5,rights_holder,Pixar (Disney),G,0.0833,24
+characters,Playground v2.5,rights_holder,The Pokemon Company,G,0.0,12
+characters,Playground v2.5,rights_holder,Disney,G-pre,0.0208,48
+characters,Playground v2.5,rights_holder,DreamWorks Animation,G-pre,0.0,8
+characters,Playground v2.5,rights_holder,Marvel (Disney),G-pre,0.2143,28
+characters,Playground v2.5,rights_holder,Pixar (Disney),G-pre,0.0833,24
+characters,Playground v2.5,rights_holder,The Pokemon Company,G-pre,0.0833,12
+characters,Playground v2.5,rights_holder,Disney,G-rw,0.0208,48
+characters,Playground v2.5,rights_holder,DreamWorks Animation,G-rw,0.125,8
+characters,Playground v2.5,rights_holder,Marvel (Disney),G-rw,0.3929,28
+characters,Playground v2.5,rights_holder,Pixar (Disney),G-rw,0.0833,24
+characters,Playground v2.5,rights_holder,The Pokemon Company,G-rw,0.0833,12
+characters,Playground v2.5,rights_holder,Disney,V0,0.0625,48
+characters,Playground v2.5,rights_holder,DreamWorks Animation,V0,0.25,8
+characters,Playground v2.5,rights_holder,Marvel (Disney),V0,0.3571,28
+characters,Playground v2.5,rights_holder,Pixar (Disney),V0,0.2083,24
+characters,Playground v2.5,rights_holder,The Pokemon Company,V0,0.1667,12
+characters,PixArt-α,origin_region,JP,D0,0.175,40
+characters,PixArt-α,origin_region,US,D0,0.2845,116
+characters,PixArt-α,origin_region,JP,D2b-kw,0.0,40
+characters,PixArt-α,origin_region,US,D2b-kw,0.0776,116
+characters,PixArt-α,origin_region,JP,D4,0.0513,39
+characters,PixArt-α,origin_region,US,D4,0.1724,116
+characters,PixArt-α,origin_region,JP,D4+D2b,0.0256,39
+characters,PixArt-α,origin_region,US,D4+D2b,0.0259,116
+characters,PixArt-α,origin_region,JP,G,0.025,40
+characters,PixArt-α,origin_region,US,G,0.0259,116
+characters,PixArt-α,origin_region,JP,G-pre,0.075,40
+characters,PixArt-α,origin_region,US,G-pre,0.0431,116
+characters,PixArt-α,origin_region,JP,G-rw,0.1,40
+characters,PixArt-α,origin_region,US,G-rw,0.1724,116
+characters,PixArt-α,origin_region,JP,V0,0.1,40
+characters,PixArt-α,origin_region,US,V0,0.1552,116
+characters,PixArt-α,rights_holder,Disney,D0,0.125,48
+characters,PixArt-α,rights_holder,DreamWorks Animation,D0,0.375,8
+characters,PixArt-α,rights_holder,Marvel (Disney),D0,0.5,28
+characters,PixArt-α,rights_holder,Pixar (Disney),D0,0.25,24
+characters,PixArt-α,rights_holder,The Pokemon Company,D0,0.4167,12
+characters,PixArt-α,rights_holder,Disney,D2b-kw,0.0417,48
+characters,PixArt-α,rights_holder,DreamWorks Animation,D2b-kw,0.0,8
+characters,PixArt-α,rights_holder,Marvel (Disney),D2b-kw,0.1786,28
+characters,PixArt-α,rights_holder,Pixar (Disney),D2b-kw,0.0417,24
+characters,PixArt-α,rights_holder,The Pokemon Company,D2b-kw,0.0,12
+characters,PixArt-α,rights_holder,Disney,D4,0.1042,48
+characters,PixArt-α,rights_holder,DreamWorks Animation,D4,0.125,8
+characters,PixArt-α,rights_holder,Marvel (Disney),D4,0.3214,28
+characters,PixArt-α,rights_holder,Pixar (Disney),D4,0.0833,24
+characters,PixArt-α,rights_holder,The Pokemon Company,D4,0.0833,12
+characters,PixArt-α,rights_holder,Disney,D4+D2b,0.0,48
+characters,PixArt-α,rights_holder,DreamWorks Animation,D4+D2b,0.0,8
+characters,PixArt-α,rights_holder,Marvel (Disney),D4+D2b,0.0714,28
+characters,PixArt-α,rights_holder,Pixar (Disney),D4+D2b,0.0417,24
+characters,PixArt-α,rights_holder,The Pokemon Company,D4+D2b,0.0,12
+characters,PixArt-α,rights_holder,Disney,G,0.0,48
+characters,PixArt-α,rights_holder,DreamWorks Animation,G,0.0,8
+characters,PixArt-α,rights_holder,Marvel (Disney),G,0.0714,28
+characters,PixArt-α,rights_holder,Pixar (Disney),G,0.0417,24
+characters,PixArt-α,rights_holder,The Pokemon Company,G,0.0,12
+characters,PixArt-α,rights_holder,Disney,G-pre,0.0,48
+characters,PixArt-α,rights_holder,DreamWorks Animation,G-pre,0.0,8
+characters,PixArt-α,rights_holder,Marvel (Disney),G-pre,0.1071,28
+characters,PixArt-α,rights_holder,Pixar (Disney),G-pre,0.0833,24
+characters,PixArt-α,rights_holder,The Pokemon Company,G-pre,0.0833,12
+characters,PixArt-α,rights_holder,Disney,G-rw,0.0625,48
+characters,PixArt-α,rights_holder,DreamWorks Animation,G-rw,0.125,8
+characters,PixArt-α,rights_holder,Marvel (Disney),G-rw,0.3571,28
+characters,PixArt-α,rights_holder,Pixar (Disney),G-rw,0.125,24
+characters,PixArt-α,rights_holder,The Pokemon Company,G-rw,0.1667,12
+characters,PixArt-α,rights_holder,Disney,V0,0.0417,48
+characters,PixArt-α,rights_holder,DreamWorks Animation,V0,0.25,8
+characters,PixArt-α,rights_holder,Marvel (Disney),V0,0.2857,28
+characters,PixArt-α,rights_holder,Pixar (Disney),V0,0.1667,24
+characters,PixArt-α,rights_holder,The Pokemon Company,V0,0.25,12
+styles,SD 1.4,artist group (above chance),deceased_copyright,C1,0.1177,40
+styles,SD 1.4,artist group (above chance),living,C1,0.024,80
+styles,SD 1.4,artist group (above chance),deceased_copyright,D0,0.2219,40
+styles,SD 1.4,artist group (above chance),living,D0,0.1682,80
+styles,SD 1.4,artist group (above chance),deceased_copyright,D1,0.4188,40
+styles,SD 1.4,artist group (above chance),living,D1,0.2141,80
+styles,SD 1.4,artist group (above chance),deceased_copyright,D2a,0.4927,40
+styles,SD 1.4,artist group (above chance),living,D2a,0.2151,80
+styles,SD 1.4,artist group (above chance),deceased_copyright,D2b-name,0.0,40
+styles,SD 1.4,artist group (above chance),living,D2b-name,0.0438,80
+styles,SD 1.4,artist group (above chance),deceased_copyright,D3,0.3698,40
+styles,SD 1.4,artist group (above chance),living,D3,0.1401,80
+styles,SD 1.4,artist group (above chance),deceased_copyright,D4,0.1896,40
+styles,SD 1.4,artist group (above chance),living,D4,0.0776,80
+styles,SD 1.4,artist group (above chance),deceased_copyright,G,0.0229,40
+styles,SD 1.4,artist group (above chance),living,G,0.0505,80
+styles,SD 1.4,artist group (above chance),deceased_copyright,G-pre,-0.0021,40
+styles,SD 1.4,artist group (above chance),living,G-pre,0.063,80
+styles,SD 1.4,artist group (above chance),deceased_copyright,V0,-0.0071,40
+styles,SD 1.4,artist group (above chance),living,V0,-0.0304,80

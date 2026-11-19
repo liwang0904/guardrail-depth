@@ -47,12 +47,12 @@ conda activate guardrail-depth
 pip install -r requirements.txt
 
 python scripts/check_env.py                    # versions, accelerator, storage
-python -m pytest -q                            # 26 tests; downloads ~20 MB of tiny test models
+python -m pytest -q                            # 47 tests; downloads ~20 MB of tiny test models
 python scripts/prepare_data.py                 # reference data (pinned commits, SHA-256 verified) -> data/manifests/
 ```
 
 `check_env.py` should end with `environment matches requirements.txt`, and `pytest` with
-`26 passed` (the GPU regression test is skipped on CPU-only machines).
+`47 passed` (the GPU regression test is skipped on CPU-only machines).
 
 ### 1.3 Run a baseline
 
@@ -146,19 +146,33 @@ SDXL across the memorized, control, CopyCat and style test sets. See [docs/DEMO2
 the grid and metrics, [results/demo2/](results/demo2/) for the committed tables and figures, and
 [docs/DEMO2_ANALYSIS.md](docs/DEMO2_ANALYSIS.md) for which baseline works for whom, and the Demo 3 plan.
 
-## 6. Repository layout
+## 6. Demo 3: detect, then defend
+
+Our approach is a **gate** (`G`) that decides per request whether to intervene and which Demo 2 mitigation
+to apply, from one signal per trigger: a concept screen (exact protected name, else Qwen3-8B over the closed
+list of protected characters and in-copyright artists), the memorization signal inside SD (Wen et al.'s
+first-step noise magnitude, with a verified template ladder), and a CLIP check of the rendered image.
+Benign requests reach the model unchanged, and the target that the strongest Demo 2 baselines were handed
+by the experiment is detected instead. `configs/experiments/demo3.yaml` compares it with every baseline on
+the same Demo 2 test grid, adds a benign near-miss set, Playground v2.5 and PixArt-α, an on-prompt judge
+for every image and a safe-utility F1. See [docs/DEMO3.md](docs/DEMO3.md), [results/demo3/](results/demo3/)
+and [docs/DEMO3_ANALYSIS.md](docs/DEMO3_ANALYSIS.md); `python scripts/demo3_live.py --preset lure` is the live run.
+
+## 7. Repository layout
 
 ```
 configs/models.yaml, data_sources.yaml         pinned models and data
 data/manifests/*.csv, data/SOURCES.lock.json   committed manifests + checksums
-src/guardrail_depth/                           defenses, attacks, data, models, generation, probes, metrics, rewriter, judge
-scripts/                                       check_env, prepare_data, run_generation, evaluate, demo2_report, ...
-slurm/                                         Markov jobs (demo2_submit.sh runs the whole Demo 2 grid)
-results/demo2/                                 committed Demo 2 tables and figures
+src/guardrail_depth/                           defenses, attacks, data, models, generation, probes, metrics, rewriter, judge, gate
+scripts/                                       check_env, prepare_data, run_generation, evaluate, demo2_report, demo3_report,
+                                               run_screen, calibrate_gate, run_onprompt, demo3_live, ...
+configs/gate.yaml                              gate thresholds, calibrated on the dev split
+slurm/                                         Markov jobs (demo2_submit.sh / demo3_submit.sh run each grid)
+results/demo2/, results/demo3/                 committed tables and figures
 tests/                                         unit + tiny-model integration tests
 ```
 
-## 7. Responsible handling
+## 8. Responsible handling
 
 * Ground-truth LAION images and all generations stay out of git (`.gitignore`); they are used only
   to measure similarity.

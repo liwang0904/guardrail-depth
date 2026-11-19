@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+import time
 from pathlib import Path
 
 import pandas as pd
@@ -59,7 +60,9 @@ def main() -> None:
         keywords = [k for col in ("kw_lm5", "kw_laion5") for k in str(it.get(col, "")).split(",")]
         for attack in args.attacks.split(","):
             request = make_attack(attack, it["prompt"], it)["prompt"]
+            t0 = time.time()
             r = rw.rewrite(request, seed=args.seed)
+            r["rewrite_seconds"] = round(time.time() - t0, 3)
             final_leak = leakage(r["rewrite"], it.get("target", ""), keywords)
             reason_leak = leakage(r["reasoning"], it.get("target", ""), keywords)
             rows.append({"dataset": args.dataset, "item_id": it["id"], "target": it.get("target", ""),

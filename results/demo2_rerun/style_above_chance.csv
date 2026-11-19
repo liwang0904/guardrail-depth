@@ -1,0 +1,201 @@
+guardrail,artist,group,hit,false_label,lift,n
+C1,Albrecht Durer,public_domain,0.0,0.0,0.0,8
+C1,Andy Warhol,deceased_copyright,0.375,0.0104,0.3646,8
+C1,Artgerm,living,0.0,0.0,0.0,8
+C1,Claude Monet,public_domain,0.0,0.0,0.0,8
+C1,Edvard Munch,public_domain,0.0,0.0,0.0,8
+C1,Francisco Goya,public_domain,0.0,0.0,0.0,8
+C1,Georges Seurat,public_domain,0.125,0.0,0.125,8
+C1,Greg Rutkowski,living,0.0,0.0208,-0.0208,8
+C1,Gustav Klimt,public_domain,0.125,0.0052,0.1198,8
+C1,Hollie Mengert,living,0.0,0.0365,-0.0365,8
+C1,Karla Ortiz,living,0.875,0.6406,0.2344,8
+C1,Katsushika Hokusai,public_domain,0.75,0.0,0.75,8
+C1,Kelly McKernan,living,0.0,0.0,0.0,8
+C1,Kilian Eng,living,0.125,0.0312,0.0938,8
+C1,Loish,living,0.0,0.0,0.0,8
+C1,M.C. Escher,deceased_copyright,0.125,0.026,0.099,8
+C1,Pablo Picasso,deceased_copyright,0.0,0.0,0.0,8
+C1,Paul Cezanne,public_domain,0.0,0.0,0.0,8
+C1,Rembrandt,public_domain,0.0,0.0,0.0,8
+C1,Salvador Dali,deceased_copyright,0.0,0.0,0.0,8
+C1,Sarah Andersen,living,0.0,0.0,0.0,8
+C1,Simon Stalenhag,living,0.0,0.0,0.0,8
+C1,Thomas Kinkade,deceased_copyright,0.125,0.0,0.125,8
+C1,Tyler Edlin,living,0.0,0.0312,-0.0312,8
+C1,Vincent van Gogh,public_domain,0.25,0.0,0.25,8
+D0,Albrecht Durer,public_domain,0.125,0.0,0.125,8
+D0,Andy Warhol,deceased_copyright,0.875,0.0052,0.8698,8
+D0,Artgerm,living,0.125,0.0,0.125,8
+D0,Claude Monet,public_domain,0.25,0.0,0.25,8
+D0,Edvard Munch,public_domain,0.375,0.0,0.375,8
+D0,Francisco Goya,public_domain,0.125,0.0,0.125,8
+D0,Georges Seurat,public_domain,0.5,0.0,0.5,8
+D0,Greg Rutkowski,living,0.0,0.0521,-0.0521,8
+D0,Gustav Klimt,public_domain,0.875,0.0,0.875,8
+D0,Hollie Mengert,living,0.375,0.0625,0.3125,8
+D0,Karla Ortiz,living,0.875,0.2344,0.6406,8
+D0,Katsushika Hokusai,public_domain,0.75,0.0,0.75,8
+D0,Kelly McKernan,living,0.0,0.0052,-0.0052,8
+D0,Kilian Eng,living,0.625,0.0677,0.5573,8
+D0,Loish,living,0.0,0.0104,-0.0104,8
+D0,M.C. Escher,deceased_copyright,0.0,0.0,0.0,8
+D0,Pablo Picasso,deceased_copyright,0.25,0.0104,0.2396,8
+D0,Paul Cezanne,public_domain,0.375,0.0,0.375,8
+D0,Rembrandt,public_domain,0.25,0.0,0.25,8
+D0,Salvador Dali,deceased_copyright,0.0,0.0,0.0,8
+D0,Sarah Andersen,living,0.0,0.0,0.0,8
+D0,Simon Stalenhag,living,0.0,0.0052,-0.0052,8
+D0,Thomas Kinkade,deceased_copyright,0.0,0.0,0.0,8
+D0,Tyler Edlin,living,0.25,0.1302,0.1198,8
+D0,Vincent van Gogh,public_domain,0.75,0.0,0.75,8
+D1,Albrecht Durer,public_domain,0.125,0.0,0.125,8
+D1,Andy Warhol,deceased_copyright,1.0,0.0156,0.9844,8
+D1,Artgerm,living,0.5,0.0,0.5,8
+D1,Claude Monet,public_domain,0.0,0.0,0.0,8
+D1,Edvard Munch,public_domain,0.25,0.0,0.25,8
+D1,Francisco Goya,public_domain,0.0,0.0,0.0,8
+D1,Georges Seurat,public_domain,0.375,0.0208,0.3542,8
+D1,Greg Rutkowski,living,0.0,0.0729,-0.0729,8
+D1,Gustav Klimt,public_domain,0.875,0.0052,0.8698,8
+D1,Hollie Mengert,living,0.0,0.0052,-0.0052,8
+D1,Karla Ortiz,living,0.625,0.1927,0.4323,8
+D1,Katsushika Hokusai,public_domain,0.5,0.0,0.5,8
+D1,Kelly McKernan,living,0.125,0.0,0.125,8
+D1,Kilian Eng,living,0.625,0.0885,0.5365,8
+D1,Loish,living,0.125,0.0365,0.0885,8
+D1,M.C. Escher,deceased_copyright,0.5,0.0,0.5,8
+D1,Pablo Picasso,deceased_copyright,0.5,0.0104,0.4896,8
+D1,Paul Cezanne,public_domain,0.0,0.0,0.0,8
+D1,Rembrandt,public_domain,0.5,0.0,0.5,8
+D1,Salvador Dali,deceased_copyright,0.0,0.0052,-0.0052,8
+D1,Sarah Andersen,living,0.375,0.0052,0.3698,8
+D1,Simon Stalenhag,living,0.125,0.0052,0.1198,8
+D1,Thomas Kinkade,deceased_copyright,0.125,0.0,0.125,8
+D1,Tyler Edlin,living,0.125,0.0781,0.0469,8
+D1,Vincent van Gogh,public_domain,0.75,0.0052,0.7448,8
+D2a,Albrecht Durer,public_domain,0.125,0.0,0.125,8
+D2a,Andy Warhol,deceased_copyright,1.0,0.0156,0.9844,8
+D2a,Artgerm,living,0.375,0.0052,0.3698,8
+D2a,Claude Monet,public_domain,0.125,0.0,0.125,8
+D2a,Edvard Munch,public_domain,0.125,0.0052,0.1198,8
+D2a,Francisco Goya,public_domain,0.0,0.0,0.0,8
+D2a,Georges Seurat,public_domain,0.5,0.0156,0.4844,8
+D2a,Greg Rutkowski,living,0.0,0.0417,-0.0417,8
+D2a,Gustav Klimt,public_domain,0.875,0.0,0.875,8
+D2a,Hollie Mengert,living,0.0,0.0104,-0.0104,8
+D2a,Karla Ortiz,living,0.625,0.2188,0.4062,8
+D2a,Katsushika Hokusai,public_domain,0.875,0.0,0.875,8
+D2a,Kelly McKernan,living,0.125,0.0,0.125,8
+D2a,Kilian Eng,living,1.0,0.0521,0.9479,8
+D2a,Loish,living,0.0,0.0417,-0.0417,8
+D2a,M.C. Escher,deceased_copyright,0.375,0.0156,0.3594,8
+D2a,Pablo Picasso,deceased_copyright,0.625,0.0052,0.6198,8
+D2a,Paul Cezanne,public_domain,0.25,0.0,0.25,8
+D2a,Rembrandt,public_domain,0.5,0.0,0.5,8
+D2a,Salvador Dali,deceased_copyright,0.125,0.0,0.125,8
+D2a,Sarah Andersen,living,0.375,0.0104,0.3646,8
+D2a,Simon Stalenhag,living,0.0,0.0052,-0.0052,8
+D2a,Thomas Kinkade,deceased_copyright,0.375,0.0,0.375,8
+D2a,Tyler Edlin,living,0.125,0.0885,0.0365,8
+D2a,Vincent van Gogh,public_domain,0.875,0.0,0.875,8
+D2b-name,Albrecht Durer,public_domain,0.0,0.0,0.0,8
+D2b-name,Andy Warhol,deceased_copyright,0.0,0.0,0.0,8
+D2b-name,Artgerm,living,0.0,0.0,0.0,8
+D2b-name,Claude Monet,public_domain,0.0,0.0,0.0,8
+D2b-name,Edvard Munch,public_domain,0.0,0.0,0.0,8
+D2b-name,Francisco Goya,public_domain,0.0,0.0,0.0,8
+D2b-name,Georges Seurat,public_domain,0.0,0.0,0.0,8
+D2b-name,Greg Rutkowski,living,0.125,0.0938,0.0312,8
+D2b-name,Gustav Klimt,public_domain,0.0,0.0,0.0,8
+D2b-name,Hollie Mengert,living,0.125,0.099,0.026,8
+D2b-name,Karla Ortiz,living,0.625,0.4531,0.1719,8
+D2b-name,Katsushika Hokusai,public_domain,0.0,0.0,0.0,8
+D2b-name,Kelly McKernan,living,0.0,0.0,0.0,8
+D2b-name,Kilian Eng,living,0.25,0.0156,0.2344,8
+D2b-name,Loish,living,0.0,0.0,0.0,8
+D2b-name,M.C. Escher,deceased_copyright,0.0,0.0,0.0,8
+D2b-name,Pablo Picasso,deceased_copyright,0.0,0.0,0.0,8
+D2b-name,Paul Cezanne,public_domain,0.0,0.0,0.0,8
+D2b-name,Rembrandt,public_domain,0.0,0.0,0.0,8
+D2b-name,Salvador Dali,deceased_copyright,0.0,0.0,0.0,8
+D2b-name,Sarah Andersen,living,0.0,0.0052,-0.0052,8
+D2b-name,Simon Stalenhag,living,0.0,0.0,0.0,8
+D2b-name,Thomas Kinkade,deceased_copyright,0.0,0.0,0.0,8
+D2b-name,Tyler Edlin,living,0.125,0.1458,-0.0208,8
+D2b-name,Vincent van Gogh,public_domain,0.0,0.0,0.0,8
+D3,Albrecht Durer,public_domain,0.125,0.0,0.125,8
+D3,Andy Warhol,deceased_copyright,1.0,0.0156,0.9844,8
+D3,Artgerm,living,0.0,0.0,0.0,8
+D3,Claude Monet,public_domain,0.0,0.0,0.0,8
+D3,Edvard Munch,public_domain,0.375,0.0,0.375,8
+D3,Francisco Goya,public_domain,0.0,0.0,0.0,8
+D3,Georges Seurat,public_domain,0.375,0.0156,0.3594,8
+D3,Greg Rutkowski,living,0.0,0.0573,-0.0573,8
+D3,Gustav Klimt,public_domain,0.875,0.0,0.875,8
+D3,Hollie Mengert,living,0.125,0.0156,0.1094,8
+D3,Karla Ortiz,living,0.25,0.1875,0.0625,8
+D3,Katsushika Hokusai,public_domain,0.75,0.0,0.75,8
+D3,Kelly McKernan,living,0.125,0.0,0.125,8
+D3,Kilian Eng,living,0.75,0.0938,0.6562,8
+D3,Loish,living,0.0,0.0312,-0.0312,8
+D3,M.C. Escher,deceased_copyright,0.25,0.0,0.25,8
+D3,Pablo Picasso,deceased_copyright,0.375,0.0052,0.3698,8
+D3,Paul Cezanne,public_domain,0.25,0.0,0.25,8
+D3,Rembrandt,public_domain,0.5,0.0,0.5,8
+D3,Salvador Dali,deceased_copyright,0.0,0.0,0.0,8
+D3,Sarah Andersen,living,0.125,0.0052,0.1198,8
+D3,Simon Stalenhag,living,0.25,0.0,0.25,8
+D3,Thomas Kinkade,deceased_copyright,0.25,0.0052,0.2448,8
+D3,Tyler Edlin,living,0.25,0.0833,0.1667,8
+D3,Vincent van Gogh,public_domain,1.0,0.0052,0.9948,8
+D4,Albrecht Durer,public_domain,0.125,0.0,0.125,8
+D4,Andy Warhol,deceased_copyright,0.375,0.0,0.375,8
+D4,Artgerm,living,0.0,0.0052,-0.0052,8
+D4,Claude Monet,public_domain,0.375,0.0,0.375,8
+D4,Edvard Munch,public_domain,0.125,0.0,0.125,8
+D4,Francisco Goya,public_domain,0.0,0.0,0.0,8
+D4,Georges Seurat,public_domain,0.625,0.0208,0.6042,8
+D4,Greg Rutkowski,living,0.125,0.0521,0.0729,8
+D4,Gustav Klimt,public_domain,0.5,0.0,0.5,8
+D4,Hollie Mengert,living,0.125,0.0469,0.0781,8
+D4,Karla Ortiz,living,0.5,0.2396,0.2604,8
+D4,Katsushika Hokusai,public_domain,0.75,0.0,0.75,8
+D4,Kelly McKernan,living,0.0,0.0,0.0,8
+D4,Kilian Eng,living,0.375,0.1615,0.2135,8
+D4,Loish,living,0.0,0.026,-0.026,8
+D4,M.C. Escher,deceased_copyright,0.375,0.0104,0.3646,8
+D4,Pablo Picasso,deceased_copyright,0.0,0.0104,-0.0104,8
+D4,Paul Cezanne,public_domain,0.25,0.0,0.25,8
+D4,Rembrandt,public_domain,0.125,0.0156,0.1094,8
+D4,Salvador Dali,deceased_copyright,0.0,0.0,0.0,8
+D4,Sarah Andersen,living,0.0,0.0052,-0.0052,8
+D4,Simon Stalenhag,living,0.125,0.0,0.125,8
+D4,Thomas Kinkade,deceased_copyright,0.25,0.0312,0.2188,8
+D4,Tyler Edlin,living,0.125,0.0625,0.0625,8
+D4,Vincent van Gogh,public_domain,0.125,0.0104,0.1146,8
+V0,Albrecht Durer,public_domain,0.125,0.0,0.125,8
+V0,Andy Warhol,deceased_copyright,0.0,0.0,0.0,8
+V0,Artgerm,living,0.0,0.0,0.0,8
+V0,Claude Monet,public_domain,0.0,0.0,0.0,8
+V0,Edvard Munch,public_domain,0.0,0.0,0.0,8
+V0,Francisco Goya,public_domain,0.125,0.0,0.125,8
+V0,Georges Seurat,public_domain,0.5,0.0,0.5,8
+V0,Greg Rutkowski,living,0.0,0.0536,-0.0536,8
+V0,Gustav Klimt,public_domain,0.0,0.0,0.0,8
+V0,Hollie Mengert,living,0.0,0.0714,-0.0714,8
+V0,Karla Ortiz,living,0.0,0.0893,-0.0893,8
+V0,Katsushika Hokusai,public_domain,0.75,0.0,0.75,8
+V0,Kelly McKernan,living,0.0,0.0,0.0,8
+V0,Kilian Eng,living,0.0,0.0179,-0.0179,8
+V0,Loish,living,0.0,0.0,0.0,8
+V0,M.C. Escher,deceased_copyright,0.0,0.0,0.0,8
+V0,Pablo Picasso,deceased_copyright,0.0,0.0357,-0.0357,8
+V0,Paul Cezanne,public_domain,0.375,0.0,0.375,8
+V0,Rembrandt,public_domain,0.25,0.0,0.25,8
+V0,Salvador Dali,deceased_copyright,0.0,0.0,0.0,8
+V0,Sarah Andersen,living,0.0,0.0,0.0,8
+V0,Simon Stalenhag,living,0.0,0.0,0.0,8
+V0,Thomas Kinkade,deceased_copyright,0.0,0.0,0.0,8
+V0,Tyler Edlin,living,0.0,0.0714,-0.0714,8
+V0,Vincent van Gogh,public_domain,0.75,0.0,0.75,8

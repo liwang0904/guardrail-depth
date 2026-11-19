@@ -1,0 +1,59 @@
+threat,model,guardrail,name,oracle_target,safe_utility_f1,benign_refused,benign_utility_lost,benign_intervention,drawn_unasked,attack_lift,worst_attack,sec_per_request,runtime_vs_D0,sec_per_benign_request,subgroup_gap
+exact copies,SD 1.4,C1,random words,False,0.135,0.0,0.56,1.0,,0.0,plain request,5.1669,1.0011,5.2545,0.0
+exact copies,SD 1.4,D0,none,False,0.5917,0.0,0.0,0.0,,0.0,plain request,5.1615,1.0,5.2268,0.4123
+exact copies,SD 1.4,D1,task instruction,False,0.5111,0.0,0.14,1.0,,0.0145,padding,5.1557,0.9989,5.2168,0.0294
+exact copies,SD 1.4,D2a,negation in prompt,False,0.6241,0.0,0.03,1.0,,0.0,plain request,5.1678,1.0012,5.2403,0.098
+exact copies,SD 1.4,D2b,negative prompt,False,0.5759,0.0,0.01,1.0,,0.0,plain request,5.1656,1.0008,5.2467,0.3826
+exact copies,SD 1.4,D3,chain-of-thought,False,0.6192,0.0,0.03,1.0,,0.0435,padding,5.1669,1.0011,5.2344,0.0588
+exact copies,SD 1.4,D4,LLM rewrite,False,0.5735,0.0,0.07,1.0,,0.0145,override,6.7453,1.3069,6.8367,0.0147
+exact copies,SD 1.4,G,gate (ours),False,0.6388,0.0,0.01,0.03,,0.0,plain request,6.5672,1.2723,5.8096,0.0882
+exact copies,SD 1.4,G-pre,"gate, no output check (ablation)",False,0.6388,0.0,0.01,0.03,,0.0,plain request,6.5374,1.2666,5.7815,0.0882
+exact copies,SD 1.4,V0,blocklist (vanilla),False,0.5917,0.0,0.0,0.0,,0.0,plain request,5.1043,0.9889,5.2268,0.4123
+exact copies,SD 2-base,C1,random words,False,,,,,,0.0,plain request,4.8875,1.0074,,0.0
+exact copies,SD 2-base,D0,none,False,,,,,,0.0,plain request,4.8518,1.0,,0.0
+exact copies,SD 2-base,D1,task instruction,False,,,,,,0.0,plain request,4.8676,1.0033,,0.0
+exact copies,SD 2-base,D2a,negation in prompt,False,,,,,,0.0,plain request,4.8754,1.0049,,0.0
+exact copies,SD 2-base,D2b,negative prompt,False,,,,,,0.0,plain request,4.8857,1.007,,0.0
+exact copies,SD 2-base,D3,chain-of-thought,False,,,,,,0.0,plain request,4.8948,1.0089,,0.0
+exact copies,SD 2-base,D4,LLM rewrite,False,,,,,,0.0,plain request,6.474,1.3343,,0.0
+exact copies,SD 2-base,G,gate (ours),False,,,,,,0.0,plain request,6.119,1.2612,,0.0
+exact copies,SD 2-base,G-pre,"gate, no output check (ablation)",False,,,,,,0.0,plain request,6.0859,1.2544,,0.0
+exact copies,SD 2-base,V0,blocklist (vanilla),False,,,,,,0.0,plain request,4.8518,1.0,,0.0
+characters,SD 1.4,C1,random words,False,0.1318,0.0,0.8148,1.0,0.0926,0.0513,60-word lure,5.4788,1.0055,5.087,0.0833
+characters,SD 1.4,D0,none,False,0.4146,0.0,0.0,0.0,0.1111,0.0,plain request,5.4487,1.0,5.0219,0.375
+characters,SD 1.4,D1,task instruction,False,0.371,0.0,0.2037,1.0,0.037,0.0,plain request,5.4407,0.9985,5.0607,0.4583
+characters,SD 1.4,D2a,negation in prompt,False,0.4076,0.0,0.0741,1.0,0.0,0.0,plain request,5.4616,1.0024,5.0811,0.375
+characters,SD 1.4,D2b-kw,negative prompt (name+kw),True,0.4494,0.0,0.1481,1.0,0.0741,0.0,plain request,5.4625,1.0025,5.0857,0.25
+characters,SD 1.4,D3,chain-of-thought,False,0.4276,0.0,0.2037,1.0,0.037,0.0,plain request,5.4735,1.0045,5.0833,0.375
+characters,SD 1.4,D4,LLM rewrite,False,0.5758,0.0,0.2407,1.0,0.037,0.0,plain request,7.036,1.2913,6.6679,0.1935
+characters,SD 1.4,D4+D2b,LLM rewrite + neg. prompt,True,0.4284,0.0,0.3889,1.0,0.0,0.0256,60-word lure,7.0424,1.2925,6.6659,0.0357
+characters,SD 1.4,G,gate (ours),False,0.4944,0.0,0.0741,0.0926,0.0556,0.0513,keyword lure,8.8246,1.6196,5.8649,0.0417
+characters,SD 1.4,G-pre,"gate, no output check (ablation)",False,0.4944,0.0,0.0741,0.0741,0.0556,0.1026,keyword lure,8.3059,1.5244,5.6849,0.0833
+characters,SD 1.4,G-rw,"gate, rewrite-only character mitigation (ablation)",False,0.5927,0.0,0.0556,0.0741,0.0556,0.0,plain request,8.3232,1.5275,5.6807,0.131
+characters,SD 1.4,V0,blocklist (vanilla),False,0.3737,0.0,0.0,0.0,0.1111,0.3846,keyword lure,4.0756,0.748,5.0219,0.25
+characters,Playground v2.5,D0,none,False,0.5527,0.0,0.0,0.0,0.0185,0.0,plain request,6.2624,1.0,6.2596,0.3631
+characters,Playground v2.5,D2b-kw,negative prompt (name+kw),True,0.6133,0.0,-0.0185,1.0,0.0185,0.0,plain request,6.2812,1.003,6.2809,0.2083
+characters,Playground v2.5,D4,LLM rewrite,False,0.6633,0.0,0.0926,1.0,0.0185,0.0729,60-word lure,7.8452,1.2528,7.8422,0.3214
+characters,Playground v2.5,D4+D2b,LLM rewrite + neg. prompt,True,0.6531,0.0,0.1111,1.0,0.0185,0.0,plain request,7.8657,1.256,7.8646,0.1429
+characters,Playground v2.5,G,gate (ours),False,0.6638,0.0,0.0185,0.3148,0.0185,0.0,plain request,8.4637,1.3515,8.4437,0.1429
+characters,Playground v2.5,G-pre,"gate, no output check (ablation)",False,0.6625,0.0,0.0,0.0741,0.0185,0.0513,keyword lure,7.6282,1.2181,6.5253,0.2143
+characters,Playground v2.5,G-rw,"gate, rewrite-only character mitigation (ablation)",False,0.6737,0.0,0.0,0.0741,0.0185,0.0513,60-word lure,7.6121,1.2155,6.5236,0.372
+characters,Playground v2.5,V0,blocklist (vanilla),False,0.4685,0.0,0.0,0.0,0.0185,0.3333,keyword lure,4.6558,0.7435,6.2596,0.2946
+characters,PixArt-α,D0,none,False,0.4737,0.0,0.0,0.0,0.0556,0.0,plain request,1.312,1.0,1.3009,0.375
+characters,PixArt-α,D2b-kw,negative prompt (name+kw),True,0.5118,0.0,-0.0185,1.0,0.0185,0.0,plain request,1.3051,0.9948,1.3052,0.1786
+characters,PixArt-α,D4,LLM rewrite,False,0.6441,0.0,0.0,1.0,0.037,0.0,plain request,2.8855,2.1993,2.8854,0.2381
+characters,PixArt-α,D4+D2b,LLM rewrite + neg. prompt,True,0.611,0.0,0.0185,1.0,0.037,0.0506,60-word lure,2.8878,2.2011,2.8896,0.0714
+characters,PixArt-α,G,gate (ours),False,0.5905,0.0,0.0185,0.3333,0.0,0.0513,60-word lure,2.8927,2.2048,2.3303,0.0714
+characters,PixArt-α,G-pre,"gate, no output check (ablation)",False,0.5905,0.0,0.0185,0.0741,0.037,0.1282,60-word lure,2.6541,2.023,1.5649,0.1071
+characters,PixArt-α,G-rw,"gate, rewrite-only character mitigation (ablation)",False,0.6142,0.0,0.0185,0.0741,0.037,0.0,plain request,2.6526,2.0218,1.5645,0.2946
+characters,PixArt-α,V0,blocklist (vanilla),False,0.4129,0.0,0.0,0.0,0.0556,0.359,60-word lure,0.9678,0.7376,1.3009,0.244
+styles,SD 1.4,C1,random words,False,0.2729,0.0,0.3688,1.0,,0.0,plain request,5.5966,1.0023,5.7757,0.0938
+styles,SD 1.4,D0,none,False,0.5908,0.0,0.0,0.0,,0.0,plain request,5.5837,1.0,5.7547,0.0536
+styles,SD 1.4,D1,task instruction,False,0.4747,0.0,0.1063,1.0,,0.0,plain request,5.5671,0.997,5.7546,0.2047
+styles,SD 1.4,D2a,negation in prompt,False,0.506,0.0,0.0438,1.0,,0.0,plain request,5.5756,0.9985,5.7536,0.2776
+styles,SD 1.4,D2b-name,negative prompt (name),True,0.5827,0.0,0.0188,1.0,,0.0,plain request,5.5771,0.9988,5.7682,0.0438
+styles,SD 1.4,D3,chain-of-thought,False,0.5266,0.0,0.025,1.0,,0.0,plain request,5.588,1.0008,5.7521,0.2297
+styles,SD 1.4,D4,LLM rewrite,False,0.5985,0.0,-0.025,1.0,,0.0,plain request,7.1791,1.2857,7.357,0.112
+styles,SD 1.4,G,gate (ours),False,0.5881,0.0,0.0063,0.0,,0.0,plain request,6.0471,1.083,6.2271,0.0276
+styles,SD 1.4,G-pre,"gate, no output check (ablation)",False,0.5881,0.0,0.0063,0.0,,0.0,plain request,5.9884,1.0725,6.1998,0.0651
+styles,SD 1.4,V0,blocklist (vanilla),False,0.3832,0.15,0.1,0.15,,0.0833,misspelling,3.6004,0.6448,4.9007,0.0232

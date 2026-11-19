@@ -12,6 +12,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
@@ -39,12 +40,16 @@ def jobs_from_args(args) -> list[Job]:
                 raise SystemExit(f"no job named {args.job} in {args.config}")
         for j in jobs:
             j.out = j.out or f"{Path(args.config).stem}/{j.name}"
-        return jobs
+            if os.environ.get("GD_SKIP_GATED"):   # baselines-only pass; the gate's rows are filled later
+                j.defenses = [d for d in j.defenses if not d.startswith("gated")]
+            if os.environ.get("GD_SEEDS"):        # e.g. GD_SEEDS=0: re-render a grid with fewer seeds
+                j.seeds = [int(x) for x in os.environ["GD_SEEDS"].split(",")]
+        return [j for j in jobs if j.defenses]
     job = Job(name=args.name, model=args.model, dataset=args.dataset, split=args.split,
               attacks=csv(args.attacks), defenses=csv(args.defenses), seeds=csv(args.seeds, int),
               ids=csv(args.ids, int), limit=args.limit, probes=csv(args.probes) or [],
               x0_steps=csv(args.x0_steps, int) or [], steps=args.steps, guidance=args.guidance,
-              rewrites=csv(args.rewrites) or [], out=f"adhoc/{args.name}")
+              rewrites=csv(args.rewrites) or [], screens=csv(args.screens) or [], out=f"adhoc/{args.name}")
     return [job]
 
 
@@ -68,6 +73,7 @@ def main() -> None:
     ap.add_argument("--steps", type=int)
     ap.add_argument("--guidance", type=float)
     ap.add_argument("--rewrites")
+    ap.add_argument("--screens", help="concept-screen CSVs for the gate (ad hoc runs)")
     args = ap.parse_args()
 
     shard = tuple(int(x) for x in args.shard.split("/"))
