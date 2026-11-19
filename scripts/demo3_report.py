@@ -405,6 +405,11 @@ def subgroup_gaps(sub: pd.DataFrame) -> pd.DataFrame:
 
 
 # ----------------------------------------------------------------------------- gate analysis
+def _text(v) -> str:
+    """A record field as text, with missing values (None / NaN) as ''."""
+    return "" if v is None or (isinstance(v, float) and np.isnan(v)) else str(v)
+
+
 def gate_signals(runs: dict) -> pd.DataFrame:
     """For every gated request: which signal fired, and did the gate act on the right concept."""
     rows = []
@@ -414,17 +419,18 @@ def gate_signals(runs: dict) -> pd.DataFrame:
             continue
         ds = g["dataset"].iloc[0]
         for r in g.to_dict("records"):
-            reasons = set(str(r.get("gate_reason") or "").split("+")) - {"", "nan"}
-            final = str(r.get("gate_final_reason") or "")
+            reasons = set(_text(r.get("gate_reason")).split("+")) - {""}
+            final = _text(r.get("gate_final_reason"))
             sig = ("concept screen" if "concept" in reasons else "") or ("memorization" if "memorization" in reasons else "")
             if final == "output" and not sig:
                 sig = "output check"
             elif final == "output":
                 sig += " + output check"
-            target = str(r.get("target") or "")
+            # benign: near-miss generic requests, ordinary captions, public-domain artists
+            target = "" if ds == "generic_prompts" else _text(r.get("target"))
             if ds == "style_prompts" and r.get("group") == "public_domain":
                 target = ""
-            final_target = str(r.get("gate_final_target") or r.get("gate_target") or "")
+            final_target = _text(r.get("gate_final_target")) or _text(r.get("gate_target"))
             covered = final_target.split("+")
             rows.append({"run": name, "dataset": ds, "model": r.get("model"), "attack": ATTACKS.get(r["attack_code"], r["attack_code"]),
                          "item_id": r["item_id"], "seed": r["seed"], "risky": bool(target) or ds.startswith("memorized"),
@@ -460,8 +466,8 @@ def gate_errors(runs: dict) -> str:
             continue
 
         def why(r):
-            target = str(r.get("target") or "")
-            acted = str(r.get("gate_final_target") or "")
+            target = _text(r.get("target"))
+            acted = _text(r.get("gate_final_target"))
             if ds.startswith("memorized"):
                 return ("memorization screen did not fire" if not r.get("mem_flag") in (True, "True", 1)
                         else f"flagged, template {r.get('mem_rung')} still copied")
